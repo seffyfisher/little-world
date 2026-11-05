@@ -1,5 +1,7 @@
 # Little World
 
+**[Open Little World →](https://now.shinlamed.com/)**
+
 A living photographic clay world, as a **static website**. Two live-content screens, twelve new e-vrit books, a character who walks/climbs/reads and has occasional emotions, a digital clock, deep night, battery-reactive plants and a personal picture frame.
 
 The published site is HTML, CSS, JavaScript, PNGs and JSON. **No app server, database, framework, package installation or secret is needed at runtime.** Browser settings and wall pictures stay in that browser's local storage. This web edition is independent of the macOS wallpaper's saved settings.
