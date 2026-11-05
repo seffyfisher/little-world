@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4ece2">
+  <meta name="description" content="A living clay world with live feeds, new books and a character who makes himself at home.">
+  <title>Little World — your living world</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="photographic-clay.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Little World home"><span class="brand-icon">⌂</span> little world <span class="poc">CLAY EDITION</span></a>
+      <nav class="room-nav" aria-label="Visit a room">
+        <button class="active" data-room="home">The whole place</button>
+        <button data-room="office">Office <span>01</span></button>
+        <button data-room="library">Library <span>02</span></button>
+      </nav>
+      <div class="top-actions"><button class="small-button" id="enter-world" aria-pressed="false" hidden>Enter world</button><button class="small-button" id="web-fullscreen" hidden>Full screen</button><span class="clock" id="clock">--:--</span><button class="icon-button" id="pause" aria-label="Pause animation" title="Pause animation">Ⅱ</button></div>
+    </header>
+
+    <main>
+      <div class="intro">
+        <div><p class="eyebrow"><span class="live-dot"></span> A LITTLE WORLD, HANDMADE FOR YOU</p><h1>Make yourself at home<span>.</span></h1><p class="subtitle">A little clay. A little curiosity. Your own corner of the world.</p></div>
+        <button class="primary" id="manage"><span>⚙</span> Make it yours <span class="button-arrow">↗</span></button>
+      </div>
+
+      <section class="world-stage" aria-label="Your animated home">
+        <div class="stage-top"><span class="scene-label"><span class="live-dot"></span> <span id="scene-name">SEFFY’S PLACE</span></span><button class="small-button" id="web-enter-focused" aria-pressed="false" hidden>Enter world</button><button id="ambience" class="small-button" title="Switch between automatic, day, dusk, and night">◐ <span id="ambience-label">Auto light</span></button></div>
+        <div class="sky-speck speck-one"></div><div class="sky-speck speck-two"></div>
+        <div id="clay-world" class="clay-world" role="group" aria-label="Your handmade clay home"><div id="clay-hotspots" class="clay-hotspots"></div></div>
+        <svg id="world" viewBox="0 0 1500 790" role="group" aria-label="Your illustrated office with two live screens, library bookshelves, and character">
+          <defs>
+            <linearGradient id="officeWall" x2="0" y2="1"><stop stop-color="#d3a486"/><stop offset="1" stop-color="#bd886b"/></linearGradient>
+            <linearGradient id="libraryWall" x2="0" y2="1"><stop stop-color="#8ea697"/><stop offset="1" stop-color="#6f8b7b"/></linearGradient>
+            <linearGradient id="windowSky" x2="0" y2="1"><stop stop-color="#9fbac0"/><stop offset="1" stop-color="#ead7b7"/></linearGradient>
+            <linearGradient id="lampGlow"><stop stop-color="#ffe6aa" stop-opacity=".25"/><stop offset="1" stop-color="#ffe6aa" stop-opacity="0"/></linearGradient>
+            <radialGradient id="floorGlow"><stop stop-color="#ffdea0" stop-opacity=".3"/><stop offset="1" stop-color="#ffdea0" stop-opacity="0"/></radialGradient>
+            <pattern id="officeFloor" width="115" height="36" patternUnits="userSpaceOnUse"><rect width="115" height="36" fill="#b38b69"/><path d="M0 35H115M57 0V35" stroke="#987458" stroke-opacity=".35" fill="none"/></pattern>
+            <pattern id="libraryFloor" width="115" height="36" patternUnits="userSpaceOnUse"><rect width="115" height="36" fill="#a6a581"/><path d="M0 35H115M57 0V35" stroke="#7a8468" stroke-opacity=".3" fill="none"/></pattern>
+            <filter id="softShadow" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="16"/></filter>
+            <filter id="objectShadow"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#202b27" flood-opacity=".17"/></filter>
+            <clipPath id="windowClip"><rect x="258" y="252" width="142" height="174" rx="56"/></clipPath>
+          </defs>
+          <!-- Local room illustration; real book covers are loaded from e-vrit. -->
+          <ellipse cx="760" cy="710" rx="593" ry="43" fill="#070f11" opacity=".55" filter="url(#softShadow)"/>
+          <g id="office-room">
+            <path d="M165 500V204L215 176H750V500Z" fill="#9b6f56"/>
+            <path d="M215 204H750V500H215Z" fill="url(#officeWall)"/>
+            <path d="M165 204L215 230V500L165 560Z" fill="#a77961"/>
+            <path d="M165 500H750L797 660H223L165 560Z" fill="url(#officeFloor)"/>
+            <path d="M223 660H797V686H223Z" fill="#795b48"/>
+            <path d="M165 560L223 660V686L165 584Z" fill="#5f4b3c"/>
+            <path d="M215 486H750V500H215Z" fill="#a37559"/>
+            <path d="M215 204H750V217H215Z" fill="#e4bea0"/>
+            <!-- Window, weather and sunlight -->
+            <rect x="249" y="243" width="160" height="194" rx="65" fill="#855f4d"/>
+            <rect x="258" y="252" width="142" height="174" rx="56" fill="url(#windowSky)"/>
+            <g clip-path="url(#windowClip)">
+              <circle id="window-sun" cx="357" cy="290" r="23" fill="#fae5ad"/>
+              <g class="window-cloud"><path d="M245 317Q250 300 267 305Q282 283 300 305Q320 301 329 317Z" fill="#f7eddb" opacity=".7"/><path d="M341 360Q352 347 366 352Q378 336 393 351Q408 349 420 364H341Z" fill="#f7eddb" opacity=".55"/></g>
+              <path d="M245 407L282 370L320 403L366 365L422 416V438H245Z" fill="#7f9990"/>
+              <path d="M245 423L298 398L346 422L399 394L425 425V440H245Z" fill="#627d75"/>
+              <g id="rain" stroke="#b6dae0" opacity="0"><path d="M276 280l-7 22M300 330l-7 22M367 308l-7 22M386 370l-7 22M330 274l-7 22"/></g>
+            </g>
+            <path d="M329 254V428M258 349H400" stroke="#e0c1a0" stroke-width="9"/>
+            <path d="M242 432H417L428 441H237Z" fill="#e8c8a8"/>
+            <path class="sunbeam" d="M270 442L395 442L562 614L325 614Z" fill="#ffdda4" opacity=".08"/>
+            <!-- Wall art -->
+            <rect x="651" y="256" width="62" height="83" rx="2" fill="#7b594a" filter="url(#objectShadow)"/>
+            <rect x="658" y="263" width="48" height="69" fill="#e9d7b9"/>
+            <circle cx="683" cy="284" r="12" fill="#c47f55"/><path d="M662 321L678 300L686 310L700 295V328H662Z" fill="#839483"/>
+            <!-- Desk -->
+            <ellipse cx="532" cy="578" rx="132" ry="31" fill="#755c4b" opacity=".18"/>
+            <path d="M419 467H732V485H419Z" fill="#654f42"/>
+            <path d="M419 467L439 446H750L732 467Z" fill="#dac09a"/>
+            <path d="M435 483V570H449V483M710 483V566H724V483" stroke="#745745" stroke-width="12"/>
+            <path d="M681 486H722V533H681Z" fill="#96704e"/><path d="M687 502H715" stroke="#c4a17b" stroke-width="2"/><circle cx="702" cy="515" r="2" fill="#d4b38b"/>
+            <!-- Live monitor is an actual source object. -->
+            <g id="office-object" transform="translate(-24 0)" class="scene-object" tabindex="0" role="button" aria-label="Office screen 1">
+              <rect x="462" y="345" width="142" height="95" rx="7" fill="#374648" filter="url(#objectShadow)"/>
+              <rect x="469" y="352" width="128" height="79" rx="3" fill="#182d30"/>
+              <circle cx="480" cy="365" r="3" fill="#afcfb1" class="monitor-dot"/>
+              <text x="489" y="368" font-size="7" fill="#afcfb1" letter-spacing="1" id="monitor-source">HACKER NEWS</text>
+              <text x="479" y="386" font-size="8" fill="#e9e8d6" id="monitor-line1">Connecting to your</text>
+              <text x="479" y="399" font-size="8" fill="#e9e8d6" id="monitor-line2">corner of the internet…</text>
+              <path d="M479 413H540M479 418H561" stroke="#6f8d86" stroke-width="2" opacity=".5"/>
+              <path d="M528 440V451M509 453H551" stroke="#374648" stroke-width="6"/>
+            </g>
+            <g id="office-object-2" transform="translate(128 0)" class="scene-object" tabindex="0" role="button" aria-label="Office screen 2">
+              <rect x="462" y="345" width="142" height="95" rx="7" fill="#374648" filter="url(#objectShadow)"/>
+              <rect x="469" y="352" width="128" height="79" rx="3" fill="#182d30"/>
+              <circle cx="480" cy="365" r="3" fill="#e5b38b" class="monitor-dot"/>
+              <text x="489" y="368" font-size="7" fill="#e5b38b" letter-spacing="1" id="monitor-source-2">SECOND SCREEN</text>
+              <text x="479" y="386" font-size="8" fill="#e9e8d6" id="monitor-line1-2">Connecting to another</text>
+              <text x="479" y="399" font-size="8" fill="#e9e8d6" id="monitor-line2-2">corner of the internet…</text>
+              <path d="M479 413H540M479 418H561" stroke="#6f8d86" stroke-width="2" opacity=".5"/>
+              <path d="M528 440V451M509 453H551" stroke="#374648" stroke-width="6"/>
+            </g>
+            <!-- Keyboard, cup, desk lamp -->
+            <path d="M477 458H557L566 464H472Z" fill="#5d6e67"/>
+            <g class="coffee" transform="translate(120 0)"><ellipse cx="590" cy="453" rx="12" ry="4" fill="#997958"/><path d="M582 438H599V451Q591 459 582 451Z" fill="#e9ddc1"/><path d="M598 440Q610 438 604 448L599 448" fill="none" stroke="#e9ddc1" stroke-width="3"/><path class="steam" d="M587 430Q580 422 588 416M595 431Q589 423 595 420" fill="none" stroke="#f5dfbc" stroke-width="2" opacity=".5"/></g>
+            <g transform="translate(-230 0)">
+            <path d="M635 447H664M651 447V390L634 369" fill="none" stroke="#465e57" stroke-width="5"/>
+            <path d="M618 366Q635 354 647 368L657 383H610Z" fill="#526f61"/>
+            <ellipse cx="634" cy="383" rx="22" ry="4" fill="#ffe1a0"/>
+            <path d="M614 387L580 453H685L654 387Z" fill="url(#lampGlow)"/>
+            </g>
+            <!-- Desk chair -->
+            <ellipse cx="516" cy="565" rx="40" ry="12" fill="#6c7968"/>
+            <rect x="478" y="493" width="77" height="55" rx="20" fill="#536f64"/><rect x="485" y="499" width="63" height="40" rx="14" fill="#668376"/>
+            <path d="M516 566V594M491 605L516 594L542 605" stroke="#394b45" stroke-width="6" stroke-linecap="round"/>
+            <!-- Small office plant -->
+            <ellipse cx="289" cy="551" rx="30" ry="9" fill="#785d48" opacity=".3"/>
+            <path d="M271 512H307L302 547Q289 558 276 547Z" fill="#c7805b"/><path d="M288 511V454" stroke="#536a50" stroke-width="4"/>
+            <g class="plant-leaves"><path d="M289 488Q251 482 253 459Q282 454 289 488M288 476Q316 447 329 463Q321 486 288 492M288 462Q269 441 279 425Q302 430 288 462" fill="#526e50"/><path d="M289 490Q263 479 261 468M293 483L319 466" stroke="#8caa72" stroke-width="1.5" fill="none"/></g>
+          </g>
+          <g id="library-room">
+            <path d="M750 176H1283L1331 204V553H750Z" fill="#4c6c60"/>
+            <path d="M768 204H1283V500H768Z" fill="url(#libraryWall)"/>
+            <path d="M1283 204L1331 229V555L1283 500Z" fill="#526f61"/>
+            <path d="M750 500H1283L1331 555L1274 660H797Z" fill="url(#libraryFloor)"/>
+            <path d="M797 660H1274V686H797Z" fill="#65745d"/>
+            <path d="M1274 660L1331 555V582L1274 686Z" fill="#495b49"/>
+            <path d="M768 486H1283V500H768Z" fill="#617b68"/>
+            <path d="M768 204H1283V217H768Z" fill="#a7bb9f"/>
+            <!-- Room divider with a doorway -->
+            <path d="M742 204H768V431Q768 420 755 420Q742 420 742 431Z" fill="#d9bd96"/>
+            <path d="M742 204L759 193L779 204V500H768V431Q768 412 754 412Q742 412 742 431V500H729V204Z" fill="#b7ac86"/>
+            <!-- Library shelf -->
+            <g id="library-object" role="group" aria-label="New books from e-vrit on three shelves">
+              <rect x="1010" y="264" width="248" height="261" rx="4" fill="#435b4c" filter="url(#objectShadow)"/>
+              <rect x="1020" y="274" width="228" height="239" fill="#576f58"/>
+              <g id="books"></g>
+              <path d="M1018 351H1250M1018 427H1250M1018 503H1250" stroke="#ba9b72" stroke-width="9"/>
+              <path d="M1009 264H1260V277H1009Z" fill="#c2aa80"/><path d="M1009 515H1260V529H1009Z" fill="#ad9069"/>
+              <g id="library-shelf-control" class="scene-object" tabindex="0" role="button" aria-label="Browse the daily new-books collection"><rect x="1047" y="510" width="175" height="26" rx="3" fill="#d8c8a3"/><text id="book-label" x="1134" y="527" text-anchor="middle" font-size="10" fill="#4e6654">ספרים חדשים · עברית</text></g>
+              <text id="library-live-line" x="1134" y="549" text-anchor="middle" font-size="8" fill="#d7dcc1">Fetching real book covers…</text>
+            </g>
+            <!-- Hanging picture and wall clock -->
+            <rect x="831" y="267" width="117" height="100" rx="2" fill="#c2af88"/>
+            <rect x="839" y="275" width="101" height="84" fill="#dcd9bb"/>
+            <path d="M841 350Q859 307 880 334Q899 280 936 344V357H841Z" fill="#7c9275"/><circle cx="867" cy="297" r="11" fill="#d9ac6f"/>
+            <g transform="translate(-25 -12)"><rect x="965" y="244" width="74" height="40" rx="7" fill="#e4d8b6"/><rect x="971" y="250" width="62" height="28" rx="3" fill="#252f27"/><text id="wall-clock-digital" x="1002" y="270" text-anchor="middle" fill="#d5ebbb" font-family="monospace" font-size="18">--:--</text></g>
+            <!-- Rug and reading chair -->
+            <ellipse cx="955" cy="585" rx="132" ry="45" fill="#718772" opacity=".5"/>
+            <ellipse cx="955" cy="585" rx="118" ry="36" fill="none" stroke="#b1b294" stroke-width="2" opacity=".45"/>
+            <path d="M841 552V581M932 548V579" stroke="#6b5b41" stroke-width="10"/>
+            <rect x="844" y="430" width="91" height="104" rx="31" fill="#c18c62" filter="url(#objectShadow)"/>
+            <rect x="851" y="439" width="77" height="77" rx="25" fill="#d4a178"/>
+            <rect x="837" y="508" width="111" height="43" rx="18" fill="#bc8a60"/>
+            <rect x="829" y="480" width="24" height="64" rx="11" fill="#d0a078"/><rect x="931" y="480" width="24" height="64" rx="11" fill="#d0a078"/>
+            <path d="M889 453L919 447L927 498L896 505Z" fill="#e3c49a"/><path d="M896 455L900 498M905 451L909 501M915 450L919 496" stroke="#ba9775" stroke-width="2"/>
+            <!-- Side table with an open book -->
+            <ellipse cx="1004" cy="537" rx="33" ry="12" fill="#d0b78b"/><path d="M1004 549V585M987 588H1021" stroke="#7d7758" stroke-width="5"/>
+            <path d="M977 529L1002 525L1026 529L1004 540Z" fill="#f0e4c7"/><path d="M1002 525L1004 539" stroke="#b5a380" stroke-width="1.5"/>
+            <!-- Floor lamp -->
+            <ellipse cx="814" cy="568" rx="23" ry="6" fill="#4b6050"/><path d="M814 564V391" stroke="#59654f" stroke-width="5"/>
+            <path d="M793 362H835L848 403H780Z" fill="#e1cd9a"/><ellipse cx="814" cy="403" rx="34" ry="5" fill="#fce4ab"/>
+            <ellipse cx="828" cy="525" rx="88" ry="82" fill="url(#floorGlow)"/>
+            <!-- Large plant -->
+            <path d="M1256 528H1298L1290 570Q1276 579 1263 569Z" fill="#d7c19a"/><path d="M1277 531V449" stroke="#3e624b" stroke-width="4"/>
+            <g class="plant-leaves"><path d="M1277 510Q1239 495 1241 467Q1271 462 1277 510M1277 491Q1294 456 1320 467Q1318 497 1277 500M1276 472Q1248 453 1258 428Q1284 430 1276 472M1277 455Q1279 423 1295 418Q1314 445 1277 466" fill="#3c654d"/><path d="M1276 508L1251 480M1280 492L1308 475M1276 467L1264 442" fill="none" stroke="#8eaa73" stroke-width="1.5"/></g>
+          </g>
+          <!-- Small friendly character, animated in scene coordinates. -->
+          <g id="avatar" transform="translate(755 573)">
+            <ellipse cx="0" cy="0" rx="24" ry="7" fill="#344436" opacity=".3"/>
+            <g id="avatar-body">
+              <path id="left-leg" d="M-9 -27L-11 -5" stroke="#374c4d" stroke-width="11" stroke-linecap="round"/>
+              <path id="right-leg" d="M9 -27L11 -5" stroke="#374c4d" stroke-width="11" stroke-linecap="round"/>
+              <path d="M-17 -2H-6M6 -2H18" stroke="#e2d0ab" stroke-width="7" stroke-linecap="round"/>
+              <rect x="-21" y="-68" width="42" height="45" rx="14" fill="#d8ab7d" class="shirt"/>
+              <path d="M-19 -56L-25 -34M19 -56L25 -34" stroke="#d8ab7d" stroke-width="12" stroke-linecap="round" class="shirt-stroke"/>
+              <path d="M-25 -34V-28M25 -34V-28" stroke="#dfb395" stroke-width="8" stroke-linecap="round"/>
+              <rect x="-6" y="-76" width="12" height="15" rx="4" fill="#c58e70"/>
+              <rect x="-19" y="-109" width="38" height="40" rx="16" fill="#e6b797"/>
+              <path d="M-20 -89V-104Q-20 -120 0 -120Q22 -120 21 -101L19 -89L13 -100L5 -98L-4 -104L-13 -100L-15 -89Z" fill="#423c35"/>
+              <path d="M-14 -84Q0 -74 14 -84L10 -73Q0 -66 -10 -73Z" fill="#74533e"/>
+              <rect x="-17" y="-96" width="14" height="10" rx="4" fill="none" stroke="#3c4540" stroke-width="2.5"/><rect x="3" y="-96" width="14" height="10" rx="4" fill="none" stroke="#3c4540" stroke-width="2.5"/><path d="M-3 -92H3" stroke="#3c4540" stroke-width="2"/>
+            </g>
+          </g>
+          <!-- Room markers -->
+          <g class="room-marker" data-room="office" tabindex="0" role="button" aria-label="Walk to the office"><rect x="377" y="708" width="157" height="38" rx="19" fill="#263635"/><text x="455" y="732" text-anchor="middle" font-size="13" fill="#e0dfcb" letter-spacing="1.5">01 / THE OFFICE</text></g>
+          <g class="room-marker" data-room="library" tabindex="0" role="button" aria-label="Walk to the library"><rect x="965" y="708" width="166" height="38" rx="19" fill="#263635"/><text x="1048" y="732" text-anchor="middle" font-size="13" fill="#e0dfcb" letter-spacing="1.5">02 / THE LIBRARY</text></g>
+        </svg>
+        <div class="stage-bottom"><span class="character-status"><span class="avatar-dot"></span><strong id="character-name">Seffy</strong><span id="character-activity">is settling in</span></span><span class="stage-hint">Click a room to wander · click an object to explore</span><button class="small-button" id="web-read" hidden>Read a book</button><button class="small-button" id="wallpaper">↗ Set as wallpaper</button></div>
+      </section>
+
+      <section class="room-cards" aria-label="Room connections and weather">
+        <button class="room-card" id="office-card"><span class="card-icon office-icon">▤</span><span class="card-copy"><span class="card-kicker">THE OFFICE <span id="office-count">01 CONNECTION</span></span><strong id="office-title">A window to the web</strong><span class="card-description" id="office-description">Fetching the latest from Hacker News…</span></span><span class="card-arrow">↗</span></button>
+        <button class="room-card" id="library-card"><span class="card-icon library-icon">▥</span><span class="card-copy"><span class="card-kicker">THE LIBRARY <span id="library-count">01 CONNECTION</span></span><strong id="library-title">Something worth getting lost in</strong><span class="card-description" id="library-description">Fetching live page content from e-vrit…</span></span><span class="card-arrow">↗</span></button>
+        <div class="weather-card"><span class="weather-symbol" id="weather-symbol">◌</span><div><span class="card-kicker" id="weather-location">TEL AVIV</span><strong id="weather-temperature">Connecting…</strong><span class="card-description" id="weather-description">Weather shapes your window</span></div></div>
+      </section>
+      <footer><span>A LITTLE WORLD IN CLAY <span class="footer-star">✳</span> CONNECTED TO YOURS</span><span id="connection-summary">Connecting your world…</span><button id="refresh">↻ Refresh sources</button></footer>
+    </main>
+  </div>
+
+  <div class="drawer-backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+    <div class="drawer-head"><div><p class="eyebrow" id="drawer-kicker">A WORLD THAT FEELS LIKE YOU</p><h2 id="drawer-title">Make it yours.</h2></div><button class="icon-button" id="close-drawer" aria-label="Close panel">×</button></div>
+    <div id="drawer-content"></div>
+  </aside>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script src="scene-layout.js"></script>
+  <script src="emotions.js"></script>
+  <script src="character-routine.js"></script>
+  <script src="world-runtime.js"></script>
+  <script src="room-props.js"></script>
+  <script src="energy.js"></script>
+  <script src="browser-platform.js"></script>
+  <script src="static-data.js"></script>
+  <script src="app.js"></script>
+  <script src="photo-scene.js"></script>
+</body>
+</html>

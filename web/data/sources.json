@@ -1,0 +1,7 @@
+{
+  "sources": [
+    {"id":"news","name":"Hacker News","url":"https://news.ycombinator.com/rss","kind":"feed","room":"office"},
+    {"id":"office-news-2","name":"BBC News","url":"https://feeds.bbci.co.uk/news/rss.xml","kind":"feed","room":"office"},
+    {"id":"books","name":"עברית · ספרים חדשים","url":"https://www.e-vrit.co.il/","kind":"evrit-books","room":"library"}
+  ]
+}

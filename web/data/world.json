@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-05T20:02:07.912600+00:00",
+  "sources": [
+    {
+      "id": "news",
+      "name": "Hacker News",
+      "url": "https://news.ycombinator.com/rss",
+      "kind": "feed",
+      "room": "office"
+    },
+    {
+      "id": "office-news-2",
+      "name": "BBC News",
+      "url": "https://feeds.bbci.co.uk/news/rss.xml",
+      "kind": "feed",
+      "room": "office"
+    },
+    {
+      "id": "books",
+      "name": "עברית · ספרים חדשים",
+      "url": "https://www.e-vrit.co.il/",
+      "kind": "evrit-books",
+      "room": "library"
+    }
+  ],
+  "feeds": {
+    "news": {
+      "items": [
+        {
+          "title": "sshole",
+          "url": "https://sshhole.com",
+          "date": "Thu, 05 Nov 2026 12:19:02 +0000"
+        },
+        {
+          "title": "Alpine Linux Security Advisory: OpenSSH-server password authentication bypass",
+          "url": "https://alpinelinux.org/posts/2026-11-05-openssh-password-authentication-bypass/",
+          "date": "Thu, 05 Nov 2026 14:44:20 +0000"
+        },
+        {
+          "title": "Motorola Signature 27 with GrapheneOS support",
+          "url": "https://motorolanews.com/motorola-signature-27-2/",
+          "date": "Thu, 05 Nov 2026 16:01:34 +0000"
+        },
+        {
+          "title": "Window Sweaters",
+          "url": "https://github.com/saragordic/window-sweaters",
+          "date": "Thu, 05 Nov 2026 16:50:14 +0000"
+        },
+        {
+          "title": "The Lisp curse, now coming to your ecosystem",
+          "url": "https://javahippie.net/programming/llm/2026/03/05/the-lisp-curse-coming-to-your-ecosystem.html",
+          "date": "Tue, 03 Nov 2026 08:59:31 +0000"
+        },
+        {
+          "title": "Launch HN: Rivet (YC W23) – Scale and Orchestrate Agents on S3",
+          "url": "https://github.com/rivet-dev/rivet",
+          "date": "Thu, 05 Nov 2026 17:17:42 +0000"
+        },
+        {
+          "title": "September in Servo: <progress>, rounded rectangles, and more",
+          "url": "https://servo.org/blog/2026/11/05/september-in-servo/",
+          "date": "Thu, 05 Nov 2026 14:34:18 +0000"
+        },
+        {
+          "title": "My psychophysics as a bilateral cochlear implant user",
+          "url": "https://claude.ai/artifact/L8qsMc3SorytGW3LA81nYf",
+          "date": "Thu, 05 Nov 2026 16:21:12 +0000"
+        }
+      ],
+      "adapter": "feed",
+      "sourceURL": "https://news.ycombinator.com/rss",
+      "updatedAt": "2026-11-05T20:02:08.729345+00:00",
+      "stale": false
+    },
+    "office-news-2": {
+      "items": [
+        {
+          "title": "Russell Brand found guilty of rape and sexual assault",
+          "url": "https://www.bbc.co.uk/news/articles/ckyvrze96y70o?at_medium=RSS&at_campaign=rss",
+          "date": "Thu, 05 Nov 2026 18:28:35 GMT"
+        },
+        {
+          "title": "Watch: Met Police release Brand interview footage",
+          "url": "https://www.bbc.co.uk/news/videos/c693ze38vywxo?at_medium=RSS&at_campaign=rss",
+          "date": "Thu, 05 Nov 2026 16:01:56 GMT"
+        },
+        {
+          "title": "Russell Brand is being investigated over two new rape complaints, police say",
+          "url": "https://www.bbc.co.uk/news/articles/c6vgx8q09gg4o?at_medium=RSS&at_campaign=rss",
+          "date": "Thu, 05 Nov 2026 15:44:49 GMT"
+        },
+        {
+          "title": "Henry Nowak’s killer has minimum term increased to 25 years by Court of Appeal",
+          "url": "https://www.bbc.co.uk/news/articles/cmwy9z5423p2o?at_medium=RSS&at_campaign=rss",
+          "date": "Thu, 05 Nov 2026 18:53:47 GMT"
+        },
+        {
+          "title": "Interest rates hiked to 4% in first increase in over three years",
+          "url": "https://www.bbc.co.uk/news/articles/ck5ynw45jrgqo?at_medium=RSS&at_campaign=rss",
+          "date": "Thu, 05 Nov 2026 17:09:55 GMT"
+        },
+        {
+          "title": "California governor commutes death sentences for all 548 people on death row",
+          "url": "https://www.bbc.co.uk/news/articles/cqrkyyd2j8mvo?at_medium=RSS&at_campaign=rss",
+          "date": "Thu, 05 Nov 2026 19:57:20 GMT"
+        },
+        {
+          "title": "British man infected with Ebola in DR Congo arrives in UK for treatment",
+          "url": "https://www.bbc.co.uk/news/articles/cqj34d3l0zlmo?at_medium=RSS&at_campaign=rss",
+          "date": "Thu, 05 Nov 2026 19:49:14 GMT"
+        },
+        {
+          "title": "Hoax bomb threats target European airlines and airports for second time in a week",
+          "url": "https://www.bbc.co.uk/news/articles/cmpqg08nz3pqo?at_medium=RSS&at_campaign=rss",
+          "date": "Thu, 05 Nov 2026 17:39:48 GMT"
+        }
+      ],
+      "adapter": "feed",
+      "sourceURL": "https://feeds.bbci.co.uk/news/rss.xml",
+      "updatedAt": "2026-11-05T20:02:08.519746+00:00",
+      "stale": false
+    },
+    "books": {
+      "adapter": "evrit-books",
+      "sectionTitle": "ספרים חדשים",
+      "homepageURL": "https://www.e-vrit.co.il/",
+      "sourceURL": "https://www.e-vrit.co.il/group/3/%D7%A1%D7%A4%D7%A8%D7%99%D7%9D_%D7%97%D7%93%D7%A9%D7%99%D7%9D",
+      "items": [
+        {
+          "id": "41194",
+          "title": "להוציא ספינה מבקבוק",
+          "author": "גבריאלה ניר",
+          "url": "https://www.e-vrit.co.il/product/41194/%D7%9C%D7%94%D7%95%D7%A6%D7%99%D7%90-%D7%A1%D7%A4%D7%99%D7%A0%D7%94-%D7%9E%D7%91%D7%A7%D7%91%D7%95%D7%A7",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41194/Image_bottle_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41550",
+          "title": "אין סוף שערים",
+          "author": "יובל יהודה עדן",
+          "url": "https://www.e-vrit.co.il/product/41550/%D7%90%D7%99%D7%9F-%D7%A1%D7%95%D7%A3-%D7%A9%D7%A2%D7%A8%D7%99%D7%9D",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41550/Image_Lessons_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41416",
+          "title": "רבקה פינת ארלוזורוב",
+          "author": "יוני אביב",
+          "url": "https://www.e-vrit.co.il/product/41416/%D7%A8%D7%91%D7%A7%D7%94-%D7%A4%D7%99%D7%A0%D7%AA-%D7%90%D7%A8%D7%9C%D7%95%D7%96%D7%95%D7%A8%D7%95%D7%91",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41416/Image_rivka_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41661",
+          "title": "עיניים ירוקות",
+          "author": "יוסי ברגר",
+          "url": "https://www.e-vrit.co.il/product/41661/%D7%A2%D7%99%D7%A0%D7%99%D7%99%D7%9D-%D7%99%D7%A8%D7%95%D7%A7%D7%95%D7%AA",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41661/Image_green_eyes_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41779",
+          "title": "ללכת למקום אחר",
+          "author": "אביחי קמחי",
+          "url": "https://www.e-vrit.co.il/product/41779/%D7%9C%D7%9C%D7%9B%D7%AA-%D7%9C%D7%9E%D7%A7%D7%95%D7%9D-%D7%90%D7%97%D7%A8",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41779/Image_Elsewhere_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41824",
+          "title": "ירח דבש בספרד",
+          "author": "אן וויל",
+          "url": "https://www.e-vrit.co.il/product/41824/%D7%99%D7%A8%D7%97-%D7%93%D7%91%D7%A9-%D7%91%D7%A1%D7%A4%D7%A8%D7%93",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41824/Image_Honeymoon_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41835",
+          "title": "ארץ נעדרת",
+          "author": "עוז אלמוג",
+          "url": "https://www.e-vrit.co.il/product/41835/%D7%90%D7%A8%D7%A5-%D7%A0%D7%A2%D7%93%D7%A8%D7%AA",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41835/Image_CoverEretzNeederetwebsite.jpg",
+          "date": ""
+        },
+        {
+          "id": "41769",
+          "title": "ברוך דה שפינוזה - הביוגרפיה הראשונה",
+          "author": "ז'אן מקסימיליאן לוקאס",
+          "url": "https://www.e-vrit.co.il/product/41769/%D7%91%D7%A8%D7%95%D7%9A-%D7%93%D7%94-%D7%A9%D7%A4%D7%99%D7%A0%D7%95%D7%96%D7%94---%D7%94%D7%91%D7%99%D7%95%D7%92%D7%A8%D7%A4%D7%99%D7%94-%D7%94%D7%A8%D7%90%D7%A9%D7%95%D7%A0%D7%94",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41769/Image_spinoza_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41621",
+          "title": "גורלם של אנשים רעים",
+          "author": "אילה לרנר",
+          "url": "https://www.e-vrit.co.il/product/41621/%D7%92%D7%95%D7%A8%D7%9C%D7%9D-%D7%A9%D7%9C-%D7%90%D7%A0%D7%A9%D7%99%D7%9D-%D7%A8%D7%A2%D7%99%D7%9D",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41621/Image_bad_people_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41653",
+          "title": "לעבור דרך - חיים בין מדינות",
+          "author": "גל הרפז · גור גורודיסקי",
+          "url": "https://www.e-vrit.co.il/product/41653/%D7%9C%D7%A2%D7%91%D7%95%D7%A8-%D7%93%D7%A8%D7%9A---%D7%97%D7%99%D7%99%D7%9D-%D7%91%D7%99%D7%9F-%D7%9E%D7%93%D7%99%D7%A0%D7%95%D7%AA",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41653/Image_book-cover-1000x1580.png",
+          "date": ""
+        },
+        {
+          "id": "41349",
+          "title": "יומנו של עורך וידאו",
+          "author": "רוני אלפנדרי",
+          "url": "https://www.e-vrit.co.il/product/41349/%D7%99%D7%95%D7%9E%D7%A0%D7%95-%D7%A9%D7%9C-%D7%A2%D7%95%D7%A8%D7%9A-%D7%95%D7%99%D7%93%D7%90%D7%95",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41349/Image_video_Master.jpg",
+          "date": ""
+        },
+        {
+          "id": "41369",
+          "title": "ישראל והאינסופי",
+          "author": "אבי לויתן",
+          "url": "https://www.e-vrit.co.il/product/41369/%D7%99%D7%A9%D7%A8%D7%90%D7%9C-%D7%95%D7%94%D7%90%D7%99%D7%A0%D7%A1%D7%95%D7%A4%D7%99",
+          "cover": "https://images.e-vrit.co.il/cdn-cgi/image/width=360,format=auto,quality=85/Images/Products/NewBO/Products/41369/Image_israel_Master.jpg",
+          "date": ""
+        }
+      ],
+      "cacheDate": "2026-11-05",
+      "updatedAt": "2026-11-05T20:02:07.914448+00:00",
+      "nextRefreshAt": "2026-11-06T00:00:00+02:00",
+      "stale": false
+    }
+  },
+  "weather": {
+    "tel-aviv": {
+      "current": {
+        "time": "2026-11-05T22:00",
+        "interval": 900,
+        "temperature_2m": 19.8,
+        "weather_code": 3,
+        "is_day": 0,
+        "wind_speed_10m": 3.3
+      },
+      "location": "Tel Aviv",
+      "updatedAt": "2026-11-05T20:02:09.200994+00:00",
+      "stale": false
+    },
+    "jerusalem": {
+      "current": {
+        "time": "2026-11-05T22:00",
+        "interval": 900,
+        "temperature_2m": 15.0,
+        "weather_code": 3,
+        "is_day": 0,
+        "wind_speed_10m": 8.0
+      },
+      "location": "Jerusalem",
+      "updatedAt": "2026-11-05T20:02:09.566936+00:00",
+      "stale": false
+    },
+    "london": {
+      "current": {
+        "time": "2026-11-05T20:00",
+        "interval": 900,
+        "temperature_2m": 10.2,
+        "weather_code": 3,
+        "is_day": 0,
+        "wind_speed_10m": 10.4
+      },
+      "location": "London",
+      "updatedAt": "2026-11-05T20:02:09.883469+00:00",
+      "stale": false
+    },
+    "new-york": {
+      "current": {
+        "time": "2026-11-05T15:00",
+        "interval": 900,
+        "temperature_2m": 23.0,
+        "weather_code": 1,
+        "is_day": 1,
+        "wind_speed_10m": 17.1
+      },
+      "location": "New York",
+      "updatedAt": "2026-11-05T20:02:10.245123+00:00",
+      "stale": false
+    }
+  }
+}

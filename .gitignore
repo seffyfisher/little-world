@@ -1,0 +1,6 @@
+dist/
+.static-cache/
+.wrangler/
+__pycache__/
+.DS_Store
+output/
