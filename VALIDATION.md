@@ -2,6 +2,14 @@
 
 ## Mobile-first immersive entry — 2026-11-06
 
+### Larger landscape framing and webcam monitors
+
+- Final checks:55 Node tests and3 Python tests passed; JavaScript syntax and whitespace checks passed.
+
+- Landscape now fits measured miniature bounds, excluding empty studio backdrop. At844×390 the world plate renders at856px wide rather than693px, while every part of the miniature remains inside the viewport. Unit checks also cover the750×369 notch-safe available rectangle. Dynamic viewport height and safe-area CSS remain enabled. No physical phone/notch hardware validation is claimed.
+- Camera tests use an injected capture provider and synthetic640×360 canvas stream, never the user's actual camera. Browser verification showed both monitor videos playing with `readyState=4`, muted/inline, with one capture request and `audio:false`. Pause and portrait rotation stopped the tracks. Reload preserved both monitor choices without starting capture; simulated permission denial displayed an explicit retry message with no console error.
+- Camera lifecycle regressions cover shared capture, last-monitor removal, pause/visibility resume, cancellation while permission is pending, denial without repeated prompts, camera disconnection, page disposal and safe reenablement during a pending request. Real camera permission/capture and physical iOS autoplay behavior remain unverified.
+
 -45 Node tests and3 Python tests passed. New regressions cover durable preference round trips, existing saved-world compatibility, malformed/blocked/full storage and complete-image containment across eight phone/desktop dimensions.
 - Real-browser viewport checks:844×390 and667×375 landscape display the entire scene;1440×900 desktop starts interactive with the toolbars hidden. Only the44px editor launcher is shown outside the scene. The390×844 portrait view shows the character and rotate-phone illustration; rotating restores the fitted world automatically. The room runtime is inactive during the portrait prompt and resumes in landscape. This is browser viewport verification, not physical iPhone/Safari hardware validation.
 - Verified changes and reloaded: character name, Rose shirt, wandering off, selected mood, Dusk lighting,15% battery preview, disabled battery reactions, reversed monitor assignments, London weather, paused playback, Office destination and an embedded test photo were restored. Portrait editor bounds fit the viewport without horizontal overflow. Test preferences were left confined to the local preview origin.

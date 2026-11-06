@@ -16,6 +16,7 @@ The published site is HTML, CSS, JavaScript, PNGs and JSON. **No app server, dat
 - Changes save automatically in localStorage: name, shirt, wandering, lighting, city, sources and monitor assignments, picture, battery preferences, pause state, room choice, mood selection and the last editor tab. Existing saved worlds keep the same storage key. If storage is blocked/full, the site reports that changes could not be saved. Enter World mode always starts enabled, and the editor always starts closed.
 - Automatic light follows system appearance. Hidden tabs suspend movement and scheduled JSON checks. Reduce Motion is respected.
 - Actual battery reactions use the browser's optional Battery Status API. Unsupported/denied access is labeled unavailable; explicit previews still work.
+- **Webcam monitors:** open the editor → **Connections** → choose **Webcam · this device** for either monitor. The browser requests video permission when you enable it. Both monitors can share one mirrored camera stream. Video stays on the device, with no microphone capture, recording or upload. Turn it off in the editor or switch the monitor back to a feed. Capture stops while hidden, paused or showing the portrait rotation prompt; a previously enabled session resumes when the world returns. The monitor choice is saved, but a new page visit needs a tap to enable capture again.
 
 ## Content is JSON
 
@@ -47,6 +48,6 @@ node --test tests/*.test.cjs
 python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-`web/` contains all runtime source and PNG frames. The optional `scripts/build-static.mjs` copies a `dist/` package if desired. No original portrait/tattoo photos, native Mac bundle, source artwork atlases, GIF previews or credentials are included. Generated clay assets are bundled locally; no image-generation service runs in the site. Weather attribution: [Open-Meteo](https://open-meteo.com/), [CC BY4.0](https://creativecommons.org/licenses/by/4.0/).
+`web/` contains all runtime source and PNG frames. Landscape framing fits the bounds of the miniature itself, removing only empty studio backdrop, within CSS safe-area insets and dynamic viewport height. The optional `scripts/build-static.mjs` copies a `dist/` package if desired. No original portrait/tattoo photos, native Mac bundle, source artwork atlases, GIF previews or credentials are included. Generated clay assets are bundled locally; no image-generation service runs in the site. Weather attribution: [Open-Meteo](https://open-meteo.com/), [CC BY4.0](https://creativecommons.org/licenses/by/4.0/).
 
 Platform references: [GitHub Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [Cloudflare static assets](https://developers.cloudflare.com/workers/static-assets/get-started/), [browser battery support](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getBattery).

@@ -30,6 +30,7 @@
   const needsPublishedDefaults=!settingsStore.hasSaved,initialConnections=JSON.stringify([config.sources,config.officeScreens]);
   const roomProps=window.LittleWorldRoomProps;
   const chairMotion=roomProps.createChair({runtime,emit:frame=>window.dispatchEvent(new CustomEvent('world:chair',{detail:{frame}}))});
+  const camera=window.LittleWorldCamera.create({getMedia:constraints=>{if(!navigator.mediaDevices?.getUserMedia)throw Object.assign(new Error('Unavailable'),{name:'NotSupportedError'});return navigator.mediaDevices.getUserMedia(constraints);},emit:()=>{publishScene();updateCameraControls();}});
   const requests=new Set(),feedChecked=new Map();let weatherChecked=-Infinity,weatherCheckedLocation='';
   function isActive(){return nativeManaged?hostActive:!document.hidden&&(!portraitMobile||!!drawerMode);}
 
@@ -41,7 +42,7 @@
   }
   function save() {
     config = validateConfig(config);
-    updateEnergy();
+    updateEnergy();camera.setModes(config.screenModes);
     const saved=settingsStore.write(config);
     if(!saved)toast('Your changes are active, but this browser could not save them for next time.');
     native('save', {value: JSON.stringify(config)});
@@ -66,7 +67,7 @@
   function sourceKind(source) { return source.kind === 'evrit-books' ? 'e-vrit new books · daily' : source.kind === 'feed' ? 'RSS / Atom feed' : 'Live website · auto discovery'; }
   function sourcePlace(source) {
     if (source.room === 'library') return '▥ Library · bookshelf';
-    const screens = config.officeScreens.flatMap((id, i) => id === source.id ? [String(i + 1)] : []);
+    const screens = config.officeScreens.flatMap((id, i) => config.screenModes[i]!=='webcam'&&id === source.id ? [String(i + 1)] : []);
     return screens.length ? `▤ Office · screen ${screens.join(' & ')}` : '▤ Office · available source';
   }
   function sceneState() {
@@ -74,8 +75,9 @@
     return {
       name: config.name, shirt: config.shirt, paused, active:isActive(), lowPower, reducedMotion: reducedMotion.matches,interaction,energy,framePhoto:config.framePhoto||'',
       mode: document.body.classList.contains('night') ? 'night' : document.body.classList.contains('dusk') ? 'dusk' : 'day',
-      room: selectedRoom, weather: weather?.current || null,
+      room: selectedRoom, weather: weather?.current || null,camera:camera.snapshot(),
       screens: [0,1].map(index => {
+        if(config.screenModes[index]==='webcam')return {mode:'webcam',name:'Webcam',status:camera.snapshot().status==='live'?'LIVE CAMERA':'CAMERA',headline:camera.snapshot().label};
         const source = screenSource(index), data = source && feeds[source.id], items = data?.items || [];
         return {name: source?.name || `Screen ${index + 1}`, status: source ? status(source) : 'CHOOSE A SOURCE',
           headline: items[headlineIndex % Math.max(1,items.length)]?.title || (data?.error ? 'Source unavailable. Open to retry.' : source ? 'Gathering the latest stories…' : 'Choose a website for this screen.'), updatedAt: data?.updatedAt || null};
@@ -323,7 +325,7 @@
     const active=isActive();
     document.body.dataset.runtimeActive=String(active);document.body.dataset.lowPower=String(lowPower);
     document.body.classList.toggle('runtime-suspended',!active);
-    runtime.setActive(active);
+    runtime.setActive(active);camera.setActive(active&&!paused&&!portraitMobile);
     if(active&&!paused&&!compactEditor&&!portraitMobile&&pendingEnergyMood){const mood=pendingEnergyMood;pendingEnergyMood=null;routine.express(mood,reducedMotion.matches);}
     chairMotion.setActivity({active:active&&!portraitMobile,paused,lowPower,reducedMotion:reducedMotion.matches});
     if(active){tickClock();runtime.set('clock',tickClock,roomProps.clock().delay);}
@@ -379,9 +381,16 @@
     openDrawer('settings', 'Make it yours.', 'A WORLD THAT FEELS LIKE YOU');
     renderSettings();
   }
+  function updateCameraControls(){
+    const state=camera.snapshot();
+    if($('#camera-status'))$('#camera-status').textContent=state.label;
+    if($('#camera-start'))$('#camera-start').disabled=state.status==='live'||state.status==='requesting';
+    if($('#camera-stop'))$('#camera-stop').disabled=!state.intent;
+  }
   function screenControls() {
-    const sources = config.sources.filter(source => source.room === 'office');
-    return `<div class="office-screen-settings"><h3>Office screens</h3><p class="note">Give each monitor its own live website or feed. Click a monitor in the room to read that source.</p>${[0,1].map(index => `<label class="field">Screen ${index + 1} · ${index ? 'right' : 'left'} monitor<select data-screen-index="${index}"><option value="">No source assigned</option>${sources.map(source => `<option value="${escape(source.id)}" ${config.officeScreens[index] === source.id ? 'selected' : ''}>${escape(source.name)}</option>`).join('')}</select></label>`).join('')}</div>`;
+    const sources=config.sources.filter(source=>source.room==='office');
+    const selected=config.screenModes.includes('webcam');
+    return `<div class="office-screen-settings"><h3>Office screens</h3><p class="note">Choose a published source or your live webcam for each monitor.</p>${[0,1].map(index=>`<label class="field">Screen ${index+1} · ${index?'right':'left'} monitor<select data-screen-index="${index}"><option value="">No source assigned</option><option value="__webcam__" ${config.screenModes[index]==='webcam'?'selected':''}>Webcam · this device</option>${sources.map(source=>`<option value="${escape(source.id)}" ${config.screenModes[index]!=='webcam'&&config.officeScreens[index]===source.id?'selected':''}>${escape(source.name)}</option>`).join('')}</select></label>`).join('')}${selected?`<div class="camera-settings"><p id="camera-status" role="status">${escape(camera.snapshot().label)}</p><div class="form-row"><button class="secondary" id="camera-start">Enable webcam</button><button class="secondary" id="camera-stop">Turn off webcam</button></div><p class="note">Video stays on this device. No microphone, recording or upload. Both monitors share one camera. After a reload, tap to enable it again.</p></div>`:''}</div>`;
   }
   function renderSettings() {
     const controls=browserApp?`<div class="editor-world-controls" role="group" aria-label="World actions"><button class="secondary" id="editor-pause">${paused?'Resume':'Pause'}</button><button class="secondary" id="editor-interaction">${interaction?'Leave world':'Enter world'}</button><button class="secondary" id="editor-read">Read a book</button><button class="secondary" id="editor-office">Office</button><button class="secondary" id="editor-library">Library</button><button class="secondary" id="editor-refresh">Check updates</button>${document.fullscreenEnabled?'<button class="secondary" id="editor-fullscreen">Full screen</button>':''}</div>`:'';
@@ -389,9 +398,14 @@
     if (settingsTab === 'connections') {
       $('#drawer-content').innerHTML = tabs + `<p>Bring live content into your rooms. Connect an RSS feed or paste a website: we discover its feed or read its current page content.</p>${screenControls()}<div id="source-list">${config.sources.map(s => `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(s.name)}</h3><span class="status">${status(s)}</span></div><div class="source-url">${escape(s.url)}</div><div class="source-meta">${escape(sourcePlace(s))} · ${sourceKind(s)}</div><div class="source-actions"><button data-edit="${escape(s.id)}">Edit connection</button><button data-view="${escape(s.id)}">Open object ↗</button><button class="danger" data-remove="${escape(s.id)}" aria-label="Remove ${escape(s.name)}">Remove</button></div></article>`).join('') || '<div class="empty">Your rooms are waiting.<br>Add your first website below.</div>'}</div><button class="primary full" id="add-source">＋ Add a website</button><p class="note">Up to 20 connections. Changes save automatically ${savedPlace}. ${staticData?'Published JSON is checked every5 minutes; upstream data refreshes when the site is republished.':'Office feeds and websites refresh every5 minutes.'} The e-vrit new-books shelves refresh daily at midnight in Israel. Websites expose public page headings or discovered feeds. Sign-in and JavaScript-only sites need a dedicated adapter.</p><div class="divider"></div><label class="field">Weather outside your window<select id="location"><option value="tel-aviv">Tel Aviv</option><option value="jerusalem">Jerusalem</option><option value="london">London</option><option value="new-york">New York</option></select><small>Illustrated weather comes from Open-Meteo. This is a chosen city; your location is not detected.</small></label><p class="note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather data by Open-Meteo ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>`;
       $$('[data-screen-index]').forEach(select => select.onchange = () => {
-        config.officeScreens[Number(select.dataset.screenIndex)] = select.value || null;
-        save(); renderSettings();
+        const index=Number(select.dataset.screenIndex),webcam=select.value==='__webcam__';
+        config.screenModes[index]=webcam?'webcam':'source';
+        if(!webcam)config.officeScreens[index]=select.value||null;
+        save();renderSettings();if(webcam)camera.enable();
       });
+      if($('#camera-start'))$('#camera-start').onclick=()=>camera.enable();
+      if($('#camera-stop'))$('#camera-stop').onclick=()=>camera.disable();
+      updateCameraControls();
       $('#location').value = config.location;
       $('#location').onchange = event => {
         config.location = event.target.value; weather = null; save();
@@ -458,7 +472,7 @@
     const form = $('#source-form');
     form.elements.kind.value = existing?.kind || 'feed';
     form.elements.room.value = existing?.room || (selectedRoom === 'library' ? 'library' : 'office');
-    const currentScreen = existing ? config.officeScreens.indexOf(existing.id) : config.officeScreens.findIndex(id => !id);
+    const currentScreen = existing ? config.officeScreens.findIndex((id,i)=>id===existing.id&&config.screenModes[i]!=='webcam') : config.officeScreens.findIndex((id,i)=>!id&&config.screenModes[i]!=='webcam');
     form.elements.screen.value = currentScreen >= 0 ? String(currentScreen) : '';
     function updatePlacement() { $('#screen-field').hidden = form.elements.room.value !== 'office'; }
     form.elements.room.onchange = updatePlacement;
@@ -490,7 +504,7 @@
       if (existing) config.sources = config.sources.map(s => s.id === existing.id ? source : s);
       else config.sources.push(source);
       config.officeScreens = config.officeScreens.map(id => id === source.id ? null : id);
-      if (source.room === 'office' && form.elements.screen.value !== '') config.officeScreens[Number(form.elements.screen.value)] = source.id;
+      if (source.room === 'office' && form.elements.screen.value !== '') {const index=Number(form.elements.screen.value);config.officeScreens[index]=source.id;config.screenModes[index]='source';}
       delete feeds[source.id];feedChecked.delete(source.id); save(); openSettings();
       refreshFeed(source);
       toast(existing ? 'Connection updated.' : 'A new connection. A little more you.');
@@ -568,7 +582,7 @@
   });
   addEventListener('storage', event => {
     if (event.key === KEY && event.newValue) {
-      try { config = validateConfig(JSON.parse(event.newValue));updateEnergy();setPaused(config.paused,false);selectRoom(config.room);render();if(drawerMode==='settings')renderSettings();refreshAll(); }
+      try { config = validateConfig(JSON.parse(event.newValue));camera.setModes(config.screenModes);updateEnergy();setPaused(config.paused,false);selectRoom(config.room);render();if(drawerMode==='settings')renderSettings();refreshAll(); }
       catch { /* Ignore incomplete external edits. */ }
     }
   });
@@ -596,15 +610,15 @@
     },
     coverURL:url=>nativeManaged?`/api/cover?url=${encodeURIComponent(url)}`:safeURL(url)||'',
     openReadingBook() { const source=librarySource(), book=routine.snapshot().book; if(source&&book)openBook(source,book,false); },
-    openScreen(index) { const source = screenSource(index); if (source) openRoom('office',source.id); else openSettings(); },
+    openScreen(index) { if(config.screenModes[index]==='webcam'){if(camera.snapshot().status==='live')openSettings('connections');else camera.enable();return;} const source = screenSource(index); if (source) openRoom('office',source.id); else openSettings(); },
     openLibrary:() => openRoom('library'),
     openBookAt(index) { const source=librarySource(), book=shelfBooks()[index]; if (book) openBook(source,book); },
     visitRoom:goTo,
     restoreNative(value) {
-    try { config = validateConfig(JSON.parse(value));updateEnergy();settingsStore.write(config);render();activityChanged();if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
+    try { config = validateConfig(JSON.parse(value));camera.setModes(config.screenModes);updateEnergy();settingsStore.write(config);render();activityChanged();if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
     catch { /* Keep the current usable setup. */ }
   }};
-  selectRoom(config.room);
+  camera.setModes(config.screenModes);selectRoom(config.room);
   if(config.room!=='home')routine.visit(config.room,true);
   render();tickClock();setPaused(config.paused,false);
   if(browserApp){
@@ -630,5 +644,6 @@
   portraitQuery.addEventListener('change',()=>{portraitMobile=browserApp&&portraitQuery.matches;document.body.classList.toggle('portrait-mobile',portraitMobile);activityChanged();});
   darkAppearance.addEventListener('change',event=>{if(!nativeManaged){systemDark=event.matches;activityChanged();}});
   document.addEventListener('visibilitychange',activityChanged);
+  addEventListener('pagehide',()=>camera.dispose());
   activityChanged();
 })();

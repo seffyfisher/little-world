@@ -15,6 +15,12 @@ test('existing saved worlds upgrade without losing their name, sources, photo or
  assert.equal(config.name,old.name);assert.deepEqual(config.sources,old.sources);assert.equal(config.framePhoto,old.framePhoto);assert.equal(config.ambience,'dusk');
  assert.equal(config.paused,false);assert.equal(config.editorTab,'world');assert.equal(config.room,'home');
 });
+test('webcam monitor choices persist, while live media and capture intent do not',()=>{
+ const storage=memory(),store=createStore({getStorage:()=>storage});
+ store.write({...DEFAULT,screenModes:['webcam','source'],camera:{stream:'private live media',intent:true}});
+ assert.deepEqual(store.read().screenModes,['webcam','source']);assert.equal(store.read().camera,undefined);
+ assert(!storage.getItem(KEY).includes('private live media'));
+});
 test('malformed storage and blocked browser storage recover without claiming a successful save',()=>{
  const storage=memory();storage.setItem(KEY,'{broken');const store=createStore({getStorage:()=>storage});
  assert.deepEqual(store.read(),validateConfig(DEFAULT));assert.equal(store.hasSaved,false);
@@ -32,7 +38,6 @@ test('the entire world stays inside phone landscape, portrait and desktop viewpo
   assert(Math.abs(box.left*2+box.width-width)<.001);assert(Math.abs(box.top*2+box.height-height)<.001);
  }
 });
-
 test('immersive framing maximizes the miniature inside notch-safe bounds without cropping it',()=>{
  for(const [width,height] of [[844,390],[667,375],[750,369],[1440,900],[2560,1080]]){
   const box=fitRoom(width,height),scale=box.width/W;

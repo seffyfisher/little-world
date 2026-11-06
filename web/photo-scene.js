@@ -49,6 +49,13 @@ const seatBlend=surface.querySelector('.photo-seat-blend');let seatFade=null,sea
 const flip=surface.querySelector('.photo-avatar-flip'),heldCover=surface.querySelector('.photo-carried-cover');
 const hands=[...surface.querySelectorAll('.photo-hand')];
 const shelves=surface.querySelector('.photo-books'),monitors=[...surface.querySelectorAll('.photo-monitor')];
+const cameraViews=monitors.map((button,index)=>{
+  const video=document.createElement('video');video.className='photo-webcam';video.autoplay=true;video.muted=true;video.defaultMuted=true;video.playsInline=true;video.hidden=true;video.setAttribute('aria-label',`Live webcam on screen ${index+1}`);
+  const message=document.createElement('span');message.className='photo-camera-label';message.hidden=true;
+  const live=document.createElement('span');live.className='photo-camera-live';live.textContent='● LIVE';live.hidden=true;
+  video.onplaying=()=>{video.dataset.blocked='false';if(video.srcObject)message.hidden=true;};
+  button.append(video,message,live);return {video,message,live};
+});
 const plants=[...surface.querySelectorAll('.photo-plant')];
 const officeChair=surface.querySelector('.photo-office-chair'),digitalClock=surface.querySelector('.photo-digital-clock');
 function drawClock(clock){digitalClock.textContent=clock.text;digitalClock.dateTime=clock.datetime;digitalClock.setAttribute('aria-label',`Local time ${clock.text}`);}
@@ -86,6 +93,15 @@ function update(next){
   surface.querySelector('.photo-window-weather').dataset.rain=String((state.weather?.weather_code||0)>=50);
   monitors.forEach((button,index)=>{
     const screen=state.screens[index];
+    button.dataset.mode=screen.mode||'source';
+    const {video,message,live}=cameraViews[index],stream=screen.mode==='webcam'&&state.camera.status==='live'?state.camera.stream:null;
+    if(video.srcObject!==stream){
+      video.srcObject=stream;video.dataset.blocked='false';
+      if(stream)video.play()?.catch(()=>{if(video.srcObject===stream){video.dataset.blocked='true';message.textContent='Tap to play webcam';message.hidden=false;}});
+    }
+    video.hidden=!stream;live.hidden=!stream;
+    message.hidden=screen.mode!=='webcam'||!!stream&&video.dataset.blocked!=='true';
+    message.textContent=video.dataset.blocked==='true'?'Tap to play webcam':screen.headline;
     button.setAttribute('aria-label',`Office screen ${index+1}: ${screen.name}. ${screen.headline}`);
     button.querySelector('strong').textContent=screen.name;
     button.querySelector('.photo-headline').textContent=screen.headline;
@@ -110,7 +126,11 @@ function update(next){
   actor.setAttribute('aria-label',`${state.name}: choose a book, or open the book being read`);
   drawCharacter(api.getCharacterState());drawPlants();
 }
-monitors.forEach((button,index)=>button.onclick=()=>api.openScreen(index));
+monitors.forEach((button,index)=>button.onclick=()=>{
+  const video=cameraViews[index].video;
+  if(video.dataset.blocked==='true'){video.play()?.catch(()=>{});return;}
+  api.openScreen(index);
+});
 surface.querySelector('.photo-library-label').onclick=()=>api.openLibrary();
 actor.onclick=()=>{if(api.getCharacterState().book)api.openReadingBook();else api.readBook();};
 const assetURL=path=>path+'?v=ladder-pinning-11';

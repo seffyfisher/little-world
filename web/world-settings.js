@@ -32,7 +32,7 @@
       ? office.some(s => s.id === raw.officeScreens[i]) ? raw.officeScreens[i] : null
       : office[i]?.id || null);
     return {
-      schemaVersion: 2, officeScreens,
+      schemaVersion: 2, officeScreens,screenModes:[0,1].map(i=>raw.screenModes?.[i]==='webcam'?'webcam':'source'),
       name: String(raw.name || 'You').slice(0, 30), shirt: SHIRTS.includes(raw.shirt) ? raw.shirt : SHIRTS[0],
       wander: raw.wander !== false, ambience: ['auto','day','dusk','night'].includes(raw.ambience) ? raw.ambience : 'auto',
       location: ['tel-aviv','jerusalem','london','new-york'].includes(raw.location) ? raw.location : 'tel-aviv',
