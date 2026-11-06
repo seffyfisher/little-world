@@ -13,7 +13,7 @@ surface.innerHTML=`
   <time class="photo-digital-clock" aria-label="השעה המקומית">--:--</time>
   <div class="photo-chair-shadow" aria-hidden="true"></div>
   <img class="photo-office-chair" src="assets/animation/office-chair-0.png" alt="כיסא מסתובב מפלסטלינה בצבע טורקיז" draggable="false">
-  <button class="photo-wall-frame" aria-label="בחירת תמונה למסגרת שעל הקיר"><img alt="התמונה שלך על הקיר" hidden></button>
+  <button class="photo-wall-frame" aria-label="בחירת תמונה למסגרת שבספרייה"><img alt="התמונה שלך על הקיר" hidden></button>
   <div class="photo-lamp-glow" aria-hidden="true"></div>
   <div class="photo-window-weather" aria-hidden="true"></div>
   <div class="photo-steam" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -30,6 +30,12 @@ surface.innerHTML=`
 // Promote the two complete desk-monitor silhouettes above the wall monitors.
 const rearCount=Math.max(0,api.getSceneState().screens.length-2);
 const ns='http://www.w3.org/2000/svg';
+// Remove the baked office picture, including its frame and shadow, in both editions.
+const pictureDefinitions=document.createElementNS(ns,'svg');pictureDefinitions.setAttribute('class','photo-depth-definitions');pictureDefinitions.setAttribute('aria-hidden','true');
+const picturePatch=layout.officePicturePatch;
+pictureDefinitions.innerHTML=`<defs><filter id="world-picture-feather"><feGaussianBlur stdDeviation=".004 .007"/></filter><mask id="world-picture-patch" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox"><rect x="${picturePatch.x/W}" y="${picturePatch.y/H}" width="${picturePatch.width/W}" height="${picturePatch.height/H}" fill="white" filter="url(#world-picture-feather)"/></mask></defs>`;
+const pictureRemoval=document.createElement('div');pictureRemoval.className='photo-office-picture-removal';pictureRemoval.setAttribute('aria-hidden','true');surface.append(pictureDefinitions,pictureRemoval);
+
 if(rearCount){
  surface.classList.add('office-screen-wall');
  const patch=document.createElement('div');patch.className='photo-window-replacement';patch.setAttribute('aria-hidden','true');surface.append(patch);
@@ -62,6 +68,7 @@ worldBar.innerHTML='<strong>העולם שלך פתוח</strong><span>בחרו ס
 (document.body.classList.contains('browser-app')?host.closest('.world-stage'):document.body).append(worldBar);
 worldBar.onclick=event=>{const action=event.target.dataset.worldAction;if(action==='exit')api.leaveWorld();else if(action==='edit')api.editWorld();else if(action)api.visitRoom(action);};
 const wallFrame=surface.querySelector('.photo-wall-frame'),wallPicture=wallFrame.querySelector('img'),steps=surface.querySelector('.photo-library-steps');
+const photoBox=layout.wallPhotoFrame;Object.assign(wallFrame.style,{left:photoBox.x/W*100+'%',top:photoBox.y/H*100+'%',width:photoBox.width/W*100+'%',height:photoBox.height/H*100+'%'});
 wallFrame.onclick=()=>api.choosePhoto();
 for(const type of ['dragenter','dragover'])wallFrame.addEventListener(type,event=>{event.preventDefault();wallFrame.classList.add('dragging');});
 wallFrame.addEventListener('dragleave',()=>wallFrame.classList.remove('dragging'));

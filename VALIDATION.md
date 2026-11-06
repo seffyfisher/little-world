@@ -1,5 +1,13 @@
 # Static web validation — 2026-11-05
 
+## Office picture removal — 2026-11-06
+
+- Removed the baked left office picture, its complete frame and cast shadow using a built-in generated edit, composited only over that small wall area. Day/dusk/night share the cleared wall; the monitor-selection map uses the same patch.
+- Moved the personal-photo drop/click target to the existing library wall frame. Saved photo data and other preferences are retained.
+- Verified the updated signed Mac app in day and night lighting and the eight-screen settings map. Restored the user's night mode and left the updated wallpaper running with camera off.
+-67 Node checks passed, including persisted photo/settings and office geometry. Generated asset and exact prompt are in `docs/office-screens-prompts.md`.
+
+
 ## Eight-screen Mac office and visual settings — 2026-11-06
 
 - Native Mac has two desk monitors plus six rear-wall monitors in a 3×2 grid, replacing the window. Browser remains two monitors. Existing source/webcam assignments are retained; the six additions start empty.

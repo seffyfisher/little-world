@@ -16,6 +16,8 @@
     [[307,373],[325,373],[325,463],[307,463]],
     [[298,458],[329,458],[342,462],[344,470],[335,476],[293,476],[285,470],[287,463]]
   ];
+  const officePicturePatch={x:685,y:163,width:154,height:178};
+  const wallPhotoFrame={x:966,y:241,width:105,height:77};
   const windowPatch={x:201,y:150,width:275,height:325};
   const armchair={x:59.5,standingFeet:75,seatedFeet:70.5};
   // Fit the miniature, excluding only its empty photographed studio backdrop.
@@ -62,5 +64,5 @@
     const gx=c.direction===-1?1-g[0]:g[0];
     return {x:a.x+gx*a.size-b.width/2,y:a.y+g[1]*a.size-b.height/2,width:b.width,height:b.height};
   }
-  return {W,H,deskMonitors,deskForegroundOutlines,windowPatch,wallMonitors,fit,fitRoom,roomBounds,armchair,grips,seatGrips,climbFeet,ladder,climbMotion,shelf,shelfStand,actor,book,walkPoint};
+  return {W,H,deskMonitors,deskForegroundOutlines,officePicturePatch,wallPhotoFrame,windowPatch,wallMonitors,fit,fitRoom,roomBounds,armchair,grips,seatGrips,climbFeet,ladder,climbMotion,shelf,shelfStand,actor,book,walkPoint};
 });

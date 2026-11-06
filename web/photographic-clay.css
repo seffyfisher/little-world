@@ -2,7 +2,7 @@
 :root{--ease-out:cubic-bezier(.23,1,.32,1);--ease-in-out:cubic-bezier(.77,0,.175,1)}
 .world-interaction-bar{position:fixed;top:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;max-width:95vw;padding:12px 16px;background:#f4e7ce;border:1px solid #bca17c;border-radius:18px;box-shadow:0 7px 22px #38251926;color:#55402f;z-index:50;pointer-events:auto}
 .world-interaction-bar[hidden]{display:none}.world-interaction-bar strong{white-space:nowrap;font-size:13px}.world-interaction-bar span{font-size:11px;max-width:280px}.world-interaction-bar button{border:1px solid #c7a98a;border-radius:12px;background:#e7ceb0;padding:9px 12px;white-space:nowrap;color:inherit;font:600 12px system-ui;cursor:pointer}
-.photo-wall-frame{position:absolute;left:43.5%;top:22%;width:4.2%;height:10.4%;background:transparent;padding:0;border:0;pointer-events:auto;cursor:copy;overflow:hidden;transform:rotate(.8deg)}
+.photo-wall-frame{position:absolute;background:transparent;padding:0;border:0;pointer-events:auto;cursor:copy;overflow:hidden;transform:rotate(.8deg)}
 .photo-wall-frame img{width:100%;height:100%;object-fit:cover;display:block}.photo-wall-frame img[hidden]{display:none}
 .photo-wall-frame.dragging{outline:3px solid #f5e5ad;outline-offset:4px}
 .photo-library-steps{position:absolute;pointer-events:none;z-index:2;object-fit:fill;filter:drop-shadow(2px 3px 2px #40301c40)}
@@ -239,3 +239,8 @@
 .photo-surface[data-light=dusk] .photo-window-replacement{filter:brightness(.87) sepia(.12) saturate(.95)}
 .photo-surface[data-light=night] .photo-window-replacement{filter:brightness(.12) saturate(.5)}
 .office-screen-wall .photo-window-weather{display:none}
+
+/* The office wall is free of framed art; personal photos use the library frame. */
+.photo-office-picture-removal{position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/office-no-picture-v1.png') 0 0/100% 100% no-repeat;mask:url(#world-picture-patch)}
+.photo-surface[data-light=dusk] .photo-office-picture-removal{filter:brightness(.87) sepia(.12) saturate(.95)}
+.photo-surface[data-light=night] .photo-office-picture-removal{filter:brightness(.08) saturate(.5)}
