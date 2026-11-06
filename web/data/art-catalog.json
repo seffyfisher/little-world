@@ -1,0 +1,407 @@
+{
+  "schemaVersion": 1,
+  "provider": "Cleveland Museum of Art",
+  "generatedAt": "2026-11-06T21:05:22.868762+00:00",
+  "items": [
+    {
+      "id": 92937,
+      "accession": "1922.1133",
+      "width": 1194,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Stag at Sharkey's",
+      "artist": "George Bellows (American, 1882–1925)",
+      "date": "1909"
+    },
+    {
+      "id": 138464,
+      "accession": "1962.37",
+      "width": 1180,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Cupid and Psyche",
+      "artist": "Jacques-Louis David (French, 1748–1825)",
+      "date": "1817"
+    },
+    {
+      "id": 140408,
+      "accession": "1964.351",
+      "width": 1263,
+      "height": 892,
+      "isPublicDomain": true,
+      "title": "Peregrine Falcons (Duck Hawks)",
+      "artist": "John James Audubon (American, born Haiti, 1785–1851)",
+      "date": "c. 1827"
+    },
+    {
+      "id": 122351,
+      "accession": "1942.647",
+      "width": 900,
+      "height": 668,
+      "isPublicDomain": true,
+      "title": "The Burning of the Houses of Lords and Commons, 16 October 1834",
+      "artist": "Joseph Mallord William Turner (British, 1775–1851)",
+      "date": "1835"
+    },
+    {
+      "id": 97155,
+      "accession": "1916.793",
+      "width": 1257,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Portrait of a Couple",
+      "artist": "Unknown artist",
+      "date": "c. 1580–88"
+    },
+    {
+      "id": 134072,
+      "accession": "1956.578",
+      "width": 1179,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Sunny Autumn Day",
+      "artist": "George Inness (American, 1825–1894)",
+      "date": "1892"
+    },
+    {
+      "id": 143602,
+      "accession": "1967.63",
+      "width": 1184,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Low Waterfall in a Wooded Landscape with a Dead Beech Tree",
+      "artist": "Jacob van Ruisdael (Dutch, 1628/29–1682)",
+      "date": "c. 1660–70"
+    },
+    {
+      "id": 128392,
+      "accession": "1951.356",
+      "width": 900,
+      "height": 690,
+      "isPublicDomain": true,
+      "title": "Edge of the Woods Near L'Hermitage, Pontoise",
+      "artist": "Camille Pissarro (French, 1830–1903)",
+      "date": "1879"
+    },
+    {
+      "id": 140078,
+      "accession": "1963.91",
+      "width": 1245,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "La Cervara, the Roman Campagna",
+      "artist": "Jean Baptiste Camille Corot (French, 1796–1875)",
+      "date": "c. 1830–31"
+    },
+    {
+      "id": 145463,
+      "accession": "1971.101",
+      "width": 900,
+      "height": 645,
+      "isPublicDomain": true,
+      "title": "Danaë",
+      "artist": "Orazio Gentileschi (Italian, 1563–1639)",
+      "date": "c. 1623"
+    },
+    {
+      "id": 136217,
+      "accession": "1960.117",
+      "width": 900,
+      "height": 668,
+      "isPublicDomain": true,
+      "title": "Christ and the Virgin in the House at Nazareth",
+      "artist": "Francisco de Zurbarán (Spanish, 1598–1664)",
+      "date": "c. 1640"
+    },
+    {
+      "id": 142298,
+      "accession": "1966.13",
+      "width": 900,
+      "height": 674,
+      "isPublicDomain": true,
+      "title": "Antiochus and Stratonice",
+      "artist": "Jean-Auguste-Dominique Ingres (French, 1780–1867)",
+      "date": "c. 1838"
+    },
+    {
+      "id": 145473,
+      "accession": "1971.102",
+      "width": 1260,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "The Kiss of Peace and Justice",
+      "artist": "Laurent de La Hyre (French, 1606–1656)",
+      "date": "1654"
+    },
+    {
+      "id": 170235,
+      "accession": "2012.41",
+      "width": 1263,
+      "height": 887,
+      "isPublicDomain": true,
+      "title": "The Artist's Studio",
+      "artist": "Johann Georg Platzer (Austrian, 1704–1761)",
+      "date": "1740s–50s"
+    },
+    {
+      "id": 125234,
+      "accession": "1947.196",
+      "width": 900,
+      "height": 664,
+      "isPublicDomain": true,
+      "title": "Low Tide at Pourville, near Dieppe, 1882",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "date": "1882"
+    },
+    {
+      "id": 108555,
+      "accession": "1926.26",
+      "width": 1177,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Nymphs and a Satyr (Amor Vincit Omnia)",
+      "artist": "Nicolas Poussin (French, 1594–1665)",
+      "date": "c. 1625–27"
+    },
+    {
+      "id": 93234,
+      "accession": "1926.1653",
+      "width": 900,
+      "height": 683,
+      "isPublicDomain": true,
+      "title": "On the Beach, No. 3",
+      "artist": "Maurice Prendergast (American, born Newfoundland [now Canada], 1858–1924)",
+      "date": "c. 1915–18"
+    },
+    {
+      "id": 135173,
+      "accession": "1958.20",
+      "width": 900,
+      "height": 651,
+      "isPublicDomain": true,
+      "title": "The Brook",
+      "artist": "Paul Cezanne (French, 1839–1906)",
+      "date": "c. 1895–1900"
+    },
+    {
+      "id": 147479,
+      "accession": "1973.212",
+      "width": 1173,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Pan and Syrinx",
+      "artist": "Jean François de Troy (French, 1679–1752)",
+      "date": "1720"
+    },
+    {
+      "id": 141168,
+      "accession": "1964.420",
+      "width": 1244,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Panoramic View of the Alps, Les Dents du Midi",
+      "artist": "Gustave Courbet (French, 1819–1877)",
+      "date": "1877"
+    },
+    {
+      "id": 153374,
+      "accession": "1986.62",
+      "width": 900,
+      "height": 632,
+      "isPublicDomain": true,
+      "title": "King Bana in his court, from an Usha-Aniruddha",
+      "artist": "Unknown artist",
+      "date": "c. 1760–70"
+    },
+    {
+      "id": 95272,
+      "accession": "1916.1044",
+      "width": 900,
+      "height": 640,
+      "isPublicDomain": true,
+      "title": "Gardener's House at Antibes",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "date": "1888"
+    },
+    {
+      "id": 122345,
+      "accession": "1942.641",
+      "width": 1179,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "A Cottage in the Woods",
+      "artist": "Meindert Hobbema (Dutch, 1638–1709)",
+      "date": "c. 1662"
+    },
+    {
+      "id": 139729,
+      "accession": "1963.502",
+      "width": 1190,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Sleep",
+      "artist": "Jean Bernard Restout (French, 1732–1797)",
+      "date": "c. 1771"
+    },
+    {
+      "id": 152006,
+      "accession": "1984.59",
+      "width": 1166,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Rocky, Wooded Landscape with a Dell and Weir",
+      "artist": "Thomas Gainsborough (British, 1727–1788)",
+      "date": "c. 1782–1783"
+    },
+    {
+      "id": 143234,
+      "accession": "1967.19",
+      "width": 1239,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Landscape with a Windmill\r\n",
+      "artist": "Jacob van Ruisdael (Dutch, 1628/29–1682)",
+      "date": "1646"
+    },
+    {
+      "id": 108999,
+      "accession": "1927.171",
+      "width": 900,
+      "height": 668,
+      "isPublicDomain": true,
+      "title": "The Building of the Dam",
+      "artist": "Julian Alden Weir (American, 1852–1919)",
+      "date": "1908"
+    },
+    {
+      "id": 141641,
+      "accession": "1965.235",
+      "width": 1201,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Memento Mori, \"To This Favour\"",
+      "artist": "William Michael Harnett (American, 1848–1892)",
+      "date": "1879"
+    },
+    {
+      "id": 129220,
+      "accession": "1952.112",
+      "width": 1248,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "The Mass of Saint Gregory",
+      "artist": "Hans Baldung (German, 1484/85–1545)",
+      "date": "1511"
+    },
+    {
+      "id": 140152,
+      "accession": "1964.153",
+      "width": 1184,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Esther, Ahasuerus, and Haman",
+      "artist": "Jan Steen (Dutch, 1626–1679)",
+      "date": "c. 1668"
+    },
+    {
+      "id": 124256,
+      "accession": "1945.25",
+      "width": 1245,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Lion on the Watch",
+      "artist": "Jean-Léon Gérôme (French, 1824–1904)",
+      "date": "c. 1885"
+    },
+    {
+      "id": 124076,
+      "accession": "1944.79",
+      "width": 1241,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Coronation of the Virgin",
+      "artist": "Fra Angelico (Italian, 1400–1455)",
+      "date": "1420s"
+    },
+    {
+      "id": 320778,
+      "accession": "2019.18",
+      "width": 900,
+      "height": 643,
+      "isPublicDomain": true,
+      "title": "Banks of the Oise at Dawn",
+      "artist": "Unknown artist",
+      "date": "1888"
+    },
+    {
+      "id": 157104,
+      "accession": "1993.236",
+      "width": 1263,
+      "height": 892,
+      "isPublicDomain": true,
+      "title": "The Seine at Bas-Meudon",
+      "artist": "Johan Barthold Jongkind (Dutch, 1819–1891)",
+      "date": "1865"
+    },
+    {
+      "id": 122339,
+      "accession": "1942.636",
+      "width": 1262,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "Virgin and Child with Saints and Donors",
+      "artist": "Giovanni Battista Cima da Conegliano (Italian, c. 1459–1518) / Workshop",
+      "date": "c. 1515"
+    },
+    {
+      "id": 151257,
+      "accession": "1983.14",
+      "width": 1261,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "View of the Gulf of Pozzuoli from Solfatara",
+      "artist": "Philipp Hackert (German, 1737–1807)",
+      "date": "1803"
+    },
+    {
+      "id": 112626,
+      "accession": "1931.245",
+      "width": 1170,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "The Supper at Emmaus",
+      "artist": "Giovanni Battista Piazzetta (Italian, 1682–1754)",
+      "date": "c. 1720"
+    },
+    {
+      "id": 157228,
+      "accession": "1994.106",
+      "width": 1263,
+      "height": 893,
+      "isPublicDomain": true,
+      "title": "A Calm Watering Place—Extensive and Boundless Scene with Cattle",
+      "artist": "Alvan Fisher (American, 1792–1863)",
+      "date": "1816"
+    },
+    {
+      "id": 143304,
+      "accession": "1967.239",
+      "width": 900,
+      "height": 654,
+      "isPublicDomain": true,
+      "title": "The Heroine Who is Faithfully Loved: Madhya Svadhinapatika Nayika, from a Rasamanjari of Bhanudatta",
+      "artist": "Unknown artist",
+      "date": "c. 1710"
+    },
+    {
+      "id": 152015,
+      "accession": "1984.66",
+      "width": 900,
+      "height": 641,
+      "isPublicDomain": true,
+      "title": "Shishupala arguing with Rukmini’s father, Bhishmaka, from a Rukmini Haran",
+      "artist": "Unknown artist",
+      "date": "c. 1800"
+    }
+  ]
+}

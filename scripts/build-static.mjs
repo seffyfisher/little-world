@@ -11,6 +11,7 @@ if(existsSync(out))rmSync(out,{recursive:true});
 mkdirSync(join(out,'assets/animation'),{recursive:true});
 for(const name of readdirSync(web))if(/\.(html|css|js)$/.test(name)&&name!=='clay-scene.js')cpSync(join(web,name),join(out,name));
 cpSync(join(web,'data'),join(out,'data'),{recursive:true});
+cpSync(join(web,'assets/art'),join(out,'assets/art'),{recursive:true});
 for(const name of ['photographic-clay-room-v3.png','photographic-clay-room-night-v1.png'])cpSync(join(web,'assets',name),join(out,'assets',name));
 for(const name of readdirSync(join(web,'assets/animation')))if(name.endsWith('.png'))cpSync(join(web,'assets/animation',name),join(out,'assets/animation',name));
 if(existsSync(join(web,'CNAME')))cpSync(join(web,'CNAME'),join(out,'CNAME'));

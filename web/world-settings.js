@@ -1,8 +1,8 @@
 /* Durable visitor settings; keep the existing storage key so upgrades preserve worlds. */
 (function(root,factory){
-  const api=factory(typeof module==='object'&&module.exports?require('./energy.js'):root.LittleWorldEnergy,typeof module==='object'&&module.exports?require('./emotions.js'):root.LittleWorldEmotions);
+  const api=factory(typeof module==='object'&&module.exports?require('./energy.js'):root.LittleWorldEnergy,typeof module==='object'&&module.exports?require('./emotions.js'):root.LittleWorldEmotions,typeof module==='object'&&module.exports?require('./wall-art.js'):root.LittleWorldArt);
   if(typeof module==='object'&&module.exports)module.exports=api;else root.LittleWorldSettings=api;
-})(typeof globalThis!=='undefined'?globalThis:this,function(energy,emotions){
+})(typeof globalThis!=='undefined'?globalThis:this,function(energy,emotions,art){
   'use strict';
   const MAX_SCREENS=8;
   const SCREEN_PLACES=['שמאל על השולחן','ימין על השולחן','קיר שמאל · עליון','קיר שמאל · תחתון','מעל השולחן · שמאל עליון','מעל השולחן · ימין עליון','מעל השולחן · שמאל תחתון','מעל השולחן · ימין תחתון'];
@@ -37,7 +37,7 @@
       name: String(raw.name || 'אני').slice(0, 30),
       wander: raw.wander !== false, ambience: ['auto','day','dusk','night'].includes(raw.ambience) ? raw.ambience : 'auto',
       location: ['tel-aviv','jerusalem','london','new-york'].includes(raw.location) ? raw.location : 'tel-aviv',
-      framePhoto: energy.photo(raw.framePhoto),
+      framePhoto: energy.photo(raw.framePhoto), wallArt:art.validate(raw.wallArt||{mode:raw.framePhoto?'photo':'daily'}),
       batteryPreview: energy.previews.has(raw.batteryPreview)?raw.batteryPreview:'actual',
       batteryReactions: raw.batteryReactions!==false,
       paused: raw.paused === true,

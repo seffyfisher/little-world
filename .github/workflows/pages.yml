@@ -31,12 +31,16 @@ jobs:
           path: |
             .static-cache
             web/data/world.json
+            web/data/art-catalog.json
+            web/assets/art
           key: world-${{ runner.os }}-${{ github.run_id }}
           restore-keys: world-${{ runner.os }}-
       - name: Verify routines and static data
         run: |
           node --test tests/*.test.cjs
           python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Refresh art metadata (weekly, retaining last good catalog)
+        run: python3 scripts/refresh-art-catalog.py
       - name: Refresh public JSON
         run: python3 scripts/refresh-static-data.py
       - uses: actions/configure-pages@v5

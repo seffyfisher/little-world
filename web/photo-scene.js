@@ -13,7 +13,7 @@ surface.innerHTML=`
   <time class="photo-digital-clock" aria-label="השעה המקומית">--:--</time>
   <div class="photo-chair-shadow" aria-hidden="true"></div>
   <img class="photo-office-chair" src="assets/animation/office-chair-0.png" alt="כיסא מסתובב מפלסטלינה בצבע טורקיז" draggable="false">
-  <button class="photo-wall-frame" aria-label="בחירת תמונה למסגרת שבספרייה"><img alt="התמונה שלך על הקיר" hidden></button>
+  <button class="photo-wall-frame" aria-label="הגדרות התמונה והאמנות היומית במסגרת"><img alt="התמונה שלך על הקיר" hidden></button>
   <div class="photo-lamp-glow" aria-hidden="true"></div>
   <div class="photo-window-weather" aria-hidden="true"></div>
   <div class="photo-steam" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -69,7 +69,7 @@ worldBar.innerHTML='<strong>העולם שלך פתוח</strong><span>בחרו ס
 worldBar.onclick=event=>{const action=event.target.dataset.worldAction;if(action==='exit')api.leaveWorld();else if(action==='edit')api.editWorld();else if(action)api.visitRoom(action);};
 const wallFrame=surface.querySelector('.photo-wall-frame'),wallPicture=wallFrame.querySelector('img'),steps=surface.querySelector('.photo-library-steps');
 const photoBox=layout.wallPhotoFrame;Object.assign(wallFrame.style,{left:photoBox.x/W*100+'%',top:photoBox.y/H*100+'%',width:photoBox.width/W*100+'%',height:photoBox.height/H*100+'%'});
-wallFrame.onclick=()=>api.choosePhoto();
+wallFrame.onclick=()=>api.configureWallArt();
 for(const type of ['dragenter','dragover'])wallFrame.addEventListener(type,event=>{event.preventDefault();wallFrame.classList.add('dragging');});
 wallFrame.addEventListener('dragleave',()=>wallFrame.classList.remove('dragging'));
 wallFrame.addEventListener('drop',event=>{event.preventDefault();wallFrame.classList.remove('dragging');api.importPhoto(event.dataTransfer.files[0]);});
@@ -130,7 +130,7 @@ function update(next){
   state=next;
   document.body.classList.toggle('in-world',!!state.interaction);
   worldBar.hidden=!state.interaction;
-  wallPicture.hidden=!state.framePhoto;if(state.framePhoto&&wallPicture.src!==state.framePhoto)wallPicture.src=state.framePhoto;
+  wallPicture.alt=state.framePhotoLabel||'התמונה שלך על הקיר';wallPicture.hidden=!state.framePhoto;if(state.framePhoto&&wallPicture.src!==state.framePhoto)wallPicture.src=state.framePhoto;
   surface.dataset.light=state.mode;
   if(state.mode==='night'&&!nightPlate.getAttribute('src'))nightPlate.src='assets/photographic-clay-room-night-v1.png';
   surface.querySelector('.photo-window-weather').dataset.rain=String((state.weather?.weather_code||0)>=50);

@@ -46,6 +46,35 @@
   const camera=window.LittleWorldCamera.create({getMedia:constraints=>{if(!navigator.mediaDevices?.getUserMedia)throw Object.assign(new Error('Unavailable'),{name:'NotSupportedError'});return nativeManaged&&Array.isArray(window.littleWorldLocalCameras)?window.LittleWorldLocalCamera.capture(navigator.mediaDevices,window.littleWorldLocalCameras,constraints):navigator.mediaDevices.getUserMedia(constraints);},emit:()=>{publishScene();updateCameraControls();}});
   const requests=new Set(),feedChecked=new Map();let weatherChecked=-Infinity,weatherCheckedLocation='';
   function isActive(){return nativeManaged?hostActive:!document.hidden&&(!portraitMobile||!!drawerMode);}
+  const Art=window.LittleWorldArt;
+  const dailyArt=Art.create({runtime,getState:()=>config.wallArt,loadCatalog:()=>getJSON('data/art-catalog.json'),loadPhoto:loadArtPhoto,
+    saveState:value=>{config.wallArt=value;save();},emit:()=>updateArtControls()});
+  function framePhoto(){return config.wallArt.mode==='daily'&&config.wallArt.photo?config.wallArt.photo:config.framePhoto||'';}
+  function updateArtControls(){
+    const label=$('#daily-art-status');if(!label)return;
+    label.textContent=dailyArt.busy?'בוחרים יצירה שמתאימה למסגרת…':dailyArt.status==='error'?'לא הצלחנו לטעון יצירה חדשה. התמונה הקודמת נשמרת; ננסה שוב כשהעולם גלוי.':config.wallArt.photo?'יצירת הבוקר שמורה · מתחלפת ב־07:00 לפי השעה המקומית':'היצירה הראשונה תיטען כשהעולם גלוי.';
+    const button=$('#change-daily-art');if(button)button.disabled=dailyArt.busy;
+    const details=$('#daily-art-details'),artwork=config.wallArt.artwork;
+    if(details){details.replaceChildren();if(artwork){const text=document.createElement('p');text.dir='auto';text.textContent=`${artwork.title} · ${artwork.artist}${artwork.date?' · '+artwork.date:''}`;const link=document.createElement('a');link.href=Art.pageURL(artwork);link.target='_blank';link.rel='noopener noreferrer';link.textContent='היצירה במוזיאון קליבלנד · נחלת הכלל';details.append(text,link);}}
+    const preview=$('#daily-art-preview');if(preview){preview.hidden=!config.wallArt.photo;if(config.wallArt.photo&&preview.src!==config.wallArt.photo)preview.src=config.wallArt.photo;}
+  }
+  async function loadArtPhoto(artwork){
+    if(!isActive())throw new DOMException('Scene is not visible','AbortError');
+    const controller=new AbortController();requests.add(controller);
+    let url;
+    try{
+      const response=await fetch(Art.imageURL(artwork),{signal:AbortSignal.any([controller.signal,AbortSignal.timeout(30000)])});
+      if(!response.ok)throw new Error('Image unavailable');
+      const blob=await response.blob();if(blob.size>2000000||!['image/jpeg','image/png','image/webp'].includes(blob.type))throw new Error('Unsupported image');
+      url=URL.createObjectURL(blob);const image=new Image();image.src=url;await image.decode();
+      if(controller.signal.aborted||!isActive())throw new DOMException('Scene is not visible','AbortError');
+      if(!Art.fits(image.naturalWidth,image.naturalHeight))throw new Error('Image does not fit the frame');
+      const scale=Math.min(1,843/Math.max(image.naturalWidth,image.naturalHeight)),canvas=document.createElement('canvas');
+      canvas.width=Math.round(image.naturalWidth*scale);canvas.height=Math.round(image.naturalHeight*scale);canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+      return canvas.toDataURL('image/jpeg',.85);
+    }finally{requests.delete(controller);if(url)URL.revokeObjectURL(url);}
+  }
+
 
   document.body.classList.toggle('wallpaper-mode', wallpaperMode);
   $$('#world path,#world rect,#world circle,#world ellipse,#world image,#world defs').forEach(element => element.setAttribute('aria-hidden', 'true'));
@@ -59,7 +88,7 @@
     const saved=settingsStore.write(config);
     if(!saved)toast('השינויים פעילים, אבל לא הצלחנו לשמור אותם לפעם הבאה.');
     native('save', {value: JSON.stringify(config)});
-    render();return saved;
+    dailyArt.sync();render();updateArtControls();return saved;
   }
   function toast(message) {
     $('#toast').textContent = message;
@@ -86,7 +115,7 @@
   function sceneState() {
     const library = librarySource();
     return {
-      name: config.name, paused, active:isActive(), lowPower, reducedMotion: reducedMotion.matches,interaction,energy,framePhoto:config.framePhoto||'',
+      name: config.name, paused, active:isActive(), lowPower, reducedMotion: reducedMotion.matches,interaction,energy,framePhoto:framePhoto(),framePhotoLabel:config.wallArt.mode==='daily'&&config.wallArt.artwork?`${config.wallArt.artwork.title} · ${config.wallArt.artwork.artist}`:'התמונה שלך על הקיר',
       mode: document.body.classList.contains('night') ? 'night' : document.body.classList.contains('dusk') ? 'dusk' : 'day',
       room: selectedRoom, weather: weather?.current || null,camera:camera.snapshot(),
       screens: SCREEN_INDICES.map(index => {
@@ -110,7 +139,7 @@
   }
   function setPhoto(value){
     const photo=window.LittleWorldEnergy.photo(value);if(!photo)return;
-    config.framePhoto=photo;const saved=save();if(drawerMode==='settings'&&settingsTab==='world')renderSettings();if(saved)toast(`התמונה במסגרת שעל הקיר. נשמרה ${savedPlace}.`);
+    config.framePhoto=photo;config.wallArt.mode='photo';const saved=save();if(drawerMode==='settings'&&settingsTab==='world')renderSettings();if(saved)toast(`התמונה במסגרת שעל הקיר. נשמרה ${savedPlace}.`);
   }
   async function importPhoto(file){
     if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>20000000){toast('בחרו תמונת JPG, PNG או WebP בגודל של עד 20MB.');return;}
@@ -336,7 +365,7 @@
     const guide=$('.portrait-guide');if(guide)guide.dataset.moving=String(portraitMotion.active);
     document.body.dataset.runtimeActive=String(active);document.body.dataset.lowPower=String(lowPower);
     document.body.classList.toggle('runtime-suspended',!active);
-    runtime.setActive(active);camera.setActive(active&&!paused&&!portraitMobile);
+    runtime.setActive(active);dailyArt.setActive(active);camera.setActive(active&&!paused&&!portraitMobile);
     if(active&&!paused&&!compactEditor&&!portraitMobile&&pendingEnergyMood){const mood=pendingEnergyMood;pendingEnergyMood=null;routine.express(mood,reducedMotion.matches);}
     chairMotion.setActivity({active:active&&!portraitMobile,paused,lowPower,reducedMotion:reducedMotion.matches});
     if(active){tickClock();runtime.set('clock',tickClock,roomProps.clock().delay);}
@@ -483,12 +512,19 @@
       $('#visit-office').onclick = () => { closeDrawer(); goTo('office'); };
       $('#visit-library').onclick = () => { closeDrawer(); goTo('library'); };
     } else {
-      $('#drawer-content').innerHTML=tabs+`<label class="field">תאורה<select id="world-light"><option value="auto">לפי מראה המערכת</option><option value="day">יום</option><option value="dusk">דמדומים</option><option value="night">לילה חשוך · מנורה ואור ירח</option></select></label><div class="divider"></div><h3>תמונה על הקיר בספרייה</h3><button class="photo-drop-zone" id="edit-wall-photo">${config.framePhoto?`<img src="${config.framePhoto}" alt="התמונה ששמרת במסגרת">`:''}<span>גררו לכאן תמונה או לחצו לבחירה</span><small>JPG, PNG או WebP · נשמרת ${savedPlace}</small></button>${config.framePhoto?'<button class="secondary" id="clear-wall-photo">הסרת התמונה מהמסגרת</button>':''}<div class="divider"></div><h3>עולם שמרגיש את הסוללה שלך</h3><p id="energy-label">${escape(energy.label)}</p><label class="toggle-row"><input type="checkbox" id="battery-reactions" ${config.batteryReactions?'checked':''}> הדמות מגיבה לסוללה חלשה ולטעינה</label><p class="note">הצמחים מתחילים להתכופף ב־35%, נובלים ב־20% וכמעט מאבדים את כל העלים ב־10%. חיבור לחשמל מחזיר אותם לחיים.</p><label class="field">הדמיית מצב סוללה<select id="battery-preview"><option value="actual">סוללת ${nativeManaged?'ה־Mac':'המכשיר'}</option><option value="35">35% · צמחים כפופים</option><option value="15">15% · צמחים נבולים</option><option value="5">5% · כמעט בלי עלים</option><option value="charging">מחובר לחשמל · מתאוששים</option></select></label><p class="note">ההדמיה משפיעה רק על העולם הזה. בחרו בסוללת המכשיר כדי לחזור למצב האמיתי.</p>`;
+      $('#drawer-content').innerHTML=tabs+`<label class="field">תאורה<select id="world-light"><option value="auto">לפי מראה המערכת</option><option value="day">יום</option><option value="dusk">דמדומים</option><option value="night">לילה חשוך · מנורה ואור ירח</option></select></label><div class="divider"></div><h3>תמונה על הקיר בספרייה</h3><label class="field">מה מוצג במסגרת<select id="wall-art-mode"><option value="photo">תמונה אישית</option><option value="daily">יצירת הבוקר · מוזיאון קליבלנד</option></select></label>${config.wallArt.mode==='daily'?'<div class="daily-art-panel"><img id="daily-art-preview" class="daily-art-preview" alt="היצירה במסגרת" hidden><p id="daily-art-status" role="status"></p><div id="daily-art-details"></div><button class="secondary" id="change-daily-art">יצירה אחרת</button><p class="note">הגרלה מתוך אוסף יצירות בנחלת הכלל שמתאימות למסגרת. ללא מפתח או התחברות. אם העולם מוסתר או המחשב ישן, העדכון ממתין לחזרה אליו.</p></div>':''}<button class="photo-drop-zone" id="edit-wall-photo">${config.framePhoto?`<img src="${config.framePhoto}" alt="התמונה ששמרת במסגרת">`:''}<span>גררו לכאן תמונה או לחצו לבחירה</span><small>JPG, PNG או WebP · נשמרת ${savedPlace}</small></button><p class="note">יחס המסגרת: <bdi>${(window.LittleWorldLayout.wallPhotoFrame.width/window.LittleWorldLayout.wallPhotoFrame.height).toFixed(2)}:1</bdi> · התמונה מוצגת בשלמותה, ללא מתיחה או חיתוך. בתמונה ביחס אחר יישאר שול בהיר.</p>${config.framePhoto?'<button class="secondary" id="clear-wall-photo">הסרת התמונה מהמסגרת</button>':''}<div class="divider"></div><h3>עולם שמרגיש את הסוללה שלך</h3><p id="energy-label">${escape(energy.label)}</p><label class="toggle-row"><input type="checkbox" id="battery-reactions" ${config.batteryReactions?'checked':''}> הדמות מגיבה לסוללה חלשה ולטעינה</label><p class="note">הצמחים מתחילים להתכופף ב־35%, נובלים ב־20% וכמעט מאבדים את כל העלים ב־10%. חיבור לחשמל מחזיר אותם לחיים.</p><label class="field">הדמיית מצב סוללה<select id="battery-preview"><option value="actual">סוללת ${nativeManaged?'ה־Mac':'המכשיר'}</option><option value="35">35% · צמחים כפופים</option><option value="15">15% · צמחים נבולים</option><option value="5">5% · כמעט בלי עלים</option><option value="charging">מחובר לחשמל · מתאוששים</option></select></label><p class="note">ההדמיה משפיעה רק על העולם הזה. בחרו בסוללת המכשיר כדי לחזור למצב האמיתי.</p>`;
+      $('#wall-art-mode').value=config.wallArt.mode;
+      $('#wall-art-mode').onchange=event=>{config.wallArt.mode=event.target.value;save();renderSettings();};
+      if($('#change-daily-art'))$('#change-daily-art').onclick=()=>dailyArt.refresh(true);
+      updateArtControls();
       $('#world-light').value=config.ambience;
       $('#world-light').onchange=event=>{config.ambience=event.target.value;save();};
       $('#battery-preview').value=config.batteryPreview||'actual';
       $('#battery-preview').onchange=event=>{config.batteryPreview=event.target.value;save();activityChanged();renderSettings();};
       $('#battery-reactions').onchange=event=>{config.batteryReactions=event.target.checked;if(!config.batteryReactions)pendingEnergyMood=null;save();};
+      $('#edit-wall-photo').style.setProperty('--wall-photo-ratio',`${window.LittleWorldLayout.wallPhotoFrame.width} / ${window.LittleWorldLayout.wallPhotoFrame.height}`);
+      $('#edit-wall-photo').style.display=config.wallArt.mode==='daily'?'none':'';
+      if($('#clear-wall-photo'))$('#clear-wall-photo').hidden=config.wallArt.mode==='daily';
       $('#edit-wall-photo').onclick=()=>choosePhoto();
       for(const type of ['dragenter','dragover'])$('#edit-wall-photo').addEventListener(type,event=>{event.preventDefault();event.currentTarget.classList.add('dragging');});
       $('#edit-wall-photo').addEventListener('dragleave',event=>event.currentTarget.classList.remove('dragging'));
@@ -653,6 +689,7 @@
     editScreen:index=>{settingsScreen=index;config.editorScreen=index;save();openSettings('connections');},
     readBook,expressMood,setCameraEnabled:value=>value?camera.enable():camera.disable(),
     selectBook,walkTo,importPhoto,setPhoto,choosePhoto,
+    configureWallArt(){if(nativeManaged){config.editorTab='world';save();native('edit');}else openSettings('world');},
     enterWorld:()=>setInteraction(true),leaveWorld:()=>setInteraction(false),
     editWorld:()=>nativeManaged?native('edit'):openSettings('world'),
     command(name){
@@ -667,7 +704,7 @@
     openBookAt(index) { const source=librarySource(), book=shelfBooks()[index]; if (book) openBook(source,book); },
     visitRoom:goTo,
     restoreNative(value) {
-    try { const previousRoom=selectedRoom;config = validateConfig(JSON.parse(value));settingsScreen=config.editorScreen;settingsTab=config.editorTab;camera.setModes(config.screenModes.slice(0,SCREEN_COUNT));updateEnergy();settingsStore.write(config);selectRoom(config.room);if(previousRoom!==config.room)routine.visit(config.room,true);render();setPaused(config.paused,false);if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
+    try { const previousRoom=selectedRoom;config = validateConfig(JSON.parse(value));settingsScreen=config.editorScreen;settingsTab=config.editorTab;camera.setModes(config.screenModes.slice(0,SCREEN_COUNT));updateEnergy();settingsStore.write(config);dailyArt.sync();selectRoom(config.room);if(previousRoom!==config.room)routine.visit(config.room,true);render();setPaused(config.paused,false);if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
     catch { /* Keep the current usable setup. */ }
   }};
   camera.setModes(config.screenModes.slice(0,SCREEN_COUNT));selectRoom(config.room);

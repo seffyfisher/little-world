@@ -23,6 +23,18 @@ The interface is in Hebrew with RTL settings and accessible labels. Feed headlin
 - Actual battery reactions use the browser's optional Battery Status API. Unsupported/denied access is labeled unavailable; explicit previews still work.
 - **Webcam monitors:** open the editor → **Connections** → choose **Webcam · this device** for either monitor. The browser requests video permission when you enable it. Both monitors can share one mirrored camera stream. Video stays on the device, with no microphone capture, recording or upload. Turn it off in the editor or switch the monitor back to a feed. Capture stops while hidden, paused or showing the portrait rotation prompt; a previously enabled session resumes when the world returns. The monitor choice is saved, but a new page visit needs a tap to enable capture again.
 
+## Daily artwork
+
+The library's wall frame can show a personal image or **יצירת הבוקר · מוזיאון קליבלנד** in World settings. Worlds with no personal image start in daily mode; existing personal photos stay selected. Clicking the frame opens its settings. A manual upload switches back to the personal image, and switching modes preserves both saved images.
+
+Daily mode randomly selects from a bundled catalog of40 CC0 paintings from the [Cleveland Museum of Art](https://www.clevelandart.org/open-access). Original web-image dimensions must be within5% of the actual105:77 frame ratio and at least420×300. The browser decodes the selected image and checks its dimensions again. The whole image fits inside the frame without stretching or cropping. The editor shows the title, artist, date and museum link. **יצירה אחרת** selects another work, avoiding the most recent30 selections when possible.
+
+The deadline is07:00 in the device's local timezone. Hidden worlds schedule no art work; an overdue update runs when the world becomes visible again. A failed load retains the previous successful picture, tries up to3 different candidates, then waits an hour before retrying while visible. Selection, image and history persist in localStorage and the Mac's existing saved configuration. The original personal photo is stored separately.
+
+Only the selected image loads at runtime, from the same static host or local Mac bundle. This requires no API keys, account, proxy or running server on the public website. The image is cached locally as a small JPEG. The publication workflow refreshes the catalog weekly using `python3 scripts/refresh-art-catalog.py`; use `--force` for an explicit refresh. The builder uses Python3 and curl, fetches only CC0 records and their corresponding web images, and retains the last complete catalog on source failure. Metadata and source JPEGs are in `web/data/art-catalog.json` and `web/assets/art/`. These files are bundled with the Mac app too.
+
+The initial Chicago integration was not shipped: its image endpoint returned an interactive Cloudflare challenge during actual browser testing. Cleveland's source images are published with the static app so museum CORS and availability do not block everyday use. Source/API documentation: [CMA Open Access API](https://openaccess-api.clevelandart.org/).
+
 ## Built-in RSS catalog
 
 Connections includes a searchable, categorized catalog from [tuan3w/awesome-tech-rss](https://github.com/tuan3w/awesome-tech-rss). Select a monitor in the office picture, search by feed name, URL or Hebrew/English category, then choose the feed in **מקור התוכן למסך**. Selection applies immediately and is saved locally. There are141 unique feeds across12 categories, imported from143 OPML records; duplicate HTTP/HTTPS entries share one choice.
