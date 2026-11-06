@@ -1,5 +1,13 @@
 # Static web validation — 2026-11-05
 
+## Edge-to-edge landscape correction — 2026-11-06
+
+- Reproduced the remaining letterboxing with a geometry regression: the contain framing failed the requirement to cover both viewport dimensions at844×390.
+- Phone landscape up to600px high now uses cover framing across the full viewport, allowing outer scenery to crop without stretching the clay. The notch/home-indicator safe areas apply to controls, not to scene size. Desktop keeps the whole-room contain framing.
+- Added a direct landscape fullscreen action using a user gesture and `navigationUI: hide`, plus a clear Home Screen fallback and standalone web-app metadata/manifest. The preview browser entered and exited fullscreen successfully through the button.
+- Browser viewport verification at844×390 and667×375 showed the enlarged scene with both monitors and all12 book buttons inside the viewport. The latter crops outer plants/walls as expected. Portrait still shows only the rotation prompt. Physical mobile browser/address-bar behavior remains unverified.
+-56 Node tests and3 Python tests passed. Cover regressions include six landscape sizes, including a short844×270 viewport. JavaScript syntax and whitespace checks passed.
+
 ## Mobile-first immersive entry — 2026-11-06
 
 ### Larger landscape framing and webcam monitors

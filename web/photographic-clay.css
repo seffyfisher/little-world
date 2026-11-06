@@ -147,10 +147,12 @@
 .world-immersive #world{display:none}
 .browser-app.world-immersive .clay-world{inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
 .world-immersive .photo-surface{touch-action:manipulation}
-.world-editor-launcher{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(env(safe-area-inset-right,0px) + 12px);z-index:8;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #ae92735c;border-radius:50%;background:#efe1cbe8;color:#594c3d;box-shadow:0 2px 8px #30231b1a;cursor:pointer;touch-action:manipulation}
-.world-editor-launcher:active{transform:scale(.95)}
+.world-editor-launcher,.world-expand-launcher{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(env(safe-area-inset-right,0px) + 12px);z-index:8;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #ae92735c;border-radius:50%;background:#efe1cbe8;color:#594c3d;box-shadow:0 2px 8px #30231b1a;cursor:pointer;touch-action:manipulation}
+.world-editor-launcher:active,.world-expand-launcher:active{transform:scale(.95)}
+.world-expand-launcher{display:none;right:calc(env(safe-area-inset-right,0px) + 64px)}
+.world-expand-launcher[hidden]{display:none!important}
 .portrait-guide{display:none}
-.night .world-editor-launcher{background:#24262ee8;color:#ded3bd;border-color:#5c5a5d}
+.night .world-editor-launcher,.night .world-expand-launcher{background:#24262ee8;color:#ded3bd;border-color:#5c5a5d}
 .editor-world-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:20px}
 .editor-world-controls button{min-height:44px;padding:10px;white-space:normal}
 .world-immersive .drawer{box-sizing:border-box;top:max(8px,env(safe-area-inset-top,0px));right:max(8px,env(safe-area-inset-right,0px));bottom:max(8px,env(safe-area-inset-bottom,0px));width:min(470px,calc(100vw - max(8px,env(safe-area-inset-left,0px)) - max(8px,env(safe-area-inset-right,0px))));padding:22px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
@@ -165,7 +167,9 @@
  .world-immersive .drawer{padding:18px;border-radius:20px}
  .world-immersive .drawer-head{top:-18px}.world-immersive .drawer h2{font-size:27px}
 }
-@media(orientation:landscape) and (max-height:500px){
+@media(orientation:landscape) and (max-height:600px){
+ .browser-app.world-immersive .clay-world{inset:0}
+ .world-expand-launcher{display:grid;top:calc(env(safe-area-inset-top,0px) + 8px);right:calc(env(safe-area-inset-right,0px) + 60px)}
  .world-editor-launcher{top:calc(env(safe-area-inset-top,0px) + 8px);right:calc(env(safe-area-inset-right,0px) + 8px)}
  .world-immersive .drawer-head{position:relative;top:0;padding-top:0}
  .editor-world-controls{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:14px}

@@ -72,10 +72,10 @@ plate.addEventListener('load',showPhoto);
 plate.addEventListener('error',()=>{host.hidden=true;document.body.classList.remove('photo-clay');});
 function resize(){
   const bounds=host.getBoundingClientRect();
-  // The editor's wide stage crops only the empty studio backdrop above/below the model.
-  // Keep the entire miniature visible in wallpaper mode and narrow layouts.
+  // Phone landscape fills the screen; the outer scenery can crop without stretching the clay.
+  // Desktop and native wallpaper retain the complete miniature.
   const fillEditor=!document.body.classList.contains('browser-app')&&!document.body.classList.contains('wallpaper-mode')&&bounds.width/bounds.height>1.7;
-  const fit=document.body.classList.contains('world-immersive')?layout.fitRoom(bounds.width,bounds.height):layout.fit(bounds.width,bounds.height);
+  const fit=document.body.classList.contains('world-immersive')?layout.fitRoom(bounds.width,bounds.height,matchMedia('(orientation: landscape) and (max-height: 600px)').matches?'cover':'contain'):layout.fit(bounds.width,bounds.height);
   width=fillEditor?bounds.width:fit.width;height=width*H/W;
   surface.style.width=`${width}px`;surface.style.height=`${height}px`;
   surface.style.left=`${fillEditor?(bounds.width-width)/2:fit.left}px`;surface.style.top=`${fillEditor?(bounds.height-height)/2:fit.top}px`;

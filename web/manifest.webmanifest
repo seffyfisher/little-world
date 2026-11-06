@@ -1,0 +1,11 @@
+{
+  "id": "./",
+  "name": "Little World",
+  "short_name": "Little World",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["fullscreen", "standalone"],
+  "background_color": "#ead4b3",
+  "theme_color": "#ead4b3"
+}

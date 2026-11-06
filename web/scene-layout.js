@@ -7,8 +7,8 @@
   const armchair={x:59.5,standingFeet:75,seatedFeet:70.5};
   // Fit the miniature, excluding only its empty photographed studio backdrop.
   const roomBounds={left:8,top:128,width:1648,height:704};
-  function fitRoom(width,height){
-    const scale=Math.max(0,Math.min(width/roomBounds.width,height/roomBounds.height));
+  function fitRoom(width,height,mode='contain'){
+    const scale=Math.max(0,(mode==='cover'?Math.max:Math.min)(width/roomBounds.width,height/roomBounds.height));
     return {width:W*scale,height:H*scale,left:(width-roomBounds.width*scale)/2-roomBounds.left*scale,top:(height-roomBounds.height*scale)/2-roomBounds.top*scale};
   }
   // Measured centres of the book prop in the four generated transfer poses.

@@ -393,7 +393,7 @@
     return `<div class="office-screen-settings"><h3>Office screens</h3><p class="note">Choose a published source or your live webcam for each monitor.</p>${[0,1].map(index=>`<label class="field">Screen ${index+1} · ${index?'right':'left'} monitor<select data-screen-index="${index}"><option value="">No source assigned</option><option value="__webcam__" ${config.screenModes[index]==='webcam'?'selected':''}>Webcam · this device</option>${sources.map(source=>`<option value="${escape(source.id)}" ${config.screenModes[index]!=='webcam'&&config.officeScreens[index]===source.id?'selected':''}>${escape(source.name)}</option>`).join('')}</select></label>`).join('')}${selected?`<div class="camera-settings"><p id="camera-status" role="status">${escape(camera.snapshot().label)}</p><div class="form-row"><button class="secondary" id="camera-start">Enable webcam</button><button class="secondary" id="camera-stop">Turn off webcam</button></div><p class="note">Video stays on this device. No microphone, recording or upload. Both monitors share one camera. After a reload, tap to enable it again.</p></div>`:''}</div>`;
   }
   function renderSettings() {
-    const controls=browserApp?`<div class="editor-world-controls" role="group" aria-label="World actions"><button class="secondary" id="editor-pause">${paused?'Resume':'Pause'}</button><button class="secondary" id="editor-interaction">${interaction?'Leave world':'Enter world'}</button><button class="secondary" id="editor-read">Read a book</button><button class="secondary" id="editor-office">Office</button><button class="secondary" id="editor-library">Library</button><button class="secondary" id="editor-refresh">Check updates</button>${document.fullscreenEnabled?'<button class="secondary" id="editor-fullscreen">Full screen</button>':''}</div>`:'';
+    const controls=browserApp?`<div class="editor-world-controls" role="group" aria-label="World actions"><button class="secondary" id="editor-pause">${paused?'Resume':'Pause'}</button><button class="secondary" id="editor-interaction">${interaction?'Leave world':'Enter world'}</button><button class="secondary" id="editor-read">Read a book</button><button class="secondary" id="editor-office">Office</button><button class="secondary" id="editor-library">Library</button><button class="secondary" id="editor-refresh">Check updates</button><button class="secondary" id="editor-fullscreen">Full screen</button></div>`:'';
     const tabs = controls+`<div class="drawer-tabs"><button data-tab="connections" class="${settingsTab === 'connections' ? 'active' : ''}">Connections</button><button data-tab="character" class="${settingsTab === 'character' ? 'active' : ''}">Character</button><button data-tab="world" class="${settingsTab === 'world' ? 'active' : ''}">World</button></div>`;
     if (settingsTab === 'connections') {
       $('#drawer-content').innerHTML = tabs + `<p>Bring live content into your rooms. Connect an RSS feed or paste a website: we discover its feed or read its current page content.</p>${screenControls()}<div id="source-list">${config.sources.map(s => `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(s.name)}</h3><span class="status">${status(s)}</span></div><div class="source-url">${escape(s.url)}</div><div class="source-meta">${escape(sourcePlace(s))} · ${sourceKind(s)}</div><div class="source-actions"><button data-edit="${escape(s.id)}">Edit connection</button><button data-view="${escape(s.id)}">Open object ↗</button><button class="danger" data-remove="${escape(s.id)}" aria-label="Remove ${escape(s.name)}">Remove</button></div></article>`).join('') || '<div class="empty">Your rooms are waiting.<br>Add your first website below.</div>'}</div><button class="primary full" id="add-source">＋ Add a website</button><p class="note">Up to 20 connections. Changes save automatically ${savedPlace}. ${staticData?'Published JSON is checked every5 minutes; upstream data refreshes when the site is republished.':'Office feeds and websites refresh every5 minutes.'} The e-vrit new-books shelves refresh daily at midnight in Israel. Websites expose public page headings or discovered feeds. Sign-in and JavaScript-only sites need a dedicated adapter.</p><div class="divider"></div><label class="field">Weather outside your window<select id="location"><option value="tel-aviv">Tel Aviv</option><option value="jerusalem">Jerusalem</option><option value="london">London</option><option value="new-york">New York</option></select><small>Illustrated weather comes from Open-Meteo. This is a chosen city; your location is not detected.</small></label><p class="note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather data by Open-Meteo ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>`;
@@ -626,9 +626,25 @@
     $('#web-enter-focused').hidden=false;$('#web-enter-focused').onclick=()=>setInteraction(!interaction);
     $('#web-read').hidden=false;$('#web-read').onclick=()=>readBook();
     setFocusView(true);setInteraction(true);
-    const full=$('#web-fullscreen');full.hidden=!document.fullscreenEnabled;
-    full.onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else{setFocusView(true);await document.documentElement.requestFullscreen();}}catch{toast('Full screen is unavailable here. Focus view is still available.');}};
-    document.addEventListener('fullscreenchange',()=>{full.textContent=document.fullscreenElement?'Exit full screen':'Full screen';});
+    const full=$('#web-fullscreen'),expand=$('#world-expand-launcher');
+    const standalone=matchMedia('(display-mode: standalone)'),fullDisplay=matchMedia('(display-mode: fullscreen)');
+    const installed=()=>standalone.matches||fullDisplay.matches||navigator.standalone===true;
+    const canExpand=!!document.fullscreenEnabled&&!!document.documentElement.requestFullscreen;
+    const updateFullscreen=()=>{
+      const active=!!document.fullscreenElement;
+      full.hidden=false;full.textContent=active?'Exit full screen':'Full screen';
+      expand.hidden=installed()&&!active;
+      expand.setAttribute('aria-label',active?'Exit full screen':'Enter full screen');
+      expand.title=active?'Exit full screen':'Enter full screen';
+    };
+    const toggleFullscreen=async()=>{
+      if(!document.fullscreenElement&&!canExpand){toast('For a view without browser bars: Share → Add to Home Screen, then open Little World from its icon.');return;}
+      try{if(document.fullscreenElement)await document.exitFullscreen();else{setFocusView(true);await document.documentElement.requestFullscreen({navigationUI:'hide'});}}
+      catch{toast('Full screen was unavailable. Open Little World from Add to Home Screen for a view without browser bars.');}
+    };
+    full.onclick=toggleFullscreen;expand.onclick=toggleFullscreen;
+    document.addEventListener('fullscreenchange',updateFullscreen);
+    standalone.addEventListener('change',updateFullscreen);fullDisplay.addEventListener('change',updateFullscreen);updateFullscreen();
     window.LittleWorldBrowser.observeBattery(navigator,value=>{power=value;updateEnergy();activityChanged();});
   }
   if(compactEditor)openSettings('world');

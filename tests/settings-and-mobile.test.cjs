@@ -48,3 +48,14 @@ test('immersive framing maximizes the miniature inside notch-safe bounds without
  }
  assert(fitRoom(844,390).width>fit(844,390).width*1.2,'wide phones should show a meaningfully larger miniature');
 });
+
+test('landscape fill framing covers both viewport dimensions instead of letterboxing',()=>{
+ for(const [width,height] of [[844,390],[667,375],[932,430],[740,320],[844,270],[1024,600]]){
+  const box=fitRoom(width,height,'cover'),scale=box.width/W;
+  const left=box.left+roomBounds.left*scale,top=box.top+roomBounds.top*scale;
+  const right=left+roomBounds.width*scale,bottom=top+roomBounds.height*scale;
+  assert(left<=.001&&top<=.001,`${width}×${height}: no top or left letterbox`);
+  assert(right>=width-.001&&bottom>=height-.001,`${width}×${height}: no bottom or right letterbox`);
+  assert(Math.abs(box.width/box.height-W/H)<.0001,'clay proportions remain unchanged');
+ }
+});
