@@ -32,7 +32,7 @@
       : office[i]?.id || null);
     return {
       schemaVersion: 2, officeScreens,screenModes:[0,1].map(i=>raw.screenModes?.[i]==='webcam'?'webcam':'source'),
-      name: String(raw.name || 'You').slice(0, 30),
+      name: String(raw.name || 'אני').slice(0, 30),
       wander: raw.wander !== false, ambience: ['auto','day','dusk','night'].includes(raw.ambience) ? raw.ambience : 'auto',
       location: ['tel-aviv','jerusalem','london','new-york'].includes(raw.location) ? raw.location : 'tel-aviv',
       framePhoto: energy.photo(raw.framePhoto),

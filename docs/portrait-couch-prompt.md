@@ -1,0 +1,7 @@
+# Portrait couch asset
+
+Generated with the built-in image-generation tool. Transparent PNG: `web/assets/portrait-couch-v1.png`. Reference images: `web/assets/photographic-clay-room-v3.png` (material/palette/perspective), `web/assets/animation/character-seat-3.png` (seated viewing angle only).
+
+## Prompt
+
+Use case: product-mockup. Asset type: one isolated transparent PNG couch prop for a tiny clay world web animation. Reference image 1 supplies the material, mustard yellow palette, perspective and lighting. Reference image 2 supplies the seated character's viewing angle and scale, for later compositing; DO NOT include the person or book in your output. Create ONLY an empty small two-seat mustard yellow couch, facing camera, with a very slightly visible right side and seat surface seen from a gently elevated camera, matching the original photographed miniature room. Hand sculpted real plasticine photographed with soft studio light, visible fingerprints, imperfect rounded cushions, two seat cushions, short brown wooden legs. Front edge of seat at about 64 percent of image height, backrest top about 20 percent; leave room above for a character's head. Entire couch and feet visible, centered, wide silhouette. It must convincingly look like an actual small handmade clay object, not CGI or smooth 3D render. Warm soft light from upper left. A minimal soft contact shadow beneath couch only. Genuinely transparent background, no floor, no room, no lettering, no people, no books. Output the single clean couch prop.

@@ -32,11 +32,11 @@ test('capture approved while hidden is stopped, and starts fresh after returning
 });
 test('permission denial stays explicit and does not repeatedly prompt on visibility changes',async()=>{
  let calls=0;const c=ready(()=>{calls++;throw Object.assign(new Error('denied'),{name:'NotAllowedError'});});await c.enable();
- assert.match(c.snapshot().label,/permission was not granted/);c.setActive(false);c.setActive(true);assert.equal(calls,1);await c.enable();assert.equal(calls,2);
+ assert.match(c.snapshot().label,/לא ניתנה הרשאה/);c.setActive(false);c.setActive(true);assert.equal(calls,1);await c.enable();assert.equal(calls,2);
 });
 test('disconnects and page disposal stop camera tracks and expose reconnect state',async()=>{
  const stream=media();const c=ready(()=>stream);await c.enable();stream.track.dispatchEvent(new Event('ended'));
- assert.equal(stream.track.stops,1);assert.match(c.snapshot().label,/disconnected/);assert.equal(c.snapshot().intent,false);
+ assert.equal(stream.track.stops,1);assert.match(c.snapshot().label,/התנתקה/);assert.equal(c.snapshot().intent,false);
  const second=media(),next=ready(()=>second);await next.enable();next.dispose();assert.equal(second.track.stops,1);assert.equal(next.snapshot().status,'off');
 });
 test('reenabling while an old permission request is pending discards the old stream safely',async()=>{

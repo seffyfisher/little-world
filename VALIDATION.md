@@ -1,5 +1,14 @@
 # Static web validation — 2026-11-05
 
+## Hebrew interface, reading portrait and Mac synchronization — 2026-11-06
+
+-58 Node tests and3 Python tests passed. New portrait tests verify seated frames, long holds and zero pending timers when hidden, landscape, editing, paused, low power or Reduce Motion.
+- Browser checks at390×844 show a seated reader aligned with the generated couch and a rotating phone above his head. The portrait loop is active while the full room runtime is suspended; opening settings stops portrait motion. RTL settings fit inside the viewport. Feed/user content keeps its original language.
+- Reproduced black daytime plants in the running Mac app although PNG colors were healthy. Removed plant image filters, using explicit opacity for lighting instead. Rebuilt and restarted the app; verified green plants, deep night, then green plants again after returning to automatic daylight.
+- Shared renderer/runtime/settings improvements copied to the Mac source without replacing its native data server. Native controls, menu, widget, battery text and editor are Hebrew. Native webcam permissions request camera only for the trusted local main frame; session activation transfers between editor and wallpaper, while hidden views release capture. Actual camera access was not exercised during this verification.
+- Native build and signed widget succeeded. Mac test suite:58 Node +6 Python passed. Existing Mac source assignments (including ynet), name and other settings survived the update.
+- Couch was generated with the built-in image tool from the public room/character sprites, stored at `web/assets/portrait-couch-v1.png`; prompt recorded in `docs/portrait-couch-prompt.md`. No runtime image-generation service is used.
+
 ## Full landscape restored — 2026-11-06
 
 - Landscape scene ignores all notch/home-indicator safe-area insets, as requested. Cover framing fills the full viewport; controls retain their safe-area placement. Original shirt artwork remains in place.

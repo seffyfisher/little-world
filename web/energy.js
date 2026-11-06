@@ -10,7 +10,7 @@
       // A2% recovery margin prevents leaves flickering when battery estimates hover at a boundary.
       if(!demo&&stage<previous&&level<=[35,20,10][previous-1]+2)stage=previous;
     }
-    return {level,charging,hasBattery,stage,demo,label:demo?`Preview · ${preview==='charging'?'Charging':level+'% battery'}`:power.available===false?'Battery unavailable in this browser':hasBattery?`${level}% · ${charging?'Power connected':'On battery'}`:'Power connected · no battery'};
+    return {level,charging,hasBattery,stage,demo,label:demo?`הדמיה · ${preview==='charging'?'בטעינה':level+'% סוללה'}`:power.available===false?'נתוני הסוללה לא זמינים בדפדפן הזה':hasBattery?`${level}% · ${charging?'מחובר לחשמל':'פועל על סוללה'}`:'מחובר לחשמל · ללא סוללה'};
   }
   function photo(value){return typeof value==='string'&&value.length<=2500000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/.test(value)?value:'';}
   return {state,photo,previews};

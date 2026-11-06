@@ -1,4 +1,4 @@
-/* Little World POC. Scene + local configuration; no framework or build step. */
+/* Little העולם POC. Scene + local configuration; no framework or build step. */
 (() => {
   'use strict';
   const $ = selector => document.querySelector(selector);
@@ -18,13 +18,15 @@
   const nativeManaged=!!window.webkit?.messageHandlers?.world;
   const browserApp=!nativeManaged&&!compactEditor;
   document.body.classList.toggle('browser-app',browserApp);
+  document.body.classList.toggle('world-immersive',browserApp);
   const portraitQuery=matchMedia('(max-width: 767px) and (orientation: portrait)');
   let portraitMobile=browserApp&&portraitQuery.matches;
   document.body.classList.toggle('portrait-mobile',portraitMobile);
-  const savedPlace=nativeManaged?'on this Mac':'in this browser';
+  const savedPlace=nativeManaged?'ב־Mac הזה':'בדפדפן הזה';
   let hostActive=!nativeManaged,lowPower=false;
   let interaction=false,power={level:null,charging:true,hasBattery:false,...(!nativeManaged?{available:false}:{})},energy=window.LittleWorldEnergy.state(power,config.batteryPreview),pendingEnergyMood=null,pendingRead=false;
   const runtime=window.LittleWorldRuntime.create();
+  const portraitMotion=window.LittleWorldPortrait.create({runtime:window.LittleWorldRuntime.create(),emit:frame=>{const reader=$('#portrait-reader');if(reader)reader.src=`assets/animation/character-seat-${frame}.png`;}});
   const staticData=browserApp?window.LittleWorldStatic.create({load:()=>getJSON('data/world.json')}):null;
   let publishedConfigLoaded=false;
   const needsPublishedDefaults=!settingsStore.hasSaved,initialConnections=JSON.stringify([config.sources,config.officeScreens]);
@@ -44,7 +46,7 @@
     config = validateConfig(config);
     updateEnergy();camera.setModes(config.screenModes);
     const saved=settingsStore.write(config);
-    if(!saved)toast('Your changes are active, but this browser could not save them for next time.');
+    if(!saved)toast('השינויים פעילים, אבל לא הצלחנו לשמור אותם לפעם הבאה.');
     native('save', {value: JSON.stringify(config)});
     render();return saved;
   }
@@ -56,19 +58,19 @@
   }
   function status(source) {
     const data = feeds[source.id];
-    if (!data) return 'CONNECTING';
-    if (data.stale || (data.error && data.items?.length)) return 'CACHED';
-    if (data.error) return 'UNAVAILABLE';
-    if (staticData) return data.adapter==='evrit-books'?'DAILY BOOKS':'FEED SNAPSHOT';
-    return data.adapter === 'evrit-books' ? 'DAILY BOOKS' : data.adapter === 'website' ? 'LIVE PAGE' : 'LIVE FEED';
+    if (!data) return 'מתחברים';
+    if (data.stale || (data.error && data.items?.length)) return 'עותק שמור';
+    if (data.error) return 'לא זמין';
+    if (staticData) return data.adapter==='evrit-books'?'ספרים חדשים מדי יום':'עדכונים מהרשת';
+    return data.adapter === 'evrit-books' ? 'ספרים חדשים מדי יום' : data.adapter === 'website' ? 'אתר מתעדכן' : 'עדכונים חיים';
   }
   function screenSource(index) { return config.sources.find(s => s.id === config.officeScreens[index] && s.room === 'office'); }
   function librarySource() { return config.sources.find(s => s.room === 'library' && s.kind === 'evrit-books') || config.sources.find(s => s.room === 'library'); }
-  function sourceKind(source) { return source.kind === 'evrit-books' ? 'e-vrit new books · daily' : source.kind === 'feed' ? 'RSS / Atom feed' : 'Live website · auto discovery'; }
+  function sourceKind(source) { return source.kind === 'evrit-books' ? 'ספרים חדשים בעברית · עדכון יומי' : source.kind === 'feed' ? 'עדכוני RSS / Atom' : 'אתר חי · זיהוי תוכן אוטומטי'; }
   function sourcePlace(source) {
-    if (source.room === 'library') return '▥ Library · bookshelf';
+    if (source.room === 'library') return '▥ הספרייה · מדפי ספרים';
     const screens = config.officeScreens.flatMap((id, i) => config.screenModes[i]!=='webcam'&&id === source.id ? [String(i + 1)] : []);
-    return screens.length ? `▤ Office · screen ${screens.join(' & ')}` : '▤ Office · available source';
+    return screens.length ? `▤ המשרד · מסך ${screens.join(' ו־')}` : '▤ המשרד · מקור זמין';
   }
   function sceneState() {
     const library = librarySource();
@@ -77,10 +79,10 @@
       mode: document.body.classList.contains('night') ? 'night' : document.body.classList.contains('dusk') ? 'dusk' : 'day',
       room: selectedRoom, weather: weather?.current || null,camera:camera.snapshot(),
       screens: [0,1].map(index => {
-        if(config.screenModes[index]==='webcam')return {mode:'webcam',name:'Webcam',status:camera.snapshot().status==='live'?'LIVE CAMERA':'CAMERA',headline:camera.snapshot().label};
+        if(config.screenModes[index]==='webcam')return {mode:'webcam',name:'מצלמה',status:camera.snapshot().status==='live'?'מצלמה חיה':'מצלמה',headline:camera.snapshot().label};
         const source = screenSource(index), data = source && feeds[source.id], items = data?.items || [];
-        return {name: source?.name || `Screen ${index + 1}`, status: source ? status(source) : 'CHOOSE A SOURCE',
-          headline: items[headlineIndex % Math.max(1,items.length)]?.title || (data?.error ? 'Source unavailable. Open to retry.' : source ? 'Gathering the latest stories…' : 'Choose a website for this screen.'), updatedAt: data?.updatedAt || null};
+        return {name: source?.name || `מסך ${index + 1}`, status: source ? status(source) : 'בחירת מקור',
+          headline: items[headlineIndex % Math.max(1,items.length)]?.title || (data?.error ? 'המקור לא זמין. לחצו כדי לנסות שוב.' : source ? 'אוספים את העדכונים האחרונים…' : 'בחרו אתר למסך הזה.'), updatedAt: data?.updatedAt || null};
       }),
       books: library?.kind === 'evrit-books' ? (feeds[library.id]?.items || []).filter(book => safeURL(book.cover)).slice(0,12) : []
     };
@@ -97,48 +99,48 @@
   }
   function setPhoto(value){
     const photo=window.LittleWorldEnergy.photo(value);if(!photo)return;
-    config.framePhoto=photo;const saved=save();if(drawerMode==='settings'&&settingsTab==='world')renderSettings();if(saved)toast(`Your picture is in the wall frame. Saved ${savedPlace}.`);
+    config.framePhoto=photo;const saved=save();if(drawerMode==='settings'&&settingsTab==='world')renderSettings();if(saved)toast(`התמונה במסגרת שעל הקיר. נשמרה ${savedPlace}.`);
   }
   async function importPhoto(file){
-    if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>20000000){toast('Choose a JPG, PNG or WebP image up to20MB.');return;}
+    if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>20000000){toast('בחרו תמונת JPG, PNG או WebP בגודל של עד 20MB.');return;}
     const url=URL.createObjectURL(file);
     try{
       const image=new Image();image.src=url;await image.decode();
       const scale=Math.min(1,960/Math.max(image.naturalWidth,image.naturalHeight));
       const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
       canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);setPhoto(canvas.toDataURL('image/jpeg',.82));
-    }catch{toast('This image could not be opened. Try JPG or PNG.');}finally{URL.revokeObjectURL(url);}
+    }catch{toast('לא הצלחנו לפתוח את התמונה. נסו קובץ JPG או PNG.');}finally{URL.revokeObjectURL(url);}
   }
   function render() {
-    $('#scene-name').textContent = `${config.name.toUpperCase()}’S PLACE`;
+    $('#scene-name').textContent = `העולם של ${config.name}`;
     $('#character-name').textContent = config.name;
     for (const room of ['office', 'library']) {
       const sources = config.sources.filter(s => s.room === room);
       const first = room === 'library' ? librarySource() : screenSource(0) || screenSource(1) || sources[0];
       const data = first && feeds[first.id];
-      $(`#${room}-count`).textContent = `${String(sources.length).padStart(2, '0')} CONNECTION${sources.length === 1 ? '' : 'S'}`;
-      $(`#${room}-title`).textContent = first ? (data?.items?.[0]?.title || first.name) : 'A little room for something new';
-      $(`#${room}-description`).textContent = !first ? 'Add a website to make this room yours.'
-        : `${first.name} · ${data?.error || data?.stale ? (data.items ? 'Cached content · retrying' : 'Source unavailable · open for details') : data?.items ? `${data.adapter === 'evrit-books' ? `${data.items.length} new books · daily` : data.adapter === 'website' ? 'Live page' : 'Live feed'} · updated ${timeLabel(data.updatedAt)}` : 'Connecting to live content…'}`;
+      $(`#${room}-count`).textContent = `${sources.length} חיבורים`;
+      $(`#${room}-title`).textContent = first ? (data?.items?.[0]?.title || first.name) : 'מקום קטן למשהו חדש';
+      $(`#${room}-description`).textContent = !first ? 'הוסיפו אתר כדי להפוך את החדר לשלכם.'
+        : `${first.name} · ${data?.error || data?.stale ? (data.items ? 'מציגים עותק שמור · מנסים שוב' : 'המקור לא זמין · לחצו לפרטים') : data?.items ? `${data.adapter === 'evrit-books' ? `${data.items.length} ספרים חדשים · עדכון יומי` : data.adapter === 'website' ? 'אתר מתעדכן' : 'עדכונים חיים'} · עודכן ב־${timeLabel(data.updatedAt)}` : 'מתחברים לתוכן מתעדכן…'}`;
     }
     for (const index of [0,1]) {
       const office = screenSource(index), suffix = index ? '-2' : '';
       const items = (office && feeds[office.id]?.items) || [];
       const headline = items[headlineIndex % Math.max(1, items.length)]?.title;
-      $(`#monitor-source${suffix}`).textContent = office ? office.name.toUpperCase().slice(0, 19) : `SCREEN ${index + 1} · ADD A SOURCE`;
-      const lines = wrap(headline || (office ? feeds[office.id]?.error ? 'Source unavailable. Click to retry.' : 'Connecting to live content…' : 'Choose a website for this screen.'), 24);
+      $(`#monitor-source${suffix}`).textContent = office ? office.name.toUpperCase().slice(0, 19) : `מסך ${index + 1} · הוספת מקור`;
+      const lines = wrap(headline || (office ? feeds[office.id]?.error ? 'המקור לא זמין. לחצו כדי לנסות שוב.' : 'מתחברים לתוכן מתעדכן…' : 'בחרו אתר למסך הזה.'), 24);
       $(`#monitor-line1${suffix}`).textContent = lines[0] || '';
       $(`#monitor-line2${suffix}`).textContent = lines[1] || '';
-      $(`#office-object${suffix}`).setAttribute('aria-label', `Office screen ${index + 1}: ${office?.name || 'choose a source'}`);
+      $(`#office-object${suffix}`).setAttribute('aria-label', `מסך במשרד ${index + 1}: ${office?.name || 'בחירת מקור'}`);
     }
     const library = librarySource();
     const libraryItems = (library && feeds[library.id]?.items) || [];
-    $('#book-label').textContent = library?.kind === 'evrit-books' ? 'ספרים חדשים · עברית' : library?.name.slice(0, 24) || 'Your books';
-    $('#library-live-line').textContent = library?.kind === 'evrit-books' ? libraryItems.length ? `${libraryItems.length} new books · refreshed daily` : 'Fetching real book covers…' : (libraryItems[headlineIndex % Math.max(1, libraryItems.length)]?.title || 'Add a live source').slice(0, 30);
+    $('#book-label').textContent = library?.kind === 'evrit-books' ? 'ספרים חדשים · עברית' : library?.name.slice(0, 24) || 'הספרים שלך';
+    $('#library-live-line').textContent = library?.kind === 'evrit-books' ? libraryItems.length ? `${libraryItems.length} ספרים חדשים · מתעדכנים מדי יום` : 'טוענים את עטיפות הספרים…' : (libraryItems[headlineIndex % Math.max(1, libraryItems.length)]?.title || 'הוספת מקור מתעדכן').slice(0, 30);
     renderBooks(library, libraryItems);
     const live = config.sources.filter(s => feeds[s.id]?.items && !feeds[s.id]?.error && !feeds[s.id]?.stale).length;
     const feedCount = config.sources.length;
-    $('#connection-summary').textContent = `${config.sources.length} CONNECTIONS · ${live}/${feedCount} SOURCES ${staticData?'PUBLISHED':'LIVE'} · SAVED ${savedPlace.toUpperCase()}`;
+    $('#connection-summary').textContent = `${config.sources.length} חיבורים · ${live}/${feedCount} מקורות ${staticData?'מפורסמים':'פעילים'} · נשמר ${savedPlace}`;
     renderAmbience();
   }
   let shelfSignature = '';
@@ -150,13 +152,13 @@
     $('#books').innerHTML = books.map((book, index) => {
       const x = 1026 + (index % 4) * 56, y = 280 + Math.floor(index / 4) * 76;
       return `<g class="scene-book" tabindex="0" role="button" aria-label="${escape(book.title)}" data-book="${escape(book.id)}"><title>${escape(book.title)}${book.author ? ` · ${escape(book.author)}` : ''}</title><rect x="${x-1}" y="${y+1}" width="47" height="66" rx="1" fill="#283b31" opacity=".4"/><image href="${escape(safeURL(book.cover))}" x="${x}" y="${y}" width="45" height="65" preserveAspectRatio="xMidYMid meet"/><rect x="${x}" y="${y}" width="45" height="65" rx="1" fill="none" stroke="#e8dcc0" stroke-opacity=".18"/></g>`;
-    }).join('') || `<text x="1131" y="372" text-anchor="middle" font-size="10" fill="#c7cbb0">${source ? 'Waiting for book covers…' : 'Add a new-books source'}</text>`;
+    }).join('') || `<text x="1131" y="372" text-anchor="middle" font-size="10" fill="#c7cbb0">${source ? 'ממתינים לעטיפות הספרים…' : 'הוספת מקור לספרים חדשים'}</text>`;
     $$('#books [data-book]').forEach(element => {
       element.onclick = event => { event.stopPropagation(); openBook(source, books.find(book => book.id === element.dataset.book)); };
       element.onkeydown = event => { if (['Enter',' '].includes(event.key)) { event.preventDefault(); element.dispatchEvent(new MouseEvent('click')); } };
     });
   }
-  function timeLabel(iso) { return iso ? new Date(iso).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : 'just now'; }
+  function timeLabel(iso) { return iso ? new Date(iso).toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'}) : 'הרגע'; }
   function wrap(value, length) {
     const words = value.split(/\s+/), lines = [''];
     for (const word of words) {
@@ -170,7 +172,7 @@
     const mode = roomProps.lightMode(config.ambience,systemDark);
     document.body.classList.remove('day', 'dusk', 'night');
     document.body.classList.add(mode);
-    $('#ambience-label').textContent = config.ambience === 'auto' ? nativeManaged?'macOS light':'System light' : `${mode[0].toUpperCase()}${mode.slice(1)} light`;
+    $('#ambience-label').textContent = config.ambience === 'auto' ? 'לפי מראה המערכת' : {day:'אור יום',dusk:'דמדומים',night:'לילה'}[mode];
     publishScene();
   }
   async function getJSON(url) {
@@ -179,7 +181,7 @@
     try {
       const response=await fetch(url,{signal:AbortSignal.any([controller.signal,AbortSignal.timeout(45000)])});
       const data=await response.json();
-      if(!response.ok)throw new Error(data.error||'Could not connect.');
+      if(!response.ok)throw new Error(data.error||'לא הצלחנו להתחבר.');
       return data;
     } finally {requests.delete(controller);}
   }
@@ -216,10 +218,10 @@
       weather = result; weatherError = false;weatherChecked=performance.now();weatherCheckedLocation=requestedLocation;
       const current = weather.current;
       const code = current.weather_code;
-      const condition = code === 0 ? 'Clear skies' : code <= 3 ? 'A few clouds' : code < 50 ? 'Misty outside' : code < 70 ? 'Rain at the window' : code < 80 ? 'A little snow' : 'Showers outside';
-      $('#weather-location').textContent = weather.location.toUpperCase();
+      const condition = code === 0 ? 'שמיים בהירים' : code <= 3 ? 'מעט עננים' : code < 50 ? 'ערפילי בחוץ' : code < 70 ? 'גשם בחלון' : code < 80 ? 'מעט שלג' : 'ממטרים בחוץ';
+      $('#weather-location').textContent = {'tel-aviv':'תל אביב',jerusalem:'ירושלים',london:'לונדון','new-york':'ניו יורק'}[config.location];
       $('#weather-temperature').textContent = `${Math.round(current.temperature_2m)}° ${current.is_day ? '☀' : '☾'}`;
-      $('#weather-description').textContent = `${condition}${weather.stale ? ' · cached' : ''}`;
+      $('#weather-description').textContent = `${condition}${weather.stale ? ' · עותק שמור' : ''}`;
       $('#weather-symbol').textContent = code >= 50 ? '☂' : current.is_day ? '☀' : '☾';
       $('#rain').setAttribute('opacity', code >= 50 ? '.7' : '0');
       renderAmbience();
@@ -228,8 +230,8 @@
       weatherChecked=performance.now();weatherCheckedLocation=requestedLocation;
       if (requestedLocation !== config.location) return;
       weatherError = true;
-      $('#weather-temperature').textContent = 'Offline';
-      $('#weather-description').textContent = 'Weather unavailable · try refresh';
+      $('#weather-temperature').textContent = 'אין חיבור';
+      $('#weather-description').textContent = 'מזג האוויר לא זמין · נסו לרענן';
       $('#weather-symbol').textContent = '◌';
     }
   }
@@ -237,7 +239,7 @@
     if(!isActive())return;
     if (refreshing) { refreshQueued = true; return; }
     refreshing = true;
-    $('#refresh').textContent = '↻ Connecting…';
+    $('#refresh').textContent = '↻ מתחברים…';
     if(staticData){
       try{
         await staticData.refresh(force);
@@ -246,14 +248,14 @@
           if(needsPublishedDefaults&&JSON.stringify([config.sources,config.officeScreens])===initialConnections){config=validateConfig({...config,sources:staticData.sources,officeScreens:staticData.sources.filter(source=>source.room==='office').slice(0,2).map(source=>source.id)});if(settingsStore.hasSaved)settingsStore.write(config);render();}
         }
       }catch(error){
-        refreshing=false;$('#refresh').textContent='↻ Retry published data';
-        if(error.name!=='AbortError'){toast('Published data is unavailable. Try refreshing in a moment.');}
+        refreshing=false;$('#refresh').textContent='↻ ניסיון נוסף לטעינת הנתונים';
+        if(error.name!=='AbortError'){toast('הנתונים לא זמינים כרגע. נסו לרענן בעוד רגע.');}
         return;
       }
     }
     await Promise.allSettled([refreshWeather(force), ...config.sources.map(source=>refreshFeed(source,force))]);
     refreshing = false;
-    $('#refresh').textContent = staticData?'↻ Check updates':'↻ Refresh sources';
+    $('#refresh').textContent = staticData?'↻ בדיקת עדכונים':'↻ רענון המקורות';
     if(refreshQueued){refreshQueued=false;refreshAll();}
   }
 
@@ -274,7 +276,7 @@
   function readBook() {
     if(!shelfBooks().length){pendingRead=true;refreshAll();return;}
     if (!routine.read(shelfBooks(),reducedMotion.matches)) {
-      toast(routine.snapshot().emotion ? 'Let’s finish this little moment first.' : shelfBooks().length ? 'Already choosing a book. Let’s finish this chapter.' : 'The shelves are still connecting. Try again when books arrive.');
+      toast(routine.snapshot().emotion ? 'נסיים את הרגע הזה ואז נמשיך.' : shelfBooks().length ? 'כבר בוחרים ספר. נסיים את הפרק ונמשיך.' : 'המדפים עוד נטענים. אפשר לנסות שוב כשהספרים יגיעו.');
       return;
     }
     selectRoom('library');renderCharacter();wakeMotion();
@@ -291,15 +293,15 @@
   let activitySignature='';
   function renderCharacter() {
     const s=routine.snapshot();
-    const title=s.book?.title||'a book';
-    const text=s.emotion?(s.phase==='emotion-recover'?'is gathering enough energy to get back up':window.LittleWorldEmotions.moods[s.emotion].activity):{
-      'walk-to-emotion':'is taking a little moment',
-      'walk-to-ladder':'is walking to the library steps','climb-up':'is climbing carefully to the shelf','climb-down':'is stepping down from the shelf',
-      'walk-to-shelf':'is going to choose a book', 'take-book':`is lifting “${title}” from the shelf`, 'shelf-release':'is leaving the book safely on the shelf', 'choose-book':`is taking “${title}” from the shelf`,
-      'walk-to-chair':`is carrying “${title}” to the armchair`, 'sit-down':'is settling into the armchair',
-      reading:`is reading “${title}”`, 'stand-up':'is finishing a chapter',
-      'walk-to-return':`is bringing “${title}” back`, 'return-book':'is putting the book back on the shelf',
-      visit:`is heading to the ${s.room}`, idle:s.room==='office'?'is catching up on the world':'is enjoying a quiet moment'
+    const title=s.book?.title||'ספר';
+    const text=s.emotion?(s.phase==='emotion-recover'?'אוסף כוחות כדי לקום':window.LittleWorldEmotions.moods[s.emotion].activity):{
+      'walk-to-emotion':'לוקח רגע לעצמו',
+      'walk-to-ladder':'ניגש לסולם הספרייה','climb-up':'מטפס בזהירות אל המדף','climb-down':'יורד מהמדף',
+      'walk-to-shelf':'הולך לבחור ספר', 'take-book':`מרים את ״${title}״ מהמדף`, 'shelf-release':'מניח את הספר על המדף', 'choose-book':`לוקח את ״${title}״ מהמדף`,
+      'walk-to-chair':`לוקח את ״${title}״ לכורסה`, 'sit-down':'מתיישב בנחת בכורסה',
+      reading:`קורא את ״${title}״`, 'stand-up':'מסיים פרק',
+      'walk-to-return':`מחזיר את ״${title}״`, 'return-book':'מחזיר את הספר למדף',
+      visit:`בדרך ל${s.room==='office'?'משרד':s.room==='library'?'ספרייה':'מרכז החדר'}`, idle:s.room==='office'?'מתעדכן במה שקורה בעולם':'נהנה מרגע שקט'
     }[s.phase];
     if(text!==activitySignature){$('#character-activity').textContent=text;activitySignature=text;}
     // Retain the lightweight SVG fallback if the photographic plate cannot load.
@@ -319,6 +321,8 @@
   }
   function activityChanged(){
     const active=isActive();
+    portraitMotion.setActivity({visible:!document.hidden,portrait:portraitMobile,paused,reducedMotion:reducedMotion.matches,lowPower,editing:!!drawerMode});
+    const guide=$('.portrait-guide');if(guide)guide.dataset.moving=String(portraitMotion.active);
     document.body.dataset.runtimeActive=String(active);document.body.dataset.lowPower=String(lowPower);
     document.body.classList.toggle('runtime-suspended',!active);
     runtime.setActive(active);camera.setActive(active&&!paused&&!portraitMobile);
@@ -336,12 +340,12 @@
   function setInteraction(value){
     if(nativeManaged){native(value?'enter':'exit');return;}
     interaction=!!value;
-    for(const button of [$('#enter-world'),$('#web-enter-focused')]){button.textContent=interaction?'Leave world':'Enter world';button.setAttribute('aria-pressed',String(interaction));}
+    for(const button of [$('#enter-world'),$('#web-enter-focused')]){button.textContent=interaction?'יציאה מהעולם':'כניסה לעולם';button.setAttribute('aria-pressed',String(interaction));}
     activityChanged();
   }
   function setFocusView(value){
     document.body.classList.toggle('world-focus',value);
-    $('#wallpaper').textContent=value?'← Back to page':'↗ Focus view';
+    $('#wallpaper').textContent=value?'→ חזרה לעמוד':'↗ תצוגת העולם';
     $('#wallpaper').setAttribute('aria-pressed',String(value));
   }
   function setPaused(value,persist=true) {
@@ -349,8 +353,8 @@
     if(persist)save();
     document.body.classList.toggle('paused', value);
     $('#pause').textContent = value ? '▷' : 'Ⅱ';
-    $('#pause').setAttribute('aria-label', value ? 'Resume animation' : 'Pause animation');
-    $('#pause').title = value ? 'Resume animation' : 'Pause animation';
+    $('#pause').setAttribute('aria-label', value ? 'המשך התנועה' : 'השהיית התנועה');
+    $('#pause').title = value ? 'המשך התנועה' : 'השהיית התנועה';
     activityChanged();
   }
 
@@ -374,9 +378,11 @@
   }
   function openSettings(tab = config.editorTab) {
     settingsTab = tab;if(config.editorTab!==tab){config.editorTab=tab;save();}
-    openDrawer('settings', 'Make it yours.', 'A WORLD THAT FEELS LIKE YOU');
+    openDrawer('settings', 'העולם שלך', 'עולם שמרגיש כמוך');
     renderSettings();
   }
+  function enableCamera(){native('camera',{enabled:true});return camera.enable();}
+  function disableCamera(){native('camera',{enabled:false});camera.disable();}
   function updateCameraControls(){
     const state=camera.snapshot();
     if($('#camera-status'))$('#camera-status').textContent=state.label;
@@ -386,28 +392,28 @@
   function screenControls() {
     const sources=config.sources.filter(source=>source.room==='office');
     const selected=config.screenModes.includes('webcam');
-    return `<div class="office-screen-settings"><h3>Office screens</h3><p class="note">Choose a published source or your live webcam for each monitor.</p>${[0,1].map(index=>`<label class="field">Screen ${index+1} · ${index?'right':'left'} monitor<select data-screen-index="${index}"><option value="">No source assigned</option><option value="__webcam__" ${config.screenModes[index]==='webcam'?'selected':''}>Webcam · this device</option>${sources.map(source=>`<option value="${escape(source.id)}" ${config.screenModes[index]!=='webcam'&&config.officeScreens[index]===source.id?'selected':''}>${escape(source.name)}</option>`).join('')}</select></label>`).join('')}${selected?`<div class="camera-settings"><p id="camera-status" role="status">${escape(camera.snapshot().label)}</p><div class="form-row"><button class="secondary" id="camera-start">Enable webcam</button><button class="secondary" id="camera-stop">Turn off webcam</button></div><p class="note">Video stays on this device. No microphone, recording or upload. Both monitors share one camera. After a reload, tap to enable it again.</p></div>`:''}</div>`;
+    return `<div class="office-screen-settings"><h3>המסכים במשרד</h3><p class="note">בחרו מקור תוכן או מצלמה חיה לכל מסך.</p>${[0,1].map(index=>`<label class="field">מסך ${index+1} · ${index?'ימין':'שמאל'}<select data-screen-index="${index}"><option value="">ללא מקור תוכן</option><option value="__webcam__" ${config.screenModes[index]==='webcam'?'selected':''}>מצלמת המכשיר</option>${sources.map(source=>`<option value="${escape(source.id)}" ${config.screenModes[index]!=='webcam'&&config.officeScreens[index]===source.id?'selected':''}>${escape(source.name)}</option>`).join('')}</select></label>`).join('')}${selected?`<div class="camera-settings"><p id="camera-status" role="status">${escape(camera.snapshot().label)}</p><div class="form-row"><button class="secondary" id="camera-start">הפעלת המצלמה</button><button class="secondary" id="camera-stop">כיבוי המצלמה</button></div><p class="note">הווידאו נשאר במכשיר. ללא מיקרופון, הקלטה או העלאה לרשת. שני המסכים יכולים לשתף מצלמה אחת. אחרי רענון צריך להפעיל אותה שוב.</p></div>`:''}</div>`;
   }
   function renderSettings() {
-    const controls=browserApp?`<div class="editor-world-controls" role="group" aria-label="World actions"><button class="secondary" id="editor-pause">${paused?'Resume':'Pause'}</button><button class="secondary" id="editor-interaction">${interaction?'Leave world':'Enter world'}</button><button class="secondary" id="editor-read">Read a book</button><button class="secondary" id="editor-office">Office</button><button class="secondary" id="editor-library">Library</button><button class="secondary" id="editor-refresh">Check updates</button><button class="secondary" id="editor-fullscreen">Full screen</button></div>`:'';
-    const tabs = controls+`<div class="drawer-tabs"><button data-tab="connections" class="${settingsTab === 'connections' ? 'active' : ''}">Connections</button><button data-tab="character" class="${settingsTab === 'character' ? 'active' : ''}">Character</button><button data-tab="world" class="${settingsTab === 'world' ? 'active' : ''}">World</button></div>`;
+    const controls=browserApp?`<div class="editor-world-controls" role="group" aria-label="פעולות בעולם"><button class="secondary" id="editor-pause">${paused?'המשך':'השהיה'}</button><button class="secondary" id="editor-interaction">${interaction?'יציאה מהעולם':'כניסה לעולם'}</button><button class="secondary" id="editor-read">קריאת ספר</button><button class="secondary" id="editor-office">המשרד</button><button class="secondary" id="editor-library">הספרייה</button><button class="secondary" id="editor-refresh">בדיקת עדכונים</button><button class="secondary" id="editor-fullscreen">מסך מלא</button></div>`:'';
+    const tabs = controls+`<div class="drawer-tabs"><button data-tab="connections" class="${settingsTab === 'connections' ? 'active' : ''}">חיבורים</button><button data-tab="character" class="${settingsTab === 'character' ? 'active' : ''}">הדמות</button><button data-tab="world" class="${settingsTab === 'world' ? 'active' : ''}">העולם</button></div>`;
     if (settingsTab === 'connections') {
-      $('#drawer-content').innerHTML = tabs + `<p>Bring live content into your rooms. Connect an RSS feed or paste a website: we discover its feed or read its current page content.</p>${screenControls()}<div id="source-list">${config.sources.map(s => `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(s.name)}</h3><span class="status">${status(s)}</span></div><div class="source-url">${escape(s.url)}</div><div class="source-meta">${escape(sourcePlace(s))} · ${sourceKind(s)}</div><div class="source-actions"><button data-edit="${escape(s.id)}">Edit connection</button><button data-view="${escape(s.id)}">Open object ↗</button><button class="danger" data-remove="${escape(s.id)}" aria-label="Remove ${escape(s.name)}">Remove</button></div></article>`).join('') || '<div class="empty">Your rooms are waiting.<br>Add your first website below.</div>'}</div><button class="primary full" id="add-source">＋ Add a website</button><p class="note">Up to 20 connections. Changes save automatically ${savedPlace}. ${staticData?'Published JSON is checked every5 minutes; upstream data refreshes when the site is republished.':'Office feeds and websites refresh every5 minutes.'} The e-vrit new-books shelves refresh daily at midnight in Israel. Websites expose public page headings or discovered feeds. Sign-in and JavaScript-only sites need a dedicated adapter.</p><div class="divider"></div><label class="field">Weather outside your window<select id="location"><option value="tel-aviv">Tel Aviv</option><option value="jerusalem">Jerusalem</option><option value="london">London</option><option value="new-york">New York</option></select><small>Illustrated weather comes from Open-Meteo. This is a chosen city; your location is not detected.</small></label><p class="note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather data by Open-Meteo ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>`;
+      $('#drawer-content').innerHTML = tabs + `<p>הכניסו תוכן מתעדכן לחדרים: עדכוני RSS, תוכן מאתרים או מצלמה חיה במסכי המשרד.</p>${screenControls()}<div id="source-list">${config.sources.map(s => `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(s.name)}</h3><span class="status">${status(s)}</span></div><div class="source-url">${escape(s.url)}</div><div class="source-meta">${escape(sourcePlace(s))} · ${sourceKind(s)}</div><div class="source-actions"><button data-edit="${escape(s.id)}">עריכת החיבור</button><button data-view="${escape(s.id)}">פתיחת התוכן ↗</button><button class="danger" data-remove="${escape(s.id)}" aria-label="הסרה ${escape(s.name)}">הסרה</button></div></article>`).join('') || '<div class="empty">החדרים מחכים.<br>אפשר להוסיף כאן את האתר הראשון.</div>'}</div><button class="primary full" id="add-source">＋ הוספת אתר</button><p class="note">עד 20 חיבורים. השינויים נשמרים אוטומטית ${savedPlace}. ${staticData?'האתר בודק נתונים חדשים כל 5 דקות. המקורות מתעדכנים כשמתפרסמת גרסה חדשה של הנתונים.':'העדכונים והאתרים במשרד מתרעננים כל 5 דקות.'} מדפי הספרים החדשים בעברית מתעדכנים מדי יום בחצות, שעון ישראל. אתרים הדורשים התחברות או JavaScript זקוקים לחיבור ייעודי.</p><div class="divider"></div><label class="field">מזג האוויר מחוץ לחלון<select id="location"><option value="tel-aviv">תל אביב</option><option value="jerusalem">ירושלים</option><option value="london">לונדון</option><option value="new-york">ניו יורק</option></select><small>נתוני מזג האוויר מגיעים מ־Open-Meteo לפי העיר שבחרתם. המיקום שלכם לא נאסף.</small></label><p class="note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">נתוני מזג אוויר: Open-Meteo ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>`;
       $$('[data-screen-index]').forEach(select => select.onchange = () => {
         const index=Number(select.dataset.screenIndex),webcam=select.value==='__webcam__';
         config.screenModes[index]=webcam?'webcam':'source';
         if(!webcam)config.officeScreens[index]=select.value||null;
-        save();renderSettings();if(webcam)camera.enable();
+        save();renderSettings();if(webcam)enableCamera();
       });
-      if($('#camera-start'))$('#camera-start').onclick=()=>camera.enable();
-      if($('#camera-stop'))$('#camera-stop').onclick=()=>camera.disable();
+      if($('#camera-start'))$('#camera-start').onclick=()=>enableCamera();
+      if($('#camera-stop'))$('#camera-stop').onclick=()=>disableCamera();
       updateCameraControls();
       $('#location').value = config.location;
       $('#location').onchange = event => {
         config.location = event.target.value; weather = null; save();
         $('#weather-location').textContent = $('#location').selectedOptions[0].textContent.toUpperCase();
-        $('#weather-temperature').textContent = 'Connecting…';
-        $('#weather-description').textContent = 'Updating your window';
+        $('#weather-temperature').textContent = 'מתחברים…';
+        $('#weather-description').textContent = 'מעדכנים את הנוף בחלון';
         refreshWeather();
       };
       $('#add-source').disabled = config.sources.length >= 20;
@@ -416,11 +422,11 @@
       $$('[data-view]').forEach(b => b.onclick = () => openRoom(config.sources.find(s => s.id === b.dataset.view).room, b.dataset.view));
       $$('[data-remove]').forEach(b => b.onclick = () => {
         config.sources = config.sources.filter(s => s.id !== b.dataset.remove);
-        delete feeds[b.dataset.remove]; save(); renderSettings(); toast('Connection removed.');
+        delete feeds[b.dataset.remove]; save(); renderSettings(); toast('החיבור הוסר.');
       });
     } else if(settingsTab==='character') {
-      $('#drawer-content').innerHTML = tabs + `<p>A small stand-in for you. Give your character a name and let them settle in.</p><label class="field">Your character’s name<input id="name" maxlength="30" value="${escape(config.name)}" autocomplete="off" dir="auto"></label><label class="toggle-row"><input id="wander" type="checkbox" ${config.wander ? 'checked' : ''}> Wander, read, and have little moments</label><p class="note">You can always choose a room yourself. Animation also respects your device’s Reduce Motion preference.</p><div class="divider"></div><h3>A little time for yourself</h3><button class="primary full" id="read-a-book">Pick a book and read</button><div class="form-row"><button class="secondary" id="visit-office">Visit the office</button><button class="secondary" id="visit-library">Visit the library</button></div><div class="divider"></div><h3>A whole range of feelings</h3><label class="field">Try a little moment<select id="emotion-preview"><option value="next">Surprise me</option>${Object.entries(window.LittleWorldEmotions.moods).map(([id,mood])=>`<option value="${id}">${mood.label}</option>`).join('')}</select></label><button class="secondary full" id="try-emotion">Show this mood</button><p class="note">Occasional moments happen naturally between activities. Books are returned first. Pause, Reduce Motion, and desktop visibility still apply.</p><div class="divider"></div><p class="note">Clay edition · Your handmade character. More ways to make this little world yours can come next.</p>`;
-      $('#name').oninput = event => { config.name = event.target.value.trim() || 'You'; save(); };
+      $('#drawer-content').innerHTML = tabs + `<p>הדמות הקטנה שלך. תנו לה שם ואפשרו לה להרגיש בבית.</p><label class="field">שם הדמות<input id="name" maxlength="30" value="${escape(config.name)}" autocomplete="off" dir="auto"></label><label class="toggle-row"><input id="wander" type="checkbox" ${config.wander ? 'checked' : ''}> לשוטט, לקרוא וליהנות מרגעים קטנים</label><p class="note">אפשר תמיד לבחור לאן ללכת. התנועה מותאמת גם להגדרת הפחתת התנועה במכשיר.</p><div class="divider"></div><h3>קצת זמן לעצמך</h3><button class="primary full" id="read-a-book">בחירת ספר וקריאה</button><div class="form-row"><button class="secondary" id="visit-office">ביקור במשרד</button><button class="secondary" id="visit-library">ביקור בספרייה</button></div><div class="divider"></div><h3>עולם של רגשות</h3><label class="field">בחירת מצב רוח<select id="emotion-preview"><option value="next">תפתיעו אותי</option>${Object.entries(window.LittleWorldEmotions.moods).map(([id,mood])=>`<option value="${id}">${mood.label}</option>`).join('')}</select></label><button class="secondary full" id="try-emotion">הצגת מצב הרוח</button><p class="note">מדי פעם הדמות מביעה רגשות בין הפעילויות, אחרי החזרת הספר למדף. התנועה נעצרת בהשהיה או כשהעולם מוסתר.</p><div class="divider"></div><p class="note">מהדורת פלסטלינה · הדמות שלך, בעבודת יד.</p>`;
+      $('#name').oninput = event => { config.name = event.target.value.trim() || 'אני'; save(); };
       $('#wander').onchange = event => { config.wander = event.target.checked; save();wakeMotion(); };
       $('#emotion-preview').value=config.emotionPreview;
       $('#emotion-preview').onchange=event=>{config.emotionPreview=event.target.value;save();};
@@ -429,7 +435,7 @@
       $('#visit-office').onclick = () => { closeDrawer(); goTo('office'); };
       $('#visit-library').onclick = () => { closeDrawer(); goTo('library'); };
     } else {
-      $('#drawer-content').innerHTML=tabs+`<label class="field">Lighting<select id="world-light"><option value="auto">Follow ${nativeManaged?'macOS':'system'} appearance</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Deep night · lamp and moonlight</option></select></label><div class="divider"></div><h3>A picture on your wall</h3><button class="photo-drop-zone" id="edit-wall-photo">${config.framePhoto?`<img src="${config.framePhoto}" alt="Your saved wall photo">`:''}<span>Drop a picture here, or click to choose</span><small>JPG, PNG or WebP · stays ${savedPlace}</small></button>${config.framePhoto?'<button class="secondary" id="clear-wall-photo">Remove picture from frame</button>':''}<div class="divider"></div><h3>A world that shares your energy</h3><p id="energy-label">${escape(energy.label)}</p><label class="toggle-row"><input type="checkbox" id="battery-reactions" ${config.batteryReactions?'checked':''}> Character reacts to low battery and charging</label><p class="note">Plants droop at35%, wilt at20%, and lose almost all attached leaves at10%. Connecting power brings them back.</p><label class="field">Battery preview<select id="battery-preview"><option value="actual">Actual ${nativeManaged?'Mac':'device'} battery</option><option value="35">35% · drooping</option><option value="15">15% · wilted</option><option value="5">5% · almost bare</option><option value="charging">Power connected · recovering</option></select></label><p class="note">Preview affects this world only. Choose Actual device battery to follow your device again.</p>`;
+      $('#drawer-content').innerHTML=tabs+`<label class="field">תאורה<select id="world-light"><option value="auto">לפי מראה המערכת</option><option value="day">יום</option><option value="dusk">דמדומים</option><option value="night">לילה חשוך · מנורה ואור ירח</option></select></label><div class="divider"></div><h3>תמונה על הקיר</h3><button class="photo-drop-zone" id="edit-wall-photo">${config.framePhoto?`<img src="${config.framePhoto}" alt="התמונה ששמרת במסגרת">`:''}<span>גררו לכאן תמונה או לחצו לבחירה</span><small>JPG, PNG או WebP · נשמרת ${savedPlace}</small></button>${config.framePhoto?'<button class="secondary" id="clear-wall-photo">הסרת התמונה מהמסגרת</button>':''}<div class="divider"></div><h3>עולם שמרגיש את הסוללה שלך</h3><p id="energy-label">${escape(energy.label)}</p><label class="toggle-row"><input type="checkbox" id="battery-reactions" ${config.batteryReactions?'checked':''}> הדמות מגיבה לסוללה חלשה ולטעינה</label><p class="note">הצמחים מתחילים להתכופף ב־35%, נובלים ב־20% וכמעט מאבדים את כל העלים ב־10%. חיבור לחשמל מחזיר אותם לחיים.</p><label class="field">הדמיית מצב סוללה<select id="battery-preview"><option value="actual">סוללת ${nativeManaged?'ה־Mac':'המכשיר'}</option><option value="35">35% · צמחים כפופים</option><option value="15">15% · צמחים נבולים</option><option value="5">5% · כמעט בלי עלים</option><option value="charging">מחובר לחשמל · מתאוששים</option></select></label><p class="note">ההדמיה משפיעה רק על העולם הזה. בחרו בסוללת המכשיר כדי לחזור למצב האמיתי.</p>`;
       $('#world-light').value=config.ambience;
       $('#world-light').onchange=event=>{config.ambience=event.target.value;save();};
       $('#battery-preview').value=config.batteryPreview||'actual';
@@ -441,7 +447,7 @@
       $('#edit-wall-photo').addEventListener('drop',event=>{event.preventDefault();event.currentTarget.classList.remove('dragging');importPhoto(event.dataTransfer.files[0]);});
       if($('#clear-wall-photo'))$('#clear-wall-photo').onclick=()=>{config.framePhoto='';save();renderSettings();};
     }
-    if(staticData&&settingsTab==='connections'){const note=document.createElement('p');note.className='note';note.textContent='This site reads published JSON snapshots. Publish a new connection in data/sources.json to make its content available here. Refresh checks for a newer snapshot.';$('#drawer-content').prepend(note);}
+    if(staticData&&settingsTab==='connections'){const note=document.createElement('p');note.className='note';note.textContent='האתר מציג נתונים שפורסמו מראש. מקור חדש צריך להתווסף לקטלוג המקורות באתר. רענון בודק אם פורסמו נתונים חדשים.';$('#drawer-content').prepend(note);}
     if(browserApp){
       $('#editor-pause').onclick=()=>{setPaused(!paused);renderSettings();};
       $('#editor-interaction').onclick=()=>{setInteraction(!interaction);closeDrawer();};
@@ -460,10 +466,10 @@
   function editSource(id) {
     const existing = config.sources.find(s => s.id === id);
     drawerMode = 'form';
-    $('#drawer-title').textContent = existing ? 'A place for this.' : 'Bring something in.';
-    $('#drawer-content').innerHTML = `<button class="secondary" id="back-settings">← Connections</button><p>${existing ? 'Change the connection or move it to another room.' : 'Choose a website you care about, then give it a home.'}</p><form id="source-form"><label class="field">Name<input name="name" maxlength="45" required placeholder="My favorite corner of the web" value="${escape(existing?.name || '')}" dir="auto"></label><label class="field">Connection type<select name="kind"><option value="feed">Live headlines · RSS or Atom</option><option value="website">Live website · discover content</option><option value="evrit-books">e-vrit · new books, daily</option></select></label><label class="field"><span id="url-label">RSS or Atom feed URL</span><input name="url" type="url" required placeholder="https://example.com/feed.xml" value="${escape(existing?.url || '')}"><small id="url-help">Use the direct feed address. We’ll show its latest headlines on your room’s object.</small></label><label class="field">Room<select name="room"><option value="office">The office · two screens</option><option value="library">The library · bookshelf</option></select><small>Choose the office screen below, or place this connection in the library.</small></label><label class="field" id="screen-field">Office screen<select name="screen"><option value="">Room connection only</option><option value="0">Screen 1 · left monitor</option><option value="1">Screen 2 · right monitor</option></select></label><p class="form-error" id="form-error" role="alert" hidden></p><button class="primary full" type="submit">${existing ? 'Save connection' : 'Add to my world'} ↗</button></form>`;
+    $('#drawer-title').textContent = existing ? 'עריכת החיבור' : 'משהו חדש בעולם';
+    $('#drawer-content').innerHTML = `<button class="secondary" id="back-settings">→ חזרה לחיבורים</button><p>${existing ? 'אפשר לשנות את החיבור או להעביר אותו לחדר אחר.' : 'בחרו אתר שאוהבים ותנו לו מקום בעולם.'}</p><form id="source-form"><label class="field">שם<input name="name" maxlength="45" required placeholder="הפינה האהובה עליי ברשת" value="${escape(existing?.name || '')}" dir="auto"></label><label class="field">סוג החיבור<select name="kind"><option value="feed">כותרות מתעדכנות · RSS או Atom</option><option value="website">אתר חי · זיהוי תוכן</option><option value="evrit-books">עברית · ספרים חדשים מדי יום</option></select></label><label class="field"><span id="url-label">כתובת עדכוני RSS או Atom</span><input name="url" type="url" required placeholder="https://example.com/feed.xml" value="${escape(existing?.url || '')}"><small id="url-help">הזינו כתובת ישירה של ערוץ העדכונים. הכותרות החדשות יופיעו בחדר.</small></label><label class="field">חדר<select name="room"><option value="office">המשרד · שני מסכים</option><option value="library">הספרייה · מדפי ספרים</option></select><small>בחרו מסך במשרד או מקמו את החיבור בספרייה.</small></label><label class="field" id="screen-field">מסך במשרד<select name="screen"><option value="">חיבור לחדר בלבד</option><option value="0">מסך 1 · שמאל</option><option value="1">מסך 2 · ימין</option></select></label><p class="form-error" id="form-error" role="alert" hidden></p><button class="primary full" type="submit">${existing ? 'שמירת החיבור' : 'הוספה לעולם שלי'} ↗</button></form>`;
     $('#back-settings').onclick = () => openSettings();
-    if(staticData){const label=document.createElement('label');label.className='field';label.textContent='Published connection';const select=document.createElement('select');select.id='published-connection';select.innerHTML='<option value="">Choose a published source</option>'+staticData.sources.map(source=>`<option value="${escape(source.id)}">${escape(source.name)}</option>`).join('');label.append(select);$('#source-form').prepend(label);select.onchange=()=>{const source=staticData.sources.find(source=>source.id===select.value);if(!source)return;form.elements.name.value=source.name;form.elements.kind.value=source.kind;form.elements.url.value=source.url;form.elements.room.value=source.room;updatePlacement();updateKind();};}
+    if(staticData){const label=document.createElement('label');label.className='field';label.textContent='מקור מהקטלוג';const select=document.createElement('select');select.id='published-connection';select.innerHTML='<option value="">בחירת מקור מהקטלוג</option>'+staticData.sources.map(source=>`<option value="${escape(source.id)}">${escape(source.name)}</option>`).join('');label.append(select);$('#source-form').prepend(label);select.onchange=()=>{const source=staticData.sources.find(source=>source.id===select.value);if(!source)return;form.elements.name.value=source.name;form.elements.kind.value=source.kind;form.elements.url.value=source.url;form.elements.room.value=source.room;updatePlacement();updateKind();};}
     const form = $('#source-form');
     form.elements.kind.value = existing?.kind || 'feed';
     form.elements.room.value = existing?.room || (selectedRoom === 'library' ? 'library' : 'office');
@@ -477,14 +483,14 @@
       form.elements.url.readOnly = dailyBooks;
       if (dailyBooks) form.elements.url.value = 'https://www.e-vrit.co.il/';
       const link = form.elements.kind.value === 'website' || dailyBooks;
-      $('#url-label').textContent = link ? 'Live website URL' : 'RSS or Atom feed URL';
-      $('#url-help').textContent = link ? 'We discover its RSS feed, or extract current public page headings. Content refreshes every 5 minutes; sign-in pages are not supported yet.' : 'Use the direct feed address. We’ll show its latest headlines on your room’s object.';
+      $('#url-label').textContent = link ? 'כתובת האתר' : 'כתובת עדכוני RSS או Atom';
+      $('#url-help').textContent = link ? 'נזהה ערוץ RSS או נציג כותרות ציבוריות מהאתר. התוכן מתעדכן כל 5 דקות. אתרים הדורשים התחברות עדיין לא נתמכים.' : 'הזינו כתובת ישירה של ערוץ העדכונים. הכותרות החדשות יופיעו בחדר.';
       form.elements.url.placeholder = link ? 'https://example.com' : 'https://example.com/feed.xml';
       if (dailyBooks) {
-        $('#url-label').textContent = 'e-vrit homepage · ספרים חדשים';
-        $('#url-help').textContent = 'Follows the homepage’s ספרים חדשים collection and places its first 12 listed books, with real covers, on your shelves. Refreshes once each day, even across app restarts.';
+        $('#url-label').textContent = 'עמוד הבית של עברית · ספרים חדשים';
+        $('#url-help').textContent = 'מציג את 12 הספרים הראשונים באוסף הספרים החדשים בעמוד הבית של עברית, עם העטיפות המקוריות. מתעדכן פעם ביום.';
       }
-      if(staticData)$('#url-help').textContent='Choose a published connection. Add a new URL to the public JSON source catalog before its snapshot is available.';
+      if(staticData)$('#url-help').textContent='בחרו מקור מהקטלוג. כדי להוסיף כתובת חדשה, צריך קודם לפרסם אותה בקטלוג המקורות.';
     }
     form.elements.kind.onchange = () => {
       if (form.elements.kind.value === 'evrit-books') { form.elements.room.value = 'library'; updatePlacement(); }
@@ -493,23 +499,23 @@
     form.onsubmit = event => {
       event.preventDefault();
       const name = form.elements.name.value.trim(), url = safeURL(form.elements.url.value.trim());
-      if (!name || !url) { $('#form-error').hidden = false; $('#form-error').textContent = 'Add a name and a valid public http or https URL.'; return; }
+      if (!name || !url) { $('#form-error').hidden = false; $('#form-error').textContent = 'הזינו שם וכתובת ציבורית תקינה שמתחילה ב־http או https.'; return; }
       const source = {id: existing?.id || crypto.randomUUID(), name, url, room: form.elements.room.value, kind: form.elements.kind.value};
-      if(staticData&&!staticData.published(source)){$('#form-error').hidden=false;$('#form-error').textContent='Choose a published connection, or add this URL to data/sources.json and refresh the published snapshot first.';return;}
+      if(staticData&&!staticData.published(source)){$('#form-error').hidden=false;$('#form-error').textContent='בחרו מקור קיים, או הוסיפו את הכתובת לקטלוג המקורות ופרסמו נתונים מעודכנים.';return;}
       if (existing) config.sources = config.sources.map(s => s.id === existing.id ? source : s);
       else config.sources.push(source);
       config.officeScreens = config.officeScreens.map(id => id === source.id ? null : id);
       if (source.room === 'office' && form.elements.screen.value !== '') {const index=Number(form.elements.screen.value);config.officeScreens[index]=source.id;config.screenModes[index]='source';}
       delete feeds[source.id];feedChecked.delete(source.id); save(); openSettings();
       refreshFeed(source);
-      toast(existing ? 'Connection updated.' : 'A new connection. A little more you.');
+      toast(existing ? 'החיבור עודכן.' : 'חיבור חדש. עוד משהו משלך.');
     };
     form.elements.name.focus();
   }
   function openRoom(room, sourceId) {
     goTo(room);
     selectedSource = sourceId || (room === 'library' ? librarySource() : screenSource(0) || screenSource(1))?.id || config.sources.find(s => s.room === room)?.id;
-    openDrawer('room', room === 'office' ? 'The office.' : 'The library.', room === 'office' ? 'YOUR WINDOW TO THE WORLD' : 'A LITTLE ROOM FOR CURIOSITY');
+    openDrawer('room', room === 'office' ? 'המשרד' : 'הספרייה', room === 'office' ? 'החלון שלך לעולם' : 'מקום קטן לסקרנות');
     renderRoomContent();
   }
   function renderRoomContent() {
@@ -518,10 +524,10 @@
     selectedSource = source?.id;
     const tabs = roomSources.length > 1 ? `<div class="source-picker">${roomSources.map(s => `<button data-pick="${escape(s.id)}" class="${s.id === source.id ? 'active' : ''}">${escape(s.name)}</button>`).join('')}</div>` : '';
     const data = source && feeds[source.id];
-    $('#drawer-content').innerHTML = !source ? `<div class="empty">Nothing connected here yet.<br>Make a little room for your favorite website.</div><button class="primary full" id="room-add">＋ Add a website</button>`
-      : tabs + `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(source.name)}</h3><span class="status">${status(source)}</span></div><div class="source-url">${escape(source.url)}</div></article>` + `<p class="note">${data?.items ? `Updated ${escape(timeLabel(data.updatedAt))} · ${data.stale || data.error ? 'Showing cached content; source is currently unavailable.' : 'Checks every 5 minutes.'}` : 'Fetching live content from this source…'}</p>${data?.discoveredFeed ? `<p class="note">Discovered RSS feed: ${escape(data.discoveredFeed)}</p>` : data?.adapter === 'website' ? `<p class="note">Current public page headings from ${escape(data.pageTitle || source.name)}. JavaScript is not executed. These are page contents, not necessarily dated articles.</p>` : ''}${data?.error && !data.items ? `<p class="form-error">${escape(data.error)}</p><button class="secondary" id="retry-feed">↻ Try again</button>` : ''}<ul class="feed-list">${(data?.items || []).map(item => `<li>${safeURL(item.url) ? `<a href="${escape(safeURL(item.url))}" target="_blank" rel="noopener noreferrer" dir="auto">${escape(item.title)} ↗</a>` : `<span dir="auto">${escape(item.title)}</span>`}${item.date && !isNaN(Date.parse(item.date)) ? `<small>${escape(new Date(item.date).toLocaleDateString([], {month:'short',day:'numeric'}))}</small>` : ''}</li>`).join('')}</ul><div class="divider"></div><button class="secondary" id="room-edit">Manage this connection</button>`;
+    $('#drawer-content').innerHTML = !source ? `<div class="empty">עדיין אין כאן חיבורים.<br>אפשר לפנות מקום לאתר האהוב עליך.</div><button class="primary full" id="room-add">＋ הוספת אתר</button>`
+      : tabs + `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(source.name)}</h3><span class="status">${status(source)}</span></div><div class="source-url">${escape(source.url)}</div></article>` + `<p class="note">${data?.items ? `עודכן ב־${escape(timeLabel(data.updatedAt))} · ${data.stale || data.error ? 'מציגים תוכן שמור. המקור לא זמין כרגע.' : 'בדיקת עדכונים כל 5 דקות.'}` : 'טוענים תוכן מתעדכן מהמקור…'}</p>${data?.discoveredFeed ? `<p class="note">ערוץ RSS שזוהה: ${escape(data.discoveredFeed)}</p>` : data?.adapter === 'website' ? `<p class="note">כותרות ציבוריות מתוך ${escape(data.pageTitle || source.name)}. התוכן מוצג כפי שנאסף מהעמוד, ולא בהכרח כולל תאריך פרסום.</p>` : ''}${data?.error && !data.items ? `<p class="form-error">לא הצלחנו לטעון את המקור. נסו שוב בעוד רגע.</p><button class="secondary" id="retry-feed">↻ ניסיון נוסף</button>` : ''}<ul class="feed-list">${(data?.items || []).map(item => `<li>${safeURL(item.url) ? `<a href="${escape(safeURL(item.url))}" target="_blank" rel="noopener noreferrer" dir="auto">${escape(item.title)} ↗</a>` : `<span dir="auto">${escape(item.title)}</span>`}${item.date && !isNaN(Date.parse(item.date)) ? `<small>${escape(new Date(item.date).toLocaleDateString('he-IL', {month:'short',day:'numeric'}))}</small>` : ''}</li>`).join('')}</ul><div class="divider"></div><button class="secondary" id="room-edit">ניהול החיבור</button>`;
     if (source?.kind === 'evrit-books') {
-      $('#drawer-content').innerHTML = tabs + `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(source.name)}</h3><span class="status">${status(source)}</span></div><p class="note">${data?.items ? `Fetched ${escape(new Date(data.updatedAt).toLocaleString())} · ${data.stale || data.error ? 'Showing the saved shelf; retrying when connected.' : 'Refreshes daily at midnight, Israel time.'}` : 'Fetching the homepage’s ספרים חדשים collection…'}</p></article><p>Real covers from the new-books list linked on the e-vrit homepage, in the website’s displayed order.</p>${data?.error && !data.items ? `<p class="form-error">${escape(data.error)}</p><button class="secondary" id="retry-feed">↻ Try again</button>` : ''}<div class="book-grid">${(data?.items || []).map(book => `<button class="book-card" data-read-book="${escape(book.id)}"><img src="${escape(safeURL(book.cover) || '')}" alt="${escape(book.title)}" loading="lazy" referrerpolicy="no-referrer"><strong dir="auto">${escape(book.title)}</strong><span dir="auto">${escape(book.author || '')}</span></button>`).join('')}</div>${data?.sourceURL ? `<a class="secondary collection-link" href="${escape(safeURL(data.sourceURL))}" target="_blank" rel="noopener noreferrer">ספרים חדשים בעברית ↗</a>` : ''}<div class="divider"></div><button class="secondary" id="room-edit">Manage this connection</button>`;
+      $('#drawer-content').innerHTML = tabs + `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(source.name)}</h3><span class="status">${status(source)}</span></div><p class="note">${data?.items ? `נטען ב־${escape(new Date(data.updatedAt).toLocaleString('he-IL'))} · ${data.stale || data.error ? 'מציגים את המדף השמור. ננסה לעדכן כשהחיבור יחזור.' : 'מתעדכן מדי יום בחצות, שעון ישראל.'}` : 'טוענים את אוסף הספרים החדשים מעמוד הבית…'}</p></article><p>העטיפות המקוריות מאוסף הספרים החדשים באתר עברית, לפי הסדר באתר.</p>${data?.error && !data.items ? `<p class="form-error">לא הצלחנו לטעון את המקור. נסו שוב בעוד רגע.</p><button class="secondary" id="retry-feed">↻ ניסיון נוסף</button>` : ''}<div class="book-grid">${(data?.items || []).map(book => `<button class="book-card" data-read-book="${escape(book.id)}"><img src="${escape(safeURL(book.cover) || '')}" alt="${escape(book.title)}" loading="lazy" referrerpolicy="no-referrer"><strong dir="auto">${escape(book.title)}</strong><span dir="auto">${escape(book.author || '')}</span></button>`).join('')}</div>${data?.sourceURL ? `<a class="secondary collection-link" href="${escape(safeURL(data.sourceURL))}" target="_blank" rel="noopener noreferrer">ספרים חדשים בעברית ↗</a>` : ''}<div class="divider"></div><button class="secondary" id="room-edit">ניהול החיבור</button>`;
       $$('[data-read-book]').forEach(button => button.onclick = () => openBook(source, data.items.find(book => book.id === button.dataset.readBook)));
     }
     $$('[data-pick]').forEach(b => b.onclick = () => { selectedSource = b.dataset.pick; renderRoomContent(); });
@@ -534,20 +540,20 @@
     if (!book) return;
     if (move) goTo(source.room);
     selectedSource = source.id;
-    openDrawer('book', book.title, 'NEW ON THE SHELF · E-VRIT');
-    $('#drawer-content').innerHTML = `<button class="secondary" id="back-to-books">← All new books</button><div class="book-detail"><img src="${escape(safeURL(book.cover) || '')}" alt="${escape(book.title)}" referrerpolicy="no-referrer"><p dir="auto">${escape(book.author || '')}</p></div><a class="primary full" style="text-decoration:none" href="${escape(safeURL(book.url))}" target="_blank" rel="noopener noreferrer">View book on e-vrit ↗</a><p class="note">From the homepage’s ספרים חדשים collection. Your shelves refresh daily; this opens the original book page.</p>`;
+    openDrawer('book', book.title, 'חדש על המדף · עברית');
+    $('#drawer-content').innerHTML = `<button class="secondary" id="back-to-books">→ לכל הספרים החדשים</button><div class="book-detail"><img src="${escape(safeURL(book.cover) || '')}" alt="${escape(book.title)}" referrerpolicy="no-referrer"><p dir="auto">${escape(book.author || '')}</p></div><a class="primary full" style="text-decoration:none" href="${escape(safeURL(book.url))}" target="_blank" rel="noopener noreferrer">לעמוד הספר באתר עברית ↗</a><p class="note">מתוך אוסף הספרים החדשים באתר עברית. המדפים מתעדכנים מדי יום. הקישור פותח את עמוד הספר המקורי.</p>`;
     $('#back-to-books').onclick = () => openRoom(source.room, source.id);
   }
 
   $('#manage').onclick = () => openSettings();
-  $('#world-editor-launcher').onclick=()=>openSettings();
+  $('#world-editor-launcher').onclick=()=>nativeManaged?native('edit'):openSettings();
   $('#close-drawer').onclick = () => compactEditor?native('closeEditor'):closeDrawer();
   $('#backdrop').onclick = closeDrawer;
   $('#office-card').onclick = () => openRoom('office');
   $('#library-card').onclick = () => openRoom('library');
   for (const index of [0,1]) $(`#office-object${index ? '-2' : ''}`).onclick = () => {
     const source = screenSource(index);
-    if (source) openRoom('office', source.id); else { openSettings(); toast(`Choose a source for office screen ${index + 1}.`); }
+    if (source) openRoom('office', source.id); else { openSettings(); toast(`בחרו מקור למסך ${index + 1} במשרד.`); }
   };
   $('#library-shelf-control').onclick = () => openRoom('library');
   $$('[data-room]').forEach(b => b.addEventListener('click', () => goTo(b.dataset.room)));
@@ -584,7 +590,7 @@
   function tickClock() {
     const date = new Date();
     const wall=roomProps.clock(date);
-    $('#clock').textContent = date.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    $('#clock').textContent = date.toLocaleTimeString('he-IL', {hour:'2-digit',minute:'2-digit'});
     $('#wall-clock-digital').textContent=wall.text;
     window.dispatchEvent(new CustomEvent('world:clock',{detail:wall}));
     renderAmbience();
@@ -594,7 +600,7 @@
   window.worldApp = {
     setPaused,setHostState,isActive,getSceneState:sceneState,getClockState:()=>roomProps.clock(),
     getCharacterState:() => ({...routine.snapshot(),paused,reducedMotion:reducedMotion.matches,active:isActive(),lowPower}),
-    readBook,expressMood,
+    readBook,expressMood,setCameraEnabled:value=>value?camera.enable():camera.disable(),
     selectBook,walkTo,importPhoto,setPhoto,choosePhoto,
     enterWorld:()=>setInteraction(true),leaveWorld:()=>setInteraction(false),
     editWorld:()=>nativeManaged?native('edit'):openSettings('world'),
@@ -605,12 +611,12 @@
     },
     coverURL:url=>nativeManaged?`/api/cover?url=${encodeURIComponent(url)}`:safeURL(url)||'',
     openReadingBook() { const source=librarySource(), book=routine.snapshot().book; if(source&&book)openBook(source,book,false); },
-    openScreen(index) { if(config.screenModes[index]==='webcam'){if(camera.snapshot().status==='live')openSettings('connections');else camera.enable();return;} const source = screenSource(index); if (source) openRoom('office',source.id); else openSettings(); },
+    openScreen(index) { if(config.screenModes[index]==='webcam'){if(camera.snapshot().status==='live')openSettings('connections');else enableCamera();return;} const source = screenSource(index); if (source) openRoom('office',source.id); else openSettings(); },
     openLibrary:() => openRoom('library'),
     openBookAt(index) { const source=librarySource(), book=shelfBooks()[index]; if (book) openBook(source,book); },
     visitRoom:goTo,
     restoreNative(value) {
-    try { config = validateConfig(JSON.parse(value));camera.setModes(config.screenModes);updateEnergy();settingsStore.write(config);render();activityChanged();if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
+    try { const previousRoom=selectedRoom;config = validateConfig(JSON.parse(value));camera.setModes(config.screenModes);updateEnergy();settingsStore.write(config);selectRoom(config.room);if(previousRoom!==config.room)routine.visit(config.room,true);render();setPaused(config.paused,false);if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
     catch { /* Keep the current usable setup. */ }
   }};
   camera.setModes(config.screenModes);selectRoom(config.room);
@@ -627,15 +633,15 @@
     const canExpand=!!document.fullscreenEnabled&&!!document.documentElement.requestFullscreen;
     const updateFullscreen=()=>{
       const active=!!document.fullscreenElement;
-      full.hidden=false;full.textContent=active?'Exit full screen':'Full screen';
+      full.hidden=false;full.textContent=active?'יציאה ממסך מלא':'מסך מלא';
       expand.hidden=installed()&&!active;
-      expand.setAttribute('aria-label',active?'Exit full screen':'Enter full screen');
-      expand.title=active?'Exit full screen':'Enter full screen';
+      expand.setAttribute('aria-label',active?'יציאה ממסך מלא':'כניסה למסך מלא');
+      expand.title=active?'יציאה ממסך מלא':'כניסה למסך מלא';
     };
     const toggleFullscreen=async()=>{
-      if(!document.fullscreenElement&&!canExpand){toast('For a view without browser bars: Share → Add to Home Screen, then open Little World from its icon.');return;}
+      if(!document.fullscreenElement&&!canExpand){toast('לתצוגה בלי סרגלי הדפדפן: שיתוף ← הוספה למסך הבית, ואז פתחו את עולם קטן מהסמל שלו.');return;}
       try{if(document.fullscreenElement)await document.exitFullscreen();else{setFocusView(true);await document.documentElement.requestFullscreen({navigationUI:'hide'});}}
-      catch{toast('Full screen was unavailable. Open Little World from Add to Home Screen for a view without browser bars.');}
+      catch{toast('מסך מלא לא זמין כאן. הוסיפו את עולם קטן למסך הבית ופתחו אותו משם כדי להסתיר את סרגלי הדפדפן.');}
     };
     full.onclick=toggleFullscreen;expand.onclick=toggleFullscreen;
     document.addEventListener('fullscreenchange',updateFullscreen);
@@ -655,6 +661,6 @@
   portraitQuery.addEventListener('change',()=>{portraitMobile=browserApp&&portraitQuery.matches;document.body.classList.toggle('portrait-mobile',portraitMobile);activityChanged();});
   darkAppearance.addEventListener('change',event=>{if(!nativeManaged){systemDark=event.matches;activityChanged();}});
   document.addEventListener('visibilitychange',activityChanged);
-  addEventListener('pagehide',()=>camera.dispose());
+  addEventListener('pagehide',()=>{camera.dispose();portraitMotion.dispose();});
   activityChanged();
 })();

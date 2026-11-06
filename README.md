@@ -8,11 +8,13 @@ The published site is HTML, CSS, JavaScript, PNGs and JSON. **No app server, dat
 
 **Upload `web/` as-is to any static host. There is no required build step.** The refresh script and workflow are optional tools for updating the JSON automatically.
 
+The interface is in Hebrew with RTL settings and accessible labels. Feed headlines, source names and user content retain their original language. The physical room is never mirrored.
+
 ## Use it
 
 - The site opens directly into the interactive world on desktop and landscape phones, with one small **Open full editor** button. Tap a particular book to read it or the floor to choose a destination. Phone landscape fills the entire viewport, including behind the notch, cropping outer scenery when necessary instead of shrinking the world to preserve its edges. Desktop retains the whole-room framing.
 - The small expand button in landscape requests full screen with browser navigation hidden when supported. Where the browser does not offer page fullscreen, it explains how to open the site from **Add to Home Screen**. The web manifest and Apple standalone metadata support launching outside the browser tab. The scene ignores notch and home-indicator safe areas in landscape. Editor/fullscreen controls remain inside safe areas so they are easy to tap.
-- Portrait phones show the clay character pointing to a rotate-phone illustration. Turning the phone sideways automatically reveals the world. The hidden room's animation is suspended while the portrait prompt is showing.
+- Portrait phones show the character sitting on a handmade clay couch and reading, with a phone turning above his head and a Hebrew rotation prompt. Turning the phone sideways automatically reveals the world. A separate low-frequency reading loop runs only in visible portrait mode and stops while editing, paused, hidden, in landscape, in low-power mode or with Reduce Motion. The hidden full room stays suspended.
 - **Open full editor** provides pause/resume, Enter/Leave world, room navigation, reading and full screen, plus appearance, screen assignments, published connections, lighting and battery previews. Add a wall picture by choosing or dropping a JPG/PNG/WebP. Esc closes the editor or leaves interactive mode; the world-only presentation remains.
 - Changes save automatically in localStorage: name, wandering, lighting, city, sources and monitor assignments, picture, battery preferences, pause state, room choice, mood selection and the last editor tab. Existing saved worlds keep the same storage key. If storage is blocked/full, the site reports that changes could not be saved. Enter World mode always starts enabled, and the editor always starts closed.
 - The character uses the original shirt artwork in every pose and in the portrait rotation guide; shirt recoloring has been removed. Old saved color choices are ignored while other preferences remain.

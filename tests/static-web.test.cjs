@@ -14,8 +14,8 @@ test('static data shares one JSON fetch, caches it, and force refresh reads new 
 });
 test('unpublished connections cannot borrow a different URL snapshot; old content is labeled stale',async()=>{
  const c=create({load:async()=>snapshot,now:()=>Date.parse(snapshot.generatedAt)+86400001});await c.refresh();
- assert.throws(()=>c.feed({...source,url:'https://other.example/rss'}),/published JSON/);
- assert.equal(c.feed(source).stale,true);assert.throws(()=>c.weather('missing'),/published weather/);
+ assert.throws(()=>c.feed({...source,url:'https://other.example/rss'}),/בנתונים שפורסמו/);
+ assert.equal(c.feed(source).stale,true);assert.throws(()=>c.weather('missing'),/נתוני מזג אוויר/);
 });
 test('a failed JSON refresh preserves the last usable publication and can retry',async()=>{
  let fail=false;const c=create({load:async()=>{if(fail)throw new Error('offline');return snapshot;}});
@@ -32,7 +32,7 @@ test('browser battery follows change events and disposes listeners without polli
 test('unsupported or denied browser battery never pretends to measure a desktop battery',async()=>{
  for(const navigator of [{},{getBattery:async()=>{throw new Error('denied');}}]){
   let sample;await observeBattery(navigator,value=>sample=value);
-  assert.match(energy.state(sample).label,/unavailable/);assert.equal(energy.state(sample).stage,0);
+  assert.match(energy.state(sample).label,/לא זמינים/);assert.equal(energy.state(sample).stage,0);
   assert.equal(energy.state(sample,'5').stage,3);assert.equal(energy.state(sample,'5').demo,true);
  }
 });

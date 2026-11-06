@@ -8,28 +8,28 @@ const layout=window.LittleWorldLayout;
 const {W,H}=layout,A='assets/animation/';
 const surface=document.createElement('div');surface.className='photo-surface';
 surface.innerHTML=`
-  <img class="photo-room" src="assets/photographic-clay-room-v3.png" alt="Hand-sculpted clay office and library, photographed miniature style" draggable="false">
+  <img class="photo-room" src="assets/photographic-clay-room-v3.png" alt="משרד וספרייה מיניאטוריים מפלסטלינה, בעבודת יד" draggable="false">
   <img class="photo-room-night" alt="" aria-hidden="true" draggable="false">
-  <time class="photo-digital-clock" aria-label="Local time">--:--</time>
+  <time class="photo-digital-clock" aria-label="השעה המקומית">--:--</time>
   <div class="photo-chair-shadow" aria-hidden="true"></div>
-  <img class="photo-office-chair" src="assets/animation/office-chair-0.png" alt="Turquoise clay swivel chair" draggable="false">
-  <button class="photo-wall-frame" aria-label="Choose a picture for the wall frame"><img alt="Your wall picture" hidden></button>
+  <img class="photo-office-chair" src="assets/animation/office-chair-0.png" alt="כיסא מסתובב מפלסטלינה בצבע טורקיז" draggable="false">
+  <button class="photo-wall-frame" aria-label="בחירת תמונה למסגרת שעל הקיר"><img alt="התמונה שלך על הקיר" hidden></button>
   <div class="photo-lamp-glow" aria-hidden="true"></div>
   <div class="photo-window-weather" aria-hidden="true"></div>
   <div class="photo-steam" aria-hidden="true"><i></i><i></i><i></i></div>
-  <div class="photo-books" role="group" aria-label="New books from e-vrit, refreshed daily"></div>
+  <div class="photo-books" role="group" aria-label="ספרים חדשים בעברית, מתעדכנים מדי יום"></div>
   <div class="photo-plant-ground" aria-hidden="true"></div>
   <img class="photo-plant photo-plant-left" alt="" draggable="false">
   <img class="photo-plant photo-plant-right" alt="" draggable="false">
-  <img class="photo-library-steps" alt="Library steps for a high shelf" draggable="false" hidden>
-  <button class="photo-avatar" aria-label="Your character"><span class="photo-avatar-flip"><img class="photo-person" alt="" draggable="false"><img class="photo-seat-blend" alt="" draggable="false" hidden><img class="photo-carried-cover" alt="" draggable="false"><img class="photo-hand photo-hand-left" alt="" draggable="false"><img class="photo-hand photo-hand-right" alt="" draggable="false"></span></button>
+  <img class="photo-library-steps" alt="סולם הספרייה להגעה למדף גבוה" draggable="false" hidden>
+  <button class="photo-avatar" aria-label="הדמות שלך"><span class="photo-avatar-flip"><img class="photo-person" alt="" draggable="false"><img class="photo-seat-blend" alt="" draggable="false" hidden><img class="photo-carried-cover" alt="" draggable="false"><img class="photo-hand photo-hand-left" alt="" draggable="false"><img class="photo-hand photo-hand-right" alt="" draggable="false"></span></button>
   <button class="photo-monitor photo-monitor-one"><span class="photo-monitor-status"></span><strong dir="auto"></strong><span class="photo-headline" dir="auto"></span></button>
   <button class="photo-monitor photo-monitor-two"><span class="photo-monitor-status"></span><strong dir="auto"></strong><span class="photo-headline" dir="auto"></span></button>
-  <button class="photo-library-label" aria-label="Open the library">ספרים חדשים · עברית <span>DAILY</span></button>
+  <button class="photo-library-label" aria-label="פתיחת הספרייה">ספרים חדשים · עברית <span>עדכון יומי</span></button>
 `;
 host.replaceChildren(surface);
-const worldBar=document.createElement('nav');worldBar.className='world-interaction-bar';worldBar.setAttribute('aria-label','World controls');
-worldBar.innerHTML='<strong>You are in your world</strong><span>Click a book to read · click the floor to walk · drop a picture in the wall frame</span><button data-world-action="office">Office</button><button data-world-action="library">Library</button><button data-world-action="edit">Edit</button><button data-world-action="exit">Leave world · Esc</button>';
+const worldBar=document.createElement('nav');worldBar.className='world-interaction-bar';worldBar.setAttribute('aria-label','שליטה בעולם');
+worldBar.innerHTML='<strong>העולם שלך פתוח</strong><span>בחרו ספר לקריאה · לחצו על הרצפה כדי ללכת · גררו תמונה למסגרת</span><button data-world-action="office">המשרד</button><button data-world-action="library">הספרייה</button><button data-world-action="edit">עריכה</button><button data-world-action="exit">יציאה מהעולם · Esc</button>';
 (document.body.classList.contains('browser-app')?host.closest('.world-stage'):document.body).append(worldBar);
 worldBar.onclick=event=>{const action=event.target.dataset.worldAction;if(action==='exit')api.leaveWorld();else if(action==='edit')api.editWorld();else if(action)api.visitRoom(action);};
 const wallFrame=surface.querySelector('.photo-wall-frame'),wallPicture=wallFrame.querySelector('img'),steps=surface.querySelector('.photo-library-steps');
@@ -50,15 +50,15 @@ const flip=surface.querySelector('.photo-avatar-flip'),heldCover=surface.querySe
 const hands=[...surface.querySelectorAll('.photo-hand')];
 const shelves=surface.querySelector('.photo-books'),monitors=[...surface.querySelectorAll('.photo-monitor')];
 const cameraViews=monitors.map((button,index)=>{
-  const video=document.createElement('video');video.className='photo-webcam';video.autoplay=true;video.muted=true;video.defaultMuted=true;video.playsInline=true;video.hidden=true;video.setAttribute('aria-label',`Live webcam on screen ${index+1}`);
+  const video=document.createElement('video');video.className='photo-webcam';video.autoplay=true;video.muted=true;video.defaultMuted=true;video.playsInline=true;video.hidden=true;video.setAttribute('aria-label',`מצלמה חיה במסך ${index+1}`);
   const message=document.createElement('span');message.className='photo-camera-label';message.hidden=true;
-  const live=document.createElement('span');live.className='photo-camera-live';live.textContent='● LIVE';live.hidden=true;
+  const live=document.createElement('span');live.className='photo-camera-live';live.textContent='● בשידור חי';live.hidden=true;
   video.onplaying=()=>{video.dataset.blocked='false';if(video.srcObject)message.hidden=true;};
   button.append(video,message,live);return {video,message,live};
 });
 const plants=[...surface.querySelectorAll('.photo-plant')];
 const officeChair=surface.querySelector('.photo-office-chair'),digitalClock=surface.querySelector('.photo-digital-clock');
-function drawClock(clock){digitalClock.textContent=clock.text;digitalClock.dateTime=clock.datetime;digitalClock.setAttribute('aria-label',`Local time ${clock.text}`);}
+function drawClock(clock){digitalClock.textContent=clock.text;digitalClock.dateTime=clock.datetime;digitalClock.setAttribute('aria-label',`השעה המקומית ${clock.text}`);}
 drawClock(api.getClockState());
 let state=api.getSceneState(),booksSignature='',width=0,height=0,coverURL='',heldSignature='',ambientFrame=0;
 const bookButtons=[];
@@ -97,12 +97,12 @@ function update(next){
     const {video,message,live}=cameraViews[index],stream=screen.mode==='webcam'&&state.camera.status==='live'?state.camera.stream:null;
     if(video.srcObject!==stream){
       video.srcObject=stream;video.dataset.blocked='false';
-      if(stream)video.play()?.catch(()=>{if(video.srcObject===stream){video.dataset.blocked='true';message.textContent='Tap to play webcam';message.hidden=false;}});
+      if(stream)video.play()?.catch(()=>{if(video.srcObject===stream){video.dataset.blocked='true';message.textContent='לחצו להפעלת הווידאו';message.hidden=false;}});
     }
     video.hidden=!stream;live.hidden=!stream;
     message.hidden=screen.mode!=='webcam'||!!stream&&video.dataset.blocked!=='true';
-    message.textContent=video.dataset.blocked==='true'?'Tap to play webcam':screen.headline;
-    button.setAttribute('aria-label',`Office screen ${index+1}: ${screen.name}. ${screen.headline}`);
+    message.textContent=video.dataset.blocked==='true'?'לחצו להפעלת הווידאו':screen.headline;
+    button.setAttribute('aria-label',`מסך במשרד ${index+1}: ${screen.name}. ${screen.headline}`);
     button.querySelector('strong').textContent=screen.name;
     button.querySelector('.photo-headline').textContent=screen.headline;
     button.querySelector('.photo-monitor-status').textContent=screen.status;
@@ -123,7 +123,7 @@ function update(next){
       button.dataset.bookUrl=book.url;shelves.append(button);bookButtons.push(button);
     });
   }
-  actor.setAttribute('aria-label',`${state.name}: choose a book, or open the book being read`);
+  actor.setAttribute('aria-label',`${state.name}: בחירת ספר או פתיחת הספר שנקרא עכשיו`);
   drawCharacter(api.getCharacterState());drawPlants();
 }
 monitors.forEach((button,index)=>button.onclick=()=>{
@@ -155,6 +155,8 @@ function drawPlants(){
   const stopped=!state.active||state.paused||state.reducedMotion||state.lowPower;
   const stage=state.energy?.stage||0;
   plants.forEach((plant,index)=>{
+    // Opacity avoids WebKit retaining a black filtered surface after night mode.
+    plant.style.filter='none';plant.style.opacity=state.mode==='night'?'.10':state.mode==='dusk'?'.87':'1';
     source(plant,A+(stage?`plant-energy-${index*3+stage-1}.png`:`plant-frame-${index*6+(stopped?0:ambientFrame%6)}.png`));
     plant.style.transform=stage?`translateY(${index?9.1:4.1}%)`:'';
   });

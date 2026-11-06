@@ -1,11 +1,16 @@
 {
   "id": "./",
-  "name": "Little World",
-  "short_name": "Little World",
+  "name": "עולם קטן",
+  "short_name": "עולם קטן",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["fullscreen", "standalone"],
+  "display_override": [
+    "fullscreen",
+    "standalone"
+  ],
   "background_color": "#ead4b3",
-  "theme_color": "#ead4b3"
+  "theme_color": "#ead4b3",
+  "lang": "he",
+  "dir": "rtl"
 }
