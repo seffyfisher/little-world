@@ -4,6 +4,11 @@ const {observeBattery}=require('../web/browser-platform.js');
 const energy=require('../web/energy.js');
 const source={id:'news',url:'https://example.com/rss',kind:'feed',room:'office'};
 const snapshot={schemaVersion:1,generatedAt:'2026-11-05T00:00:00Z',sources:[source],feeds:{news:{items:[{title:'A real published item'}],updatedAt:'2026-11-05T00:00:00Z'}},weather:{'tel-aviv':{current:{temperature_2m:20}}}};
+test('published catalog feeds can be selected without becoming default visitor connections',async()=>{
+ const extra={...source,id:'catalog-rss-000000000001',url:'https://catalog.example/rss'};
+ const c=create({load:async()=>({...snapshot,catalogSources:[extra],feeds:{...snapshot.feeds,[extra.id]:{items:[{title:'Catalog article'}]}}})});
+ await c.refresh();assert.deepEqual(c.sources,[source]);assert.equal(c.feed({...extra,id:'visitor-choice'}).items[0].title,'Catalog article');
+});
 test('static data shares one JSON fetch, caches it, and force refresh reads new publication',async()=>{
  let calls=0,now=Date.parse(snapshot.generatedAt);const c=create({load:async()=>{calls++;return structuredClone(snapshot);},now:()=>now});
  await Promise.all([c.refresh(),c.refresh(),c.refresh()]);assert.equal(calls,1);

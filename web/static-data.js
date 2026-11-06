@@ -12,7 +12,7 @@
       })();
       try{return await pending;}finally{pending=null;}
     }
-    function published(source){return snapshot?.sources.find(item=>item.url===source.url&&item.kind===source.kind);}
+    function published(source){return [...(snapshot?.sources||[]),...(snapshot?.catalogSources||[])].find(item=>item.url===source.url&&item.kind===source.kind);}
     function feed(source){
       const match=published(source),value=match&&snapshot.feeds[match.id];
       if(!value)throw new Error('החיבור הזה עדיין לא זמין בנתונים שפורסמו.');

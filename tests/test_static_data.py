@@ -11,6 +11,22 @@ SOURCE = {'id': 'news', 'url': 'https://example.com/rss', 'kind': 'feed', 'room'
 
 
 class StaticDataTests(unittest.TestCase):
+    def test_large_catalog_is_published_separately_from_default_connections(self):
+        catalog = [{**SOURCE, 'id': f'catalog-rss-{i:012x}', 'url': f'https://example.com/{i}'} for i in range(141)]
+        with patch.object(builder.server, 'feed_data', return_value={'items': [{'title': 'Actual fixture item'}]}), patch.object(builder.server, 'weather_data', return_value={}):
+            result = builder.generate([SOURCE], catalog_sources=catalog)
+        self.assertEqual(result['sources'], [SOURCE])
+        self.assertEqual(len(result['catalogSources']), 141)
+        self.assertEqual(len(result['feeds']), 142)
+
+    def test_catalog_failure_preserves_its_previous_real_snapshot(self):
+        source = {**SOURCE, 'id': 'catalog-rss-000000000001'}
+        previous = {'sources': [SOURCE], 'catalogSources': [source], 'feeds': {source['id']: {'items': [{'title': 'Previous catalog article'}], 'updatedAt': '2026-11-05T00:00:00Z'}}}
+        with patch.object(builder.server, 'feed_data', side_effect=OSError('offline')), patch.object(builder.server, 'weather_data', return_value={}):
+            result = builder.generate([SOURCE], previous, catalog_sources=[source])
+        self.assertEqual(result['feeds'][source['id']]['items'][0]['title'], 'Previous catalog article')
+        self.assertTrue(result['feeds'][source['id']]['stale'])
+
     def test_upstream_failure_keeps_previous_items_with_original_timestamp(self):
         previous = {'items': [{'title': 'Previous real item'}], 'updatedAt': '2026-11-05T00:00:00Z'}
         with patch.object(builder.server, 'feed_data', side_effect=OSError('offline')):

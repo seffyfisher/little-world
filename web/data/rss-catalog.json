@@ -1,0 +1,1897 @@
+{
+  "schemaVersion": 1,
+  "origin": {
+    "url": "https://github.com/tuan3w/awesome-tech-rss",
+    "commit": "cb81203ac637392b4dc3d829ad20b9bb189d7f51",
+    "license": "CC0-1.0"
+  },
+  "upstreamEntries": 143,
+  "categories": [
+    {
+      "id": "Learning",
+      "label": "למידה"
+    },
+    {
+      "id": "Startup",
+      "label": "יזמות וסטארטאפים"
+    },
+    {
+      "id": "Tech News",
+      "label": "חדשות טכנולוגיה"
+    },
+    {
+      "id": "Products & Ideas",
+      "label": "מוצרים ורעיונות"
+    },
+    {
+      "id": "Engineering blogs",
+      "label": "פיתוח והנדסה"
+    },
+    {
+      "id": "Machine Learning",
+      "label": "בינה מלאכותית"
+    },
+    {
+      "id": "Design",
+      "label": "עיצוב וחוויית משתמש"
+    },
+    {
+      "id": "Psychology",
+      "label": "פסיכולוגיה"
+    },
+    {
+      "id": "Neuroscience",
+      "label": "מדעי המוח"
+    },
+    {
+      "id": "Science",
+      "label": "מדע"
+    },
+    {
+      "id": "Marketing",
+      "label": "שיווק"
+    },
+    {
+      "id": "Others",
+      "label": "עוד מקורות"
+    }
+  ],
+  "sources": [
+    {
+      "id": "catalog-rss-1a23d2c54896",
+      "name": "The Decision Lab",
+      "url": "https://thedecisionlab.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Learning"
+      ],
+      "aliases": [
+        "https://thedecisionlab.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-d8c2a8ed73ee",
+      "name": "Ness Labs",
+      "url": "https://nesslabs.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Learning"
+      ],
+      "aliases": [
+        "https://nesslabs.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-ee53a88a0910",
+      "name": "Farnam Street",
+      "url": "https://fs.blog/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Learning"
+      ],
+      "aliases": [
+        "https://fs.blog/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-f127c1b43b67",
+      "name": "The Sunday Wisdom",
+      "url": "https://coffeeandjunk.substack.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Learning"
+      ],
+      "aliases": [
+        "https://coffeeandjunk.substack.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-651133313155",
+      "name": "Commonplace - The Commoncog Blog",
+      "url": "https://commoncog.com/blog/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Learning"
+      ],
+      "aliases": [
+        "https://commoncog.com/blog/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-e1d507c8ad95",
+      "name": "Scott H Young",
+      "url": "https://feeds.feedburner.com/scotthyoung/HAHx",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Learning"
+      ],
+      "aliases": [
+        "https://feeds.feedburner.com/scotthyoung/HAHx"
+      ]
+    },
+    {
+      "id": "catalog-rss-18f838be536c",
+      "name": "Big Think",
+      "url": "https://feeds.feedburner.com/bigthink/main",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Learning"
+      ],
+      "aliases": [
+        "https://feeds.feedburner.com/bigthink/main"
+      ]
+    },
+    {
+      "id": "catalog-rss-0db8c25beac9",
+      "name": "Steve Blank",
+      "url": "http://steveblank.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://steveblank.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-68e950f671d2",
+      "name": "The singularity is nearer",
+      "url": "https://geohot.github.io/blog/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "https://geohot.github.io/blog/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-7198d80d0366",
+      "name": "Hacker News",
+      "url": "http://news.ycombinator.com/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://news.ycombinator.com/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-77d58c12bc96",
+      "name": "Guy Kawasaki",
+      "url": "http://guykawasaki.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://guykawasaki.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-0b559e89d3d1",
+      "name": "Essays - Benedict Evans",
+      "url": "http://ben-evans.com/benedictevans?format=rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://ben-evans.com/benedictevans?format=rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-7184e7f38017",
+      "name": "First Round Review",
+      "url": "http://firstround.com/review/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://firstround.com/review/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-05cbbe7b505b",
+      "name": "Sam Altman",
+      "url": "http://blog.samaltman.com/posts.atom",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://blog.samaltman.com/posts.atom"
+      ]
+    },
+    {
+      "id": "catalog-rss-e19171dca948",
+      "name": "Andrew Chen",
+      "url": "http://andrewchen.co/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://andrewchen.co/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-2be14d35f780",
+      "name": "Both Sides of the Table - Medium",
+      "url": "https://bothsidesofthetable.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "https://bothsidesofthetable.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-721a4f717bfd",
+      "name": "Both Sides of the Table",
+      "url": "http://feeds.feedburner.com/BothSidesOfTheTable",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/BothSidesOfTheTable"
+      ]
+    },
+    {
+      "id": "catalog-rss-5482bf7c5bef",
+      "name": "OnStartups",
+      "url": "http://feed.onstartups.com/onstartups",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "http://feed.onstartups.com/onstartups"
+      ]
+    },
+    {
+      "id": "catalog-rss-1d3e64c8d8b0",
+      "name": "The Black Box of Product Management - Medium",
+      "url": "https://medium.com/feed/the-black-box-of-product-management",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "https://medium.com/feed/the-black-box-of-product-management"
+      ]
+    },
+    {
+      "id": "catalog-rss-8580f6d5aabb",
+      "name": "Product Life",
+      "url": "https://productlife.to/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "https://productlife.to/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-c14d08f92dee",
+      "name": "Irrational Exuberance",
+      "url": "https://lethain.com/feeds/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Startup"
+      ],
+      "aliases": [
+        "https://lethain.com/feeds/"
+      ]
+    },
+    {
+      "id": "catalog-rss-ca3f9b051f40",
+      "name": "SlashGear",
+      "url": "http://feeds.slashgear.com/slashgear",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "http://feeds.slashgear.com/slashgear"
+      ]
+    },
+    {
+      "id": "catalog-rss-7d787abf3612",
+      "name": "VentureBeat",
+      "url": "http://venturebeat.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "http://venturebeat.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-371857f70381",
+      "name": "The Verge",
+      "url": "http://www.theverge.com/rss/full.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "http://www.theverge.com/rss/full.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-1dd450f0502a",
+      "name": "Engadget",
+      "url": "http://www.engadget.com/rss-full.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "http://www.engadget.com/rss-full.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-ffee8c5490e7",
+      "name": "Tech in Asia",
+      "url": "https://feeds2.feedburner.com/PennOlson",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "https://feeds2.feedburner.com/PennOlson"
+      ]
+    },
+    {
+      "id": "catalog-rss-7c18f6f34132",
+      "name": "TechCrunch",
+      "url": "https://techcrunch.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "https://techcrunch.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-71d2c3e436fa",
+      "name": "Fast Company",
+      "url": "http://www.fastcodesign.com/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "http://www.fastcodesign.com/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-94287df700b3",
+      "name": "Startups – TechCrunch",
+      "url": "https://techcrunch.com/startups/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "https://techcrunch.com/startups/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-6799311d0dbb",
+      "name": "Forbes - Leadership",
+      "url": "https://www.forbes.com/leadership/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "https://www.forbes.com/leadership/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-ec030c551f84",
+      "name": "Fast Company",
+      "url": "http://feeds.feedburner.com/fastcompany/headlines",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/fastcompany/headlines"
+      ]
+    },
+    {
+      "id": "catalog-rss-6ac191648c8b",
+      "name": "Forbes - Entrepreneurs",
+      "url": "http://www.forbes.com/entrepreneurs/index.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Tech News"
+      ],
+      "aliases": [
+        "http://www.forbes.com/entrepreneurs/index.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-7210e36e4fc8",
+      "name": "Product Hunt — The best new products, every day",
+      "url": "http://www.producthunt.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Products & Ideas"
+      ],
+      "aliases": [
+        "http://www.producthunt.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-132a8fdfa839",
+      "name": "Hacker News: Show HN",
+      "url": "http://hnrss.org/show",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Products & Ideas"
+      ],
+      "aliases": [
+        "http://hnrss.org/show"
+      ]
+    },
+    {
+      "id": "catalog-rss-54e611941204",
+      "name": "Hacker News: Launches",
+      "url": "https://hnrss.org/launches",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Products & Ideas"
+      ],
+      "aliases": [
+        "https://hnrss.org/launches"
+      ]
+    },
+    {
+      "id": "catalog-rss-317e039f0d06",
+      "name": "Sachin Rekhi's Blog",
+      "url": "http://feeds.feedburner.com/sachinrekhiblog",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Products & Ideas"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/sachinrekhiblog"
+      ]
+    },
+    {
+      "id": "catalog-rss-aa82c05349b5",
+      "name": "The Airtable Engineering Blog",
+      "url": "https://medium.com/feed/airtable-eng",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://medium.com/feed/airtable-eng"
+      ]
+    },
+    {
+      "id": "catalog-rss-9f9c9cfd7378",
+      "name": "Medium Engineering - Medium",
+      "url": "https://medium.com/feed/medium-eng",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://medium.com/feed/medium-eng"
+      ]
+    },
+    {
+      "id": "catalog-rss-4b1c82801386",
+      "name": "The PayPal Technology Blog - Medium",
+      "url": "https://medium.com/feed/paypal-engineering",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://medium.com/feed/paypal-engineering"
+      ]
+    },
+    {
+      "id": "catalog-rss-b51652cf7f8a",
+      "name": "Pinterest Engineering Blog - Medium",
+      "url": "https://medium.com/feed/pinterest-engineering",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://medium.com/feed/pinterest-engineering"
+      ]
+    },
+    {
+      "id": "catalog-rss-b588b3979acd",
+      "name": "Grab Tech",
+      "url": "https://engineering.grab.com/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "http://engineering.grab.com/feed.xml",
+        "https://engineering.grab.com/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-067e20fcc07e",
+      "name": "Slack Engineering",
+      "url": "https://slack.engineering/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://slack.engineering/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-92418dbf97e4",
+      "name": "Engineering – The GitHub Blog",
+      "url": "http://githubengineering.com/atom.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "http://githubengineering.com/atom.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-07a6b46812d8",
+      "name": "Atlassian Developer Blog",
+      "url": "https://developer.atlassian.com/blog/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://developer.atlassian.com/blog/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-72d2db7e7d84",
+      "name": "Facebook Engineering",
+      "url": "https://code.facebook.com/posts/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://code.facebook.com/posts/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-70d2dcb029df",
+      "name": "Grokking Newsletter",
+      "url": "http://newsletter.grokking.org/?format=rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "http://newsletter.grokking.org/?format=rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-d668684bb255",
+      "name": "eBay Tech Blog",
+      "url": "http://www.ebaytechblog.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "http://www.ebaytechblog.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-1cb53be4b5a9",
+      "name": "Spotify Engineering",
+      "url": "http://labs.spotify.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "http://labs.spotify.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-e979f268f3fb",
+      "name": "Twitter Engineering",
+      "url": "https://blog.twitter.com/engineering/en_us/blog.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://blog.twitter.com/engineering/en_us/blog.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-9b5313d2dcee",
+      "name": "Stripe Blog",
+      "url": "https://stripe.com/blog/feed.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://stripe.com/blog/feed.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-8f34f16101a1",
+      "name": "Instagram Engineering - Medium",
+      "url": "https://instagram-engineering.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://instagram-engineering.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-2f3b69ac7003",
+      "name": "The Cloudflare Blog",
+      "url": "https://blog.cloudflare.com/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://blog.cloudflare.com/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-4336882e1459",
+      "name": "Engineering – The Asana Blog",
+      "url": "https://blog.asana.com/category/eng/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://blog.asana.com/category/eng/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-611bb29f4e16",
+      "name": "Canva Engineering Blog - Medium",
+      "url": "https://engineering.canva.com/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://engineering.canva.com/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-ea74ff2aa560",
+      "name": "The Airbnb Tech Blog - Medium",
+      "url": "https://medium.com/feed/airbnb-engineering",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://medium.com/feed/airbnb-engineering"
+      ]
+    },
+    {
+      "id": "catalog-rss-8264e3b740b8",
+      "name": "Dropbox Tech",
+      "url": "https://dropbox.tech/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://dropbox.tech/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-5e192071b2f3",
+      "name": "WePay Engineering Blog",
+      "url": "https://wecode.wepay.com/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://wecode.wepay.com/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-b49e3cc54524",
+      "name": "Web Browser Engineering",
+      "url": "https://browser.engineering/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://browser.engineering/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-62cae6688f4a",
+      "name": "Spotify Engineering",
+      "url": "https://engineering.atspotify.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://engineering.atspotify.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-bc4d10019cb4",
+      "name": "Engineering at Meta",
+      "url": "https://engineering.fb.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://engineering.fb.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-07dcb6bc53f4",
+      "name": "Mind the Product",
+      "url": "https://www.mindtheproduct.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://www.mindtheproduct.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-249136e22129",
+      "name": "Julia Evans",
+      "url": "https://jvns.ca/atom.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://jvns.ca/atom.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-47439f50064d",
+      "name": "Martin Kleppmann's blog",
+      "url": "https://feeds.feedburner.com/martinkl?format=xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://feeds.feedburner.com/martinkl?format=xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-449cde1ff77e",
+      "name": "Dan Abramov's Overreacted Blog RSS Feed",
+      "url": "https://overreacted.io/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://overreacted.io/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-e8ccda882fc3",
+      "name": "Dan Luu",
+      "url": "https://danluu.com/atom.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://danluu.com/atom.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-b57ecc7cf9c4",
+      "name": "Shopify Engineering - Shopify Engineering",
+      "url": "https://shopifyengineering.myshopify.com/blogs/engineering.atom",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://shopifyengineering.myshopify.com/blogs/engineering.atom"
+      ]
+    },
+    {
+      "id": "catalog-rss-3c388278b5c2",
+      "name": "Josh Comeau's blog",
+      "url": "https://joshwcomeau.com/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://joshwcomeau.com/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-a091519b7bd1",
+      "name": "Uber Engineering Blog",
+      "url": "https://eng.uber.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://eng.uber.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-7488c813bba7",
+      "name": "Flurries of latent creativity - Stripe CTO blog",
+      "url": "https://blog.singleton.io/index.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://blog.singleton.io/index.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-d4e20f16541b",
+      "name": "Sophie Alpert",
+      "url": "https://sophiebits.com/atom.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://sophiebits.com/atom.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-70e73ffae176",
+      "name": "Amjad Masad",
+      "url": "https://amasad.me/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://amasad.me/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-1b0ea7addf33",
+      "name": "Signal Blog",
+      "url": "https://signal.org/blog/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://signal.org/blog/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-1d3d72b78780",
+      "name": "Joel on Software",
+      "url": "https://www.joelonsoftware.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://www.joelonsoftware.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-0ed1fdcf7cff",
+      "name": "The Pragmatic Engineer",
+      "url": "https://blog.pragmaticengineer.com/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://blog.pragmaticengineer.com/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-05298ef7ce15",
+      "name": "Nvidia Developer Blog",
+      "url": "https://developer.nvidia.com/blog/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://developer.nvidia.com/blog/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-ba9f5b4da863",
+      "name": "Machine Learning Blog | ML@CMU | Carnegie Mellon University",
+      "url": "https://blog.ml.cmu.edu/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://blog.ml.cmu.edu/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-5f3203610818",
+      "name": "DeepMind",
+      "url": "https://deepmind.com/blog/feed/basic/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://deepmind.com/blog/feed/basic/"
+      ]
+    },
+    {
+      "id": "catalog-rss-428cd21fc3f5",
+      "name": "Jay Alammar",
+      "url": "https://jalammar.github.io/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://jalammar.github.io/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-dbdfac65b0ba",
+      "name": "Distill",
+      "url": "http://distill.pub/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://distill.pub/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-e0f081233274",
+      "name": "Lil’Log",
+      "url": "https://lilianweng.github.io/lil-log/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://lilianweng.github.io/lil-log/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-9539d7d50e44",
+      "name": "MIT News - Artificial intelligence",
+      "url": "http://news.mit.edu/rss/topic/artificial-intelligence2",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://news.mit.edu/rss/topic/artificial-intelligence2"
+      ]
+    },
+    {
+      "id": "catalog-rss-171a8050c167",
+      "name": "Sebastian Ruder",
+      "url": "http://ruder.io/rss/index.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://ruder.io/rss/index.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-51f827497597",
+      "name": "The Berkeley Artificial Intelligence Research Blog",
+      "url": "http://bair.berkeley.edu/blog/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://bair.berkeley.edu/blog/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-4b8704a07fc9",
+      "name": "DeepLearningAI",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCcIXc5mJsHVYTZR1maL5l9w",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCcIXc5mJsHVYTZR1maL5l9w"
+      ]
+    },
+    {
+      "id": "catalog-rss-a2d1cc15d976",
+      "name": "Eric Jang",
+      "url": "http://blog.evjang.com/feeds/posts/default?alt=rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://blog.evjang.com/feeds/posts/default?alt=rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-cb9ed0eedea7",
+      "name": "OpenAI",
+      "url": "https://openai.com/news/engineering/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://openai.com/news/engineering/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-3e6265e1f190",
+      "name": "The Gradient",
+      "url": "https://thegradient.pub/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://thegradient.pub/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-9db259c1ec76",
+      "name": "Magenta",
+      "url": "http://magenta.tensorflow.org/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://magenta.tensorflow.org/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-e3ff8659a3f4",
+      "name": "NLP News",
+      "url": "http://newsletter.ruder.io/?format=rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://newsletter.ruder.io/?format=rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-309b5639f8b9",
+      "name": "Google AI Blog",
+      "url": "http://googleresearch.blogspot.com/atom.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://googleresearch.blogspot.com/atom.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-19f9e2758988",
+      "name": "Towards Data Science - Medium",
+      "url": "https://towardsdatascience.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://towardsdatascience.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-2fa5d2ea930a",
+      "name": "Unite.AI",
+      "url": "https://www.unite.ai/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://www.unite.ai/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-68672d8a6f29",
+      "name": "Grammarly Blog",
+      "url": "https://www.grammarly.com/blog/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://www.grammarly.com/blog/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-fbffb2a74997",
+      "name": "Eric Jang",
+      "url": "https://evjang.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://evjang.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-d42b29d19244",
+      "name": "Amazon Science Homepage",
+      "url": "https://www.amazon.science/index.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://www.amazon.science/index.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-8bca8a975997",
+      "name": "Machine Learning",
+      "url": "http://www.reddit.com/r/MachineLearning/.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "http://www.reddit.com/r/MachineLearning/.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-78ea30a8efa2",
+      "name": "Yannic Kilcher",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCZHmQk67mSJgfCCTn7xBfew",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCZHmQk67mSJgfCCTn7xBfew"
+      ]
+    },
+    {
+      "id": "catalog-rss-0e86b24369a4",
+      "name": "Two Minute Papers",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg"
+      ]
+    },
+    {
+      "id": "catalog-rss-62b1042c452e",
+      "name": "PyTorch",
+      "url": "https://pytorch.org/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://pytorch.org/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-ebe4facf44d5",
+      "name": "UX Planet",
+      "url": "https://uxplanet.org/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://uxplanet.org/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-daa668cfe743",
+      "name": "NN/g latest articles and announcements",
+      "url": "https://www.nngroup.com/feed/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://www.nngroup.com/feed/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-776f9e4ffef6",
+      "name": "UX Movement",
+      "url": "http://feeds.feedburner.com/uxmovement",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/uxmovement"
+      ]
+    },
+    {
+      "id": "catalog-rss-79036a88c1d6",
+      "name": "Inside Design",
+      "url": "http://blog.invisionapp.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "http://blog.invisionapp.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-3ac3704ea0e6",
+      "name": "UXmatters",
+      "url": "https://uxmatters.com/index.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://uxmatters.com/index.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-07c83d6d0c0e",
+      "name": "Articles on Smashing Magazine — For Web Designers And Developers",
+      "url": "https://www.smashingmagazine.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://www.smashingmagazine.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-efe18eb28037",
+      "name": "UX Collective - Medium",
+      "url": "https://uxdesign.cc/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://uxdesign.cc/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-25d6d1af437a",
+      "name": "Airbnb Design",
+      "url": "http://airbnb.design/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "http://airbnb.design/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-93ddf8035721",
+      "name": "web.dev",
+      "url": "https://web.dev/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://web.dev/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-7f6c905f6665",
+      "name": "Slack Design",
+      "url": "https://slack.design/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://slack.design/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-7dedd52bb1eb",
+      "name": "CSS-Tricks",
+      "url": "https://feeds.feedburner.com/CssTricks",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://feeds.feedburner.com/CssTricks"
+      ]
+    },
+    {
+      "id": "catalog-rss-ff8e1870b6c7",
+      "name": "UX Daily - User Experience Daily",
+      "url": "https://interaction-design.org/rss/site_news.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Design"
+      ],
+      "aliases": [
+        "https://interaction-design.org/rss/site_news.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-ebae4ec98d37",
+      "name": "PsyBlog",
+      "url": "http://feeds.feedburner.com/PsychologyBlog",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Psychology"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/PsychologyBlog"
+      ]
+    },
+    {
+      "id": "catalog-rss-282aae8f6322",
+      "name": "Psychology Blog",
+      "url": "http://www.all-about-psychology.com/psychology.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Psychology"
+      ],
+      "aliases": [
+        "http://www.all-about-psychology.com/psychology.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-d994cbdc1aff",
+      "name": "Psychology Headlines Around the World",
+      "url": "http://www.socialpsychology.org/headlines.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Psychology"
+      ],
+      "aliases": [
+        "http://www.socialpsychology.org/headlines.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-ef8a484b7677",
+      "name": "Nautilus",
+      "url": "https://nautil.us/rss/all",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Psychology",
+        "Science"
+      ],
+      "aliases": [
+        "https://nautil.us/rss/all",
+        "http://nautil.us/rss/all"
+      ]
+    },
+    {
+      "id": "catalog-rss-8c20b016410c",
+      "name": "Freakonomics",
+      "url": "http://freakonomics.blogs.nytimes.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Psychology"
+      ],
+      "aliases": [
+        "http://freakonomics.blogs.nytimes.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-7df1f731ba12",
+      "name": "Psychology Today",
+      "url": "https://www.psychologytoday.com/intl/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Psychology"
+      ],
+      "aliases": [
+        "https://www.psychologytoday.com/intl/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-938e6e00db6d",
+      "name": "Neuroscience News",
+      "url": "http://neurosciencenews.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Neuroscience"
+      ],
+      "aliases": [
+        "http://neurosciencenews.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-7495ff0bd493",
+      "name": "Neuroscience News -- ScienceDaily",
+      "url": "https://sciencedaily.com/rss/mind_brain/neuroscience.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Neuroscience"
+      ],
+      "aliases": [
+        "https://sciencedaily.com/rss/mind_brain/neuroscience.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-06b8ef57ad40",
+      "name": "SharpBrains",
+      "url": "http://www.sharpbrains.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Neuroscience"
+      ],
+      "aliases": [
+        "http://www.sharpbrains.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-4382d5e8491c",
+      "name": "Quanta Magazine",
+      "url": "http://www.quantamagazine.org/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Science"
+      ],
+      "aliases": [
+        "http://www.quantamagazine.org/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-ff3fcddf7772",
+      "name": "Nature",
+      "url": "http://www.nature.com/nature/current_issue/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Science"
+      ],
+      "aliases": [
+        "http://www.nature.com/nature/current_issue/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-11569f3b48c7",
+      "name": "MIT News - Science, Technology, and Society | Technology and society | Program in STS | History of science | History of MIT",
+      "url": "https://news.mit.edu/rss/topic/science-technology-and-society",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Science"
+      ],
+      "aliases": [
+        "https://news.mit.edu/rss/topic/science-technology-and-society"
+      ]
+    },
+    {
+      "id": "catalog-rss-70a91d701d9d",
+      "name": "MIT News",
+      "url": "https://news.mit.edu/rss/research",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Science"
+      ],
+      "aliases": [
+        "https://news.mit.edu/rss/research"
+      ]
+    },
+    {
+      "id": "catalog-rss-999a472040a8",
+      "name": "ScienceAlert",
+      "url": "https://www.sciencealert.com/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Science"
+      ],
+      "aliases": [
+        "https://www.sciencealert.com/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-12952c9fd6cb",
+      "name": "Singularity Hub",
+      "url": "https://singularityhub.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Science"
+      ],
+      "aliases": [
+        "https://singularityhub.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-e4d54b3329c1",
+      "name": "Lesics",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCqZQJ4600a9wIfMPbYc60OQ",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Science"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCqZQJ4600a9wIfMPbYc60OQ"
+      ]
+    },
+    {
+      "id": "catalog-rss-a260cce0db17",
+      "name": "Moz",
+      "url": "http://feeds.feedburner.com/seomoz",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/seomoz"
+      ]
+    },
+    {
+      "id": "catalog-rss-0d990441f3f5",
+      "name": "Content Marketing Institute",
+      "url": "http://feeds.feedburner.com/cmi-content-marketing",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/cmi-content-marketing"
+      ]
+    },
+    {
+      "id": "catalog-rss-003ad4097499",
+      "name": "Neil Patel",
+      "url": "http://feeds.feedburner.com/KISSmetrics",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/KISSmetrics"
+      ]
+    },
+    {
+      "id": "catalog-rss-06382f4e1fda",
+      "name": "MarketingProfs",
+      "url": "http://rss.marketingprofs.com/marketingprofs/daily",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://rss.marketingprofs.com/marketingprofs/daily"
+      ]
+    },
+    {
+      "id": "catalog-rss-e0c7c01cc9c7",
+      "name": "Marketo Marketing blog",
+      "url": "http://feeds.feedburner.com/modernb2bmarketing",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/modernb2bmarketing"
+      ]
+    },
+    {
+      "id": "catalog-rss-b7bcf415c3be",
+      "name": "Quick Sprout",
+      "url": "http://www.quicksprout.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://www.quicksprout.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-c7f6e310cfcf",
+      "name": "Social Media Examiner | Social Media Marketing",
+      "url": "http://www.socialmediaexaminer.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://www.socialmediaexaminer.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-12ef9a84ac43",
+      "name": "John Egan",
+      "url": "http://jwegan.com/feed/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://jwegan.com/feed/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-ba62289d6271",
+      "name": "Convince and Convert",
+      "url": "http://www.convinceandconvert.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://www.convinceandconvert.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-6ed84c3ef51a",
+      "name": "Hubspot",
+      "url": "http://blog.hubspot.com/CMS/UI/Modules/BizBlogger/rss.aspx?tabid=6307&moduleid=8441&maxcount=25",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://blog.hubspot.com/CMS/UI/Modules/BizBlogger/rss.aspx?tabid=6307&moduleid=8441&maxcount=25"
+      ]
+    },
+    {
+      "id": "catalog-rss-8b819aeb060d",
+      "name": "Seth Godin's Blog",
+      "url": "http://sethgodin.typepad.com/seths_blog/atom.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://sethgodin.typepad.com/seths_blog/atom.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-87cd157f39c0",
+      "name": "Backlinko",
+      "url": "http://backlinko.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Marketing"
+      ],
+      "aliases": [
+        "http://backlinko.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-ac800b9081b9",
+      "name": "TED Talks Daily (SD video)",
+      "url": "http://feeds.feedburner.com/tedtalks_video",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Others"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/tedtalks_video"
+      ]
+    },
+    {
+      "id": "catalog-rss-8909b08994c0",
+      "name": "HBR.org",
+      "url": "http://feeds.harvardbusiness.org/harvardbusiness/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Others"
+      ],
+      "aliases": [
+        "http://feeds.harvardbusiness.org/harvardbusiness/"
+      ]
+    }
+  ]
+}

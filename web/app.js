@@ -30,6 +30,15 @@
   const runtime=window.LittleWorldRuntime.create();
   const portraitMotion=window.LittleWorldPortrait.create({runtime:window.LittleWorldRuntime.create(),emit:frame=>{const reader=$('#portrait-reader');if(reader)reader.src=`assets/animation/character-seat-${frame}.png`;}});
   const staticData=browserApp?window.LittleWorldStatic.create({load:()=>getJSON('data/world.json')}):null;
+  const RSSCatalog=window.LittleWorldRSSCatalog;
+  let rssCatalog={sources:[],categories:[]},rssCatalogStatus='idle',rssCatalogQuery='';
+  async function loadRSSCatalog(){
+    if(rssCatalogStatus==='loading'||rssCatalogStatus==='ready')return;
+    rssCatalogStatus='loading';
+    try{rssCatalog=RSSCatalog.normalize(await getJSON('data/rss-catalog.json'));rssCatalogStatus='ready';}
+    catch(error){rssCatalogStatus=error.name==='AbortError'?'idle':'error';}
+    if(drawerMode==='settings'&&settingsTab==='connections'&&isActive())renderSettings();
+  }
   let publishedConfigLoaded=false;
   const needsPublishedDefaults=!settingsStore.hasSaved,initialConnections=JSON.stringify([config.sources,config.officeScreens]);
   const roomProps=window.LittleWorldRoomProps;
@@ -61,8 +70,8 @@
   function status(source) {
     const data = feeds[source.id];
     if (!data) return 'מתחברים';
-    if (data.stale || (data.error && data.items?.length)) return 'עותק שמור';
-    if (data.error) return 'לא זמין';
+    if ((data.stale || data.error) && data.items?.length) return 'עותק שמור';
+    if (data.error || data.stale) return 'לא זמין';
     if (staticData) return data.adapter==='evrit-books'?'ספרים חדשים מדי יום':'עדכונים מהרשת';
     return data.adapter === 'evrit-books' ? 'ספרים חדשים מדי יום' : data.adapter === 'website' ? 'אתר מתעדכן' : 'עדכונים חיים';
   }
@@ -209,7 +218,7 @@
     }
     render();
     if (drawerMode === 'room' && selectedSource === source.id) renderRoomContent();
-    if (drawerMode === 'settings' && settingsTab === 'connections') renderSettings();
+    if (drawerMode === 'settings' && settingsTab === 'connections' && !document.activeElement?.matches('input,select,textarea')) renderSettings();
   }
   async function refreshWeather(force=false) {
     if(!isActive()||(!force&&weatherCheckedLocation===config.location&&performance.now()-weatherChecked<300000))return;
@@ -255,7 +264,7 @@
         return;
       }
     }
-    await Promise.allSettled([refreshWeather(force), ...config.sources.map(source=>refreshFeed(source,force))]);
+    await Promise.allSettled([refreshWeather(force), ...config.sources.filter(source=>source.room!=='office'||!source.id.startsWith('catalog-rss-')||config.officeScreens.some((id,i)=>id===source.id&&config.screenModes[i]!=='webcam')).map(source=>refreshFeed(source,force))]);
     refreshing = false;
     $('#refresh').textContent = staticData?'↻ בדיקת עדכונים':'↻ רענון המקורות';
     if(refreshQueued){refreshQueued=false;refreshAll();}
@@ -402,24 +411,47 @@
     const buttons=boxes.map((b,index)=>`<button class="office-map-screen ${index<2?'desk-screen':''}" data-map-screen="${index}" aria-label="הגדרות ${screenLabel(index)}" aria-pressed="${settingsScreen===index}" title="${screenLabel(index)} · ${escape(config.screenModes[index]==='webcam'?'מצלמה':screenSource(index)?.name||'ללא מקור')}" style="left:${(b.x-view.x)/view.width*100}%;top:${(b.y-view.y)/view.height*100}%;width:${b.width/view.width*100}%;height:${b.height/view.height*100}%"><span>${index+1}</span></button>`).join('');
     return `<div class="office-screen-map" role="group" aria-label="בחירת מסך בתמונת המשרד"><svg class="office-map-background" viewBox="0 135 850 430" aria-hidden="true">${base}${patch}${artPatch}${rear}</svg>${buttons}<svg class="office-map-foreground" viewBox="0 135 850 430" aria-hidden="true"><defs><clipPath id="settings-desk-cases">${outlines}</clipPath></defs><g clip-path="url(#settings-desk-cases)">${base}</g></svg></div>`;
   }
+  function catalogOptionLabel(item){
+    let suffix='';
+    if(staticData?.published(item)){
+      const data=staticData.feed(item);
+      if(!data.items?.length)suffix=' · ללא נתונים כרגע';
+      else if(data.stale)suffix=' · עדכון שמור';
+    }
+    return escape(item.name+suffix);
+  }
+  function screenSourceOptions(index){
+    const webcam=config.screenModes[index]==='webcam',sources=config.sources.filter(source=>source.room==='office');
+    const groups=RSSCatalog.groups(rssCatalog,rssCatalogQuery);
+    return `<option value="">ללא מקור תוכן</option><option value="__webcam__" ${webcam?'selected':''}>${nativeManaged?'מצלמת ה־Mac':'מצלמת המכשיר'}</option>${sources.map(item=>`<option value="${escape(item.id)}" ${!webcam&&config.officeScreens[index]===item.id?'selected':''}>${escape(item.name)}</option>`).join('')}${groups.map(group=>`<optgroup label="מאגר RSS · ${escape(group.label)}">${group.sources.map(item=>`<option value="catalog:${escape(item.id)}">${catalogOptionLabel(item)}</option>`).join('')}</optgroup>`).join('')}${rssCatalogStatus==='ready'&&rssCatalogQuery&&!groups.length?'<option disabled>לא נמצאו ערוצים תואמים</option>':''}`;
+  }
   function screenControls() {
-    const sources=config.sources.filter(source=>source.room==='office');
     const index=settingsScreen=Math.max(0,Math.min(SCREEN_COUNT-1,settingsScreen||0)),selected=config.screenModes[index]==='webcam',source=screenSource(index);
-    return `<div class="office-screen-settings"><h3>המסכים במשרד</h3><p class="note">לחצו על מסך בתמונה כדי לבחור את התוכן שלו.</p>${screenMap()}<section class="screen-config" aria-label="${screenLabel(index)}"><h4>${screenLabel(index)}</h4><label class="field">מקור התוכן למסך ${index+1}<select data-screen-index="${index}"><option value="">ללא מקור תוכן</option><option value="__webcam__" ${selected?'selected':''}>${nativeManaged?'מצלמת ה־Mac':'מצלמת המכשיר'}</option>${sources.map(item=>`<option value="${escape(item.id)}" ${!selected&&config.officeScreens[index]===item.id?'selected':''}>${escape(item.name)}</option>`).join('')}</select></label><div class="screen-config-actions"><button class="secondary" id="screen-add-feed">הוספת RSS למסך ${index+1}</button>${source&&!selected?'<button class="secondary" id="screen-edit-feed">עריכת המקור</button>':''}</div>${selected?`<div class="camera-settings"><p id="camera-status" role="status">${escape(camera.snapshot().label)}</p><div class="form-row"><button class="secondary" id="camera-start">הפעלת המצלמה</button><button class="secondary" id="camera-stop">כיבוי המצלמה</button></div><p class="note">הווידאו נשאר במכשיר. ללא מיקרופון, הקלטה או העלאה לרשת. המסכים יכולים לשתף מצלמה אחת. אחרי רענון צריך להפעיל אותה שוב.</p></div>`:''}</section></div>`;
+    const catalogNote=rssCatalogStatus==='ready'?`${rssCatalog.sources.length} ערוצים ב־${rssCatalog.categories.length} קטגוריות. בחירה ברשימה מציגה את המקור במסך הנבחר.`:rssCatalogStatus==='error'?'לא הצלחנו לטעון את מאגר ה־RSS.':'טוענים את מאגר ה־RSS…';
+    return `<div class="office-screen-settings"><h3>המסכים במשרד</h3><p class="note">לחצו על מסך בתמונה כדי לבחור את התוכן שלו.</p>${screenMap()}<section class="screen-config" aria-label="${screenLabel(index)}"><h4>${screenLabel(index)}</h4><label class="field">חיפוש במאגר RSS<input type="search" id="rss-catalog-search" placeholder="שם אתר או תחום, למשל עיצוב או Cloudflare" value="${escape(rssCatalogQuery)}" dir="auto" ${rssCatalogStatus!=='ready'?'disabled':''}></label><p class="note" id="rss-catalog-status" role="status">${catalogNote} <a href="https://github.com/tuan3w/awesome-tech-rss" target="_blank" rel="noopener noreferrer">Awesome Tech RSS ↗</a></p>${rssCatalogStatus==='error'?'<button class="secondary" id="rss-catalog-retry">טעינת המאגר מחדש</button>':''}<label class="field">מקור התוכן למסך ${index+1}<select data-screen-index="${index}">${screenSourceOptions(index)}</select></label><div class="screen-config-actions"><button class="secondary" id="screen-add-feed">הוספת RSS למסך ${index+1}</button>${source&&!selected?'<button class="secondary" id="screen-edit-feed">עריכת המקור</button>':''}</div>${selected?`<div class="camera-settings"><p id="camera-status" role="status">${escape(camera.snapshot().label)}</p><div class="form-row"><button class="secondary" id="camera-start">הפעלת המצלמה</button><button class="secondary" id="camera-stop">כיבוי המצלמה</button></div><p class="note">הווידאו נשאר במכשיר. ללא מיקרופון, הקלטה או העלאה לרשת. המסכים יכולים לשתף מצלמה אחת. אחרי רענון צריך להפעיל אותה שוב.</p></div>`:''}</section></div>`;
   }
   function renderSettings() {
     const controls=browserApp?`<div class="editor-world-controls" role="group" aria-label="פעולות בעולם"><button class="secondary" id="editor-pause">${paused?'המשך':'השהיה'}</button><button class="secondary" id="editor-interaction">${interaction?'יציאה מהעולם':'כניסה לעולם'}</button><button class="secondary" id="editor-read">קריאת ספר</button><button class="secondary" id="editor-office">המשרד</button><button class="secondary" id="editor-library">הספרייה</button><button class="secondary" id="editor-refresh">בדיקת עדכונים</button><button class="secondary" id="editor-fullscreen">מסך מלא</button></div>`:'';
     const tabs = controls+`<div class="drawer-tabs"><button data-tab="connections" class="${settingsTab === 'connections' ? 'active' : ''}">חיבורים</button><button data-tab="character" class="${settingsTab === 'character' ? 'active' : ''}">הדמות</button><button data-tab="world" class="${settingsTab === 'world' ? 'active' : ''}">העולם</button></div>`;
     if (settingsTab === 'connections') {
+      if(rssCatalogStatus==='idle')loadRSSCatalog();
       $('#drawer-content').innerHTML = tabs + `<p>הכניסו תוכן מתעדכן לחדרים: עדכוני RSS, תוכן מאתרים או מצלמה חיה במסכי המשרד.</p>${screenControls()}<div id="source-list">${config.sources.map(s => `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(s.name)}</h3><span class="status">${status(s)}</span></div><div class="source-url">${escape(s.url)}</div><div class="source-meta">${escape(sourcePlace(s))} · ${sourceKind(s)}</div><div class="source-actions"><button data-edit="${escape(s.id)}">עריכת החיבור</button><button data-view="${escape(s.id)}">פתיחת התוכן ↗</button><button class="danger" data-remove="${escape(s.id)}" aria-label="הסרה ${escape(s.name)}">הסרה</button></div></article>`).join('') || '<div class="empty">החדרים מחכים.<br>אפשר להוסיף כאן את האתר הראשון.</div>'}</div><button class="primary full" id="add-source">＋ הוספת אתר</button><p class="note">עד 20 חיבורים. השינויים נשמרים אוטומטית ${savedPlace}. ${staticData?'האתר בודק נתונים חדשים כל 5 דקות. המקורות מתעדכנים כשמתפרסמת גרסה חדשה של הנתונים.':'העדכונים והאתרים במשרד מתרעננים כל 5 דקות.'} מדפי הספרים החדשים בעברית מתעדכנים מדי יום בחצות, שעון ישראל. אתרים הדורשים התחברות או JavaScript זקוקים לחיבור ייעודי.</p><div class="divider"></div><label class="field">מזג האוויר<select id="location"><option value="tel-aviv">תל אביב</option><option value="jerusalem">ירושלים</option><option value="london">לונדון</option><option value="new-york">ניו יורק</option></select><small>נתוני מזג האוויר מגיעים מ־Open-Meteo לפי העיר שבחרתם. המיקום שלכם לא נאסף.</small></label><p class="note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">נתוני מזג אוויר: Open-Meteo ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>`;
       $$('[data-map-screen]').forEach(button=>button.onclick=()=>{settingsScreen=Number(button.dataset.mapScreen);config.editorScreen=settingsScreen;save();renderSettings();});
       $('#screen-add-feed').onclick=()=>editSource(null,settingsScreen);
       if($('#screen-edit-feed'))$('#screen-edit-feed').onclick=()=>editSource(screenSource(settingsScreen).id,settingsScreen);
+      $('#rss-catalog-search').oninput=event=>{rssCatalogQuery=event.target.value;$('[data-screen-index]').innerHTML=screenSourceOptions(settingsScreen);};
+      if($('#rss-catalog-retry'))$('#rss-catalog-retry').onclick=()=>{rssCatalogStatus='idle';renderSettings();};
       $$('[data-screen-index]').forEach(select => select.onchange = () => {
         const index=Number(select.dataset.screenIndex),webcam=select.value==='__webcam__';
-        config.screenModes[index]=webcam?'webcam':'source';
-        if(!webcam)config.officeScreens[index]=select.value||null;
-        save();renderSettings();if(webcam)enableCamera();
+        if(select.value.startsWith('catalog:')){
+          try{config=RSSCatalog.assign(config,rssCatalog,index,select.value.slice(8)).config;}
+          catch(error){toast(error.message);renderSettings();return;}
+        }else{
+          config.screenModes[index]=webcam?'webcam':'source';
+          if(!webcam)config.officeScreens[index]=select.value||null;
+          if(rssCatalogStatus==='ready')config=RSSCatalog.prune(config,rssCatalog);
+        }
+        save();renderSettings();if(webcam)enableCamera();else refreshAll();
       });
       if($('#camera-start'))$('#camera-start').onclick=()=>enableCamera();
       if($('#camera-stop'))$('#camera-stop').onclick=()=>disableCamera();

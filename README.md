@@ -23,6 +23,14 @@ The interface is in Hebrew with RTL settings and accessible labels. Feed headlin
 - Actual battery reactions use the browser's optional Battery Status API. Unsupported/denied access is labeled unavailable; explicit previews still work.
 - **Webcam monitors:** open the editor → **Connections** → choose **Webcam · this device** for either monitor. The browser requests video permission when you enable it. Both monitors can share one mirrored camera stream. Video stays on the device, with no microphone capture, recording or upload. Turn it off in the editor or switch the monitor back to a feed. Capture stops while hidden, paused or showing the portrait rotation prompt; a previously enabled session resumes when the world returns. The monitor choice is saved, but a new page visit needs a tap to enable capture again.
 
+## Built-in RSS catalog
+
+Connections includes a searchable, categorized catalog from [tuan3w/awesome-tech-rss](https://github.com/tuan3w/awesome-tech-rss). Select a monitor in the office picture, search by feed name, URL or Hebrew/English category, then choose the feed in **מקור התוכן למסך**. Selection applies immediately and is saved locally. There are141 unique feeds across12 categories, imported from143 OPML records; duplicate HTTP/HTTPS entries share one choice.
+
+A catalog connection is added only when selected. Switching away removes unused, unmodified catalog connections; manual and customized connections are preserved. The Mac fetches only assigned catalog feeds, while the static website reads their published snapshots. Unavailable/cached web feeds are labeled in the picker; upstream failures retain previous real data when available. Catalog metadata is separate from the three default connections, so opening the site does not subscribe to141 feeds.
+
+The pinned OPML and CC0 license are in `data/`; the generated index is `web/data/rss-catalog.json`. Run `python3 scripts/import-rss-catalog.py` after deliberately updating the OPML snapshot/revision, and `python3 scripts/refresh-static-data.py` to publish their data. The static builder refreshes with at most8 parallel requests and keeps the existing hourly schedule. No feed proxy or extra service is required at runtime.
+
 ## Content is JSON
 
 Edit **`web/data/sources.json`** to manage the published RSS/Atom feeds and public websites. Each source has an ID, name, URL, kind (`feed`, `website`, `evrit-books`) and room (`office`, `library`).

@@ -1,5 +1,14 @@
 # Static web validation — 2026-11-05
 
+## Searchable RSS catalog — 2026-11-06
+
+- Imported the complete pinned `tuan3w/awesome-tech-rss` OPML at `cb81203ac637392b4dc3d829ad20b9bb189d7f51`:143 records,141 distinct feeds and12 Hebrew-labeled categories, with original URLs/aliases, provenance and CC0 license retained.
+- Search and grouped source choices are integrated into each monitor's existing settings. Assignments save as normal connections; trying all141 feeds on one monitor does not accumulate subscriptions. Existing manual/customized feeds and shared selections survive. Feed refresh no longer replaces focused search/select controls.
+- Native verified real Ness Labs headlines on screen7 and Cloudflare headlines on screen8, selected independently through the catalog, then restored both originally empty slots. Existing webcam/ynet choices, books and night mode retained, camera off.
+- Published catalog snapshots remain separate from default connections. Local full refresh:101 feeds returned articles,40 had no snapshot at that check. All141 remain selectable; web options label unavailable/cached content. JSON snapshot approximately278KB. Native fetches only assigned catalog feeds; no catalog polling added.
+-74 Node checks and5 static-builder Python checks passed, covering eight-screen persistence, all-catalog switching, manual URL reuse, preservation at the20-connection limit, Hebrew/name/URL search and catalog publication/cache fallback.
+
+
 ## Office picture removal — 2026-11-06
 
 - Removed the baked left office picture, its complete frame and cast shadow using a built-in generated edit, composited only over that small wall area. Day/dusk/night share the cleared wall; the monitor-selection map uses the same patch.
