@@ -4,9 +4,11 @@
   if(typeof module==='object'&&module.exports)module.exports=api;else root.LittleWorldSettings=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(energy,emotions){
   'use strict';
+  const MAX_SCREENS=8;
+  const SCREEN_PLACES=['שמאל על השולחן','ימין על השולחן','קיר שמאל · עליון','קיר שמאל · תחתון','מעל השולחן · שמאל עליון','מעל השולחן · ימין עליון','מעל השולחן · שמאל תחתון','מעל השולחן · ימין תחתון'];
   const KEY = 'little-world-poc-v1';
   const SECOND_SCREEN_SOURCE = {id: 'office-news-2', name: 'BBC News', url: 'https://feeds.bbci.co.uk/news/rss.xml', kind: 'feed', room: 'office'};
-  const DEFAULT = {schemaVersion: 2, officeScreens: ['news', 'office-news-2'], name: 'Seffy', wander: true, ambience: 'auto', location: 'tel-aviv', sources: [
+  const DEFAULT = {schemaVersion: 2, officeScreens: ['news', 'office-news-2',...Array(6).fill(null)], name: 'Seffy', wander: true, ambience: 'auto', location: 'tel-aviv', sources: [
     {id: 'news', name: 'Hacker News', url: 'https://news.ycombinator.com/rss', kind: 'feed', room: 'office'},
     {...SECOND_SCREEN_SOURCE},
     {id: 'books', name: 'עברית · ספרים חדשים', url: 'https://www.e-vrit.co.il/', kind: 'evrit-books', room: 'library'}
@@ -27,11 +29,11 @@
     // Upgrade existing worlds once, keeping their original connections and settings.
     if (raw.schemaVersion !== 2 && sources.filter(s => s.room === 'office').length < 2 && sources.length < 20 && !sources.some(s => s.id === SECOND_SCREEN_SOURCE.id)) sources.push({...SECOND_SCREEN_SOURCE});
     const office = sources.filter(s => s.room === 'office');
-    const officeScreens = [0,1].map(i => Array.isArray(raw.officeScreens)
+    const officeScreens = Array.from({length:MAX_SCREENS},(_,i)=>i).map(i => Array.isArray(raw.officeScreens)
       ? office.some(s => s.id === raw.officeScreens[i]) ? raw.officeScreens[i] : null
       : office[i]?.id || null);
     return {
-      schemaVersion: 2, officeScreens,screenModes:[0,1].map(i=>raw.screenModes?.[i]==='webcam'?'webcam':'source'),
+      schemaVersion: 2, editorScreen:Number.isInteger(raw.editorScreen)?Math.max(0,Math.min(MAX_SCREENS-1,raw.editorScreen)):0,officeScreens,screenModes:Array.from({length:MAX_SCREENS},(_,i)=>i).map(i=>raw.screenModes?.[i]==='webcam'?'webcam':'source'),
       name: String(raw.name || 'אני').slice(0, 30),
       wander: raw.wander !== false, ambience: ['auto','day','dusk','night'].includes(raw.ambience) ? raw.ambience : 'auto',
       location: ['tel-aviv','jerusalem','london','new-york'].includes(raw.location) ? raw.location : 'tel-aviv',
@@ -60,5 +62,5 @@
     }
     return {read,write,get hasSaved(){return hasSaved;}};
   }
-  return {KEY,DEFAULT,safeURL,validateConfig,createStore};
+  return {KEY,MAX_SCREENS,SCREEN_PLACES,DEFAULT,safeURL,validateConfig,createStore};
 });

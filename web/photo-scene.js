@@ -27,6 +27,35 @@ surface.innerHTML=`
   <button class="photo-monitor photo-monitor-two"><span class="photo-monitor-status"></span><strong dir="auto"></strong><span class="photo-headline" dir="auto"></span></button>
   <button class="photo-library-label" aria-label="פתיחת הספרייה">ספרים חדשים · עברית <span>עדכון יומי</span></button>
 `;
+// Promote the two complete desk-monitor silhouettes above the wall monitors.
+const rearCount=Math.max(0,api.getSceneState().screens.length-2);
+const ns='http://www.w3.org/2000/svg';
+if(rearCount){
+ surface.classList.add('office-screen-wall');
+ const patch=document.createElement('div');patch.className='photo-window-replacement';patch.setAttribute('aria-hidden','true');surface.append(patch);
+ const definitions=document.createElementNS(ns,'svg');definitions.setAttribute('class','photo-depth-definitions');definitions.setAttribute('aria-hidden','true');
+ const defs=document.createElementNS(ns,'defs'),clip=document.createElementNS(ns,'clipPath');clip.id='world-desk-monitors';clip.setAttribute('clipPathUnits','objectBoundingBox');
+ for(const outline of layout.deskForegroundOutlines){const shape=document.createElementNS(ns,'polygon');shape.setAttribute('points',outline.map(([x,y])=>`${x/W},${y/H}`).join(' '));clip.append(shape);}
+ defs.append(clip);
+ const feather=document.createElementNS(ns,'filter'),blur=document.createElementNS(ns,'feGaussianBlur');feather.id='world-window-feather';blur.setAttribute('stdDeviation','.005 .009');feather.append(blur);defs.append(feather);
+ const mask=document.createElementNS(ns,'mask');mask.id='world-window-patch';mask.setAttribute('maskUnits','objectBoundingBox');mask.setAttribute('maskContentUnits','objectBoundingBox');
+ const rect=document.createElementNS(ns,'rect'),p=layout.windowPatch;for(const [key,value] of Object.entries({x:p.x/W,y:p.y/H,width:p.width/W,height:p.height/H,fill:'white',filter:'url(#world-window-feather)'}))rect.setAttribute(key,value);mask.append(rect);defs.append(mask);definitions.append(defs);surface.append(definitions);
+ const foreground=document.createElement('div');foreground.className='photo-desk-foreground';foreground.setAttribute('aria-hidden','true');surface.append(foreground);
+}
+[...surface.querySelectorAll('.photo-monitor')].forEach((button,index)=>{
+ const {bounds:b,screen:r}=layout.deskMonitors[index];button.classList.add('photo-desk-monitor');
+ button.style.left=b.x/W*100+'%';button.style.top=b.y/H*100+'%';button.style.width=b.width/W*100+'%';button.style.height=b.height/H*100+'%';
+ const content=document.createElement('span');content.className='photo-monitor-content';content.append(...button.childNodes);button.append(content);
+ Object.assign(content.style,{left:(r.x-b.x)/b.width*100+'%',top:(r.y-b.y)/b.height*100+'%',width:r.width/b.width*100+'%',height:r.height/b.height*100+'%'});
+});
+// Native wallpaper gets six additional wall screens; the browser keeps its two-screen room.
+layout.wallMonitors.slice(0,rearCount).forEach((box,offset)=>{
+ const button=document.createElement('button');button.className='photo-monitor photo-wall-monitor';
+ button.style.left=box.left+'%';button.style.top=box.top+'%';button.style.width=box.width+'%';button.style.height=box.height+'%';
+ button.dataset.screenIndex=String(offset+2);
+ button.innerHTML='<img class="photo-monitor-frame" src="assets/office-wall-monitor-v1.png" alt="" draggable="false"><span class="photo-monitor-content"><span class="photo-monitor-status"></span><strong dir="auto"></strong><span class="photo-headline" dir="auto"></span></span>';
+ surface.append(button);
+});
 host.replaceChildren(surface);
 const worldBar=document.createElement('nav');worldBar.className='world-interaction-bar';worldBar.setAttribute('aria-label','שליטה בעולם');
 worldBar.innerHTML='<strong>העולם שלך פתוח</strong><span>בחרו ספר לקריאה · לחצו על הרצפה כדי ללכת · גררו תמונה למסגרת</span><button data-world-action="office">המשרד</button><button data-world-action="library">הספרייה</button><button data-world-action="edit">עריכה</button><button data-world-action="exit">יציאה מהעולם · Esc</button>';
@@ -54,12 +83,13 @@ const cameraViews=monitors.map((button,index)=>{
   const message=document.createElement('span');message.className='photo-camera-label';message.hidden=true;
   const live=document.createElement('span');live.className='photo-camera-live';live.textContent='● בשידור חי';live.hidden=true;
   video.onplaying=()=>{video.dataset.blocked='false';if(video.srcObject)message.hidden=true;};
-  button.append(video,message,live);return {video,message,live};
+  (button.querySelector('.photo-monitor-content')||button).append(video,message,live);return {video,message,live};
 });
 const plants=[...surface.querySelectorAll('.photo-plant')];
 const officeChair=surface.querySelector('.photo-office-chair'),digitalClock=surface.querySelector('.photo-digital-clock');
 function drawClock(clock){digitalClock.textContent=clock.text;digitalClock.dateTime=clock.datetime;digitalClock.setAttribute('aria-label',`השעה המקומית ${clock.text}`);}
 drawClock(api.getClockState());
+let hotspotSignature='';
 let state=api.getSceneState(),booksSignature='',width=0,height=0,coverURL='',heldSignature='',ambientFrame=0;
 const bookButtons=[];
 function showPhoto(){
@@ -70,6 +100,12 @@ function showPhoto(){
 }
 plate.addEventListener('load',showPhoto);
 plate.addEventListener('error',()=>{host.hidden=true;document.body.classList.remove('photo-clay');});
+function publishHotspots(){
+ if(!window.webkit?.messageHandlers?.world)return;
+ const viewport={width:innerWidth,height:innerHeight};
+ const targets=monitors.map((button,index)=>{const b=button.getBoundingClientRect(),screen=state.screens[index];return {index,left:b.left,top:b.top,width:b.width,height:b.height,url:screen.mode==='webcam'?'':screen.url||'',title:button.getAttribute('aria-label')||`מסך ${index+1}`};});
+ const signature=JSON.stringify([targets,viewport]);if(signature===hotspotSignature)return;hotspotSignature=signature;api.setScreenHotspots?.(targets,viewport);
+}
 function resize(){
   const bounds=host.getBoundingClientRect();
   // Phone landscape fills the screen; the outer scenery can crop without stretching the clay.
@@ -79,7 +115,7 @@ function resize(){
   width=fillEditor?bounds.width:fit.width;height=width*H/W;
   surface.style.width=`${width}px`;surface.style.height=`${height}px`;
   surface.style.left=`${fillEditor?(bounds.width-width)/2:fit.left}px`;surface.style.top=`${fillEditor?(bounds.height-height)/2:fit.top}px`;
-  drawCharacter(api.getCharacterState());
+  drawCharacter(api.getCharacterState());publishHotspots();
 }
 new ResizeObserver(resize).observe(host);
 const srcFor=book=>api.coverURL(book.cover);
@@ -124,9 +160,11 @@ function update(next){
     });
   }
   actor.setAttribute('aria-label',`${state.name}: בחירת ספר או פתיחת הספר שנקרא עכשיו`);
+  publishHotspots();
   drawCharacter(api.getCharacterState());drawPlants();
 }
 monitors.forEach((button,index)=>button.onclick=()=>{
+  if(!state.interaction&&document.body.classList.contains('wallpaper-mode')){api.openDesktopScreen(index);return;}
   const video=cameraViews[index].video;
   if(video.dataset.blocked==='true'){video.play()?.catch(()=>{});return;}
   api.openScreen(index);

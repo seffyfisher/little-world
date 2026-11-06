@@ -194,3 +194,48 @@
 .photo-monitor-status,.photo-headline,.photo-monitor strong{unicode-bidi:plaintext;text-align:start}
 
 .compact-editor .world-editor-launcher,.wallpaper-mode:not(.in-world) .world-editor-launcher{display:none}
+
+/* Wall-mounted clay frames; live text and camera video stay inside each display. */
+.photo-wall-monitor{display:block;padding:0;background:none;box-shadow:none;overflow:visible;transform:none}
+.photo-monitor-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.photo-monitor-content{position:absolute;left:13%;top:19%;width:74%;height:61%;padding:.3cqw;overflow:hidden;display:flex;flex-direction:column;gap:.12cqw;background:#173e37;border-radius:.3cqw}
+.photo-wall-monitor .photo-monitor-status{font-size:.25cqw}
+.photo-wall-monitor strong{font-size:.42cqw}
+.photo-wall-monitor .photo-headline{font-size:.39cqw;line-height:1.2}
+.photo-wall-monitor[data-mode=webcam] .photo-monitor-content>.photo-monitor-status,.photo-wall-monitor[data-mode=webcam] .photo-monitor-content>strong,.photo-wall-monitor[data-mode=webcam] .photo-monitor-content>.photo-headline{display:none}
+.photo-surface[data-light=night] .photo-wall-monitor{background:none;box-shadow:0 0 .6cqw #7bae4720}
+
+.photo-surface[data-light=night] .photo-monitor-frame{opacity:.22}
+.photo-surface[data-light=dusk] .photo-monitor-frame{opacity:.87}
+
+/* Rear monitors sit behind the complete, opaque desk-monitor cases. */
+.photo-wall-monitor{z-index:1}
+.photo-depth-definitions{position:absolute;width:0;height:0;pointer-events:none}
+.photo-desk-foreground{position:absolute;inset:0;z-index:2;pointer-events:none;clip-path:url(#world-desk-monitors);background:url('assets/photographic-clay-room-v3.png') 0 0/100% 100% no-repeat}
+.photo-surface[data-light=dusk] .photo-desk-foreground{filter:brightness(.87) sepia(.12) saturate(.95)}
+.photo-surface[data-light=night] .photo-desk-foreground{filter:brightness(.12) saturate(.5)}
+.photo-surface.night-ready[data-light=night] .photo-desk-foreground{background-image:url('assets/photographic-clay-room-night-v1.png');filter:none}
+.photo-desk-monitor{display:block;padding:0;background:none;box-shadow:none;overflow:visible;transform:none;z-index:4}
+.photo-desk-monitor .photo-monitor-content{padding:.45cqw .48cqw}
+.photo-desk-monitor.photo-monitor-two .photo-monitor-content{background:#24473f}
+.photo-monitor[data-mode=webcam] .photo-monitor-content>.photo-monitor-status,.photo-monitor[data-mode=webcam] .photo-monitor-content>strong,.photo-monitor[data-mode=webcam] .photo-monitor-content>.photo-headline{display:none}
+.photo-surface[data-light=night] .photo-desk-monitor{background:none;box-shadow:none}
+/* Settings use the same room, screen positions and desk occlusion as the wallpaper. */
+.office-screen-map{position:relative;aspect-ratio:850/430;overflow:hidden;border-radius:16px;background:#ead4b3;margin:14px 0 18px;direction:ltr}
+.office-screen-map>svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.office-map-background{z-index:0}.office-map-foreground{z-index:2}
+.office-map-screen{position:absolute;border:0;padding:0;background:transparent;cursor:pointer;z-index:1;color:#fff4d7;touch-action:manipulation}
+.office-map-screen.desk-screen{z-index:3}
+.office-map-screen span{display:grid;place-items:center;position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;font:750 13px/1 system-ui;background:#274c41e8;border:1px solid #f6e4b3}
+.office-map-screen[aria-pressed=true] span{background:#f5d998;color:#382b1b;box-shadow:0 0 0 3px #f5d99865}
+.office-map-screen:focus-visible{outline:3px solid #c36e52;outline-offset:2px;border-radius:8px}
+.screen-config{padding-top:2px}.screen-config h4{font-size:17px;margin:0 0 10px}.screen-config .field{margin:10px 0}
+.screen-config-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.screen-config-actions button{flex:1;min-height:40px}
+
+.office-map-screen:not(.desk-screen) span{top:28%}
+
+/* Native eight-screen office: replace the old window only, retaining the room plate. */
+.photo-window-replacement{position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/office-no-window-v1.png') 0 0/100% 100% no-repeat;mask:url(#world-window-patch)}
+.photo-surface[data-light=dusk] .photo-window-replacement{filter:brightness(.87) sepia(.12) saturate(.95)}
+.photo-surface[data-light=night] .photo-window-replacement{filter:brightness(.12) saturate(.5)}
+.office-screen-wall .photo-window-weather{display:none}

@@ -4,6 +4,19 @@
     const scale=Math.max(0,Math.min(width/W,height/H));
     return {width:W*scale,height:H*scale,left:(width-W*scale)/2,top:(height-H*scale)/2};
   }
+  // The desk cases are foreground silhouettes, not transparent screen rectangles.
+  const deskMonitors=[
+    {bounds:{x:359,y:332,width:181,height:130},screen:{x:W*.228,y:H*.377,width:W*.082,height:H*.09},outline:[[379,333],[510,333],[530,337],[537,347],[540,441],[535,454],[522,461],[375,459],[364,453],[360,443],[359,351],[365,339]]},
+    {bounds:{x:551,y:334,width:177,height:131},screen:{x:W*.343,y:H*.377,width:W*.0785,height:H*.09},outline:[[568,335],[704,336],[719,342],[725,352],[727,447],[721,460],[707,464],[567,460],[556,454],[552,444],[551,354],[557,341]]}
+  ];
+  // All six additions sit on the same rear wall, in two rows of three.
+  const wallMonitors=[17.5,28.7].flatMap(top=>[14.1,24,33.9].map(left=>({left,top,width:8.8,height:10.42})));
+  const deskForegroundOutlines=[...deskMonitors.map(m=>m.outline),
+    [[310,325],[333,327],[355,369],[353,375],[337,379],[298,377],[276,372],[278,365],[298,330]],
+    [[307,373],[325,373],[325,463],[307,463]],
+    [[298,458],[329,458],[342,462],[344,470],[335,476],[293,476],[285,470],[287,463]]
+  ];
+  const windowPatch={x:201,y:150,width:275,height:325};
   const armchair={x:59.5,standingFeet:75,seatedFeet:70.5};
   // Fit the miniature, excluding only its empty photographed studio backdrop.
   const roomBounds={left:8,top:128,width:1648,height:704};
@@ -49,5 +62,5 @@
     const gx=c.direction===-1?1-g[0]:g[0];
     return {x:a.x+gx*a.size-b.width/2,y:a.y+g[1]*a.size-b.height/2,width:b.width,height:b.height};
   }
-  return {W,H,fit,fitRoom,roomBounds,armchair,grips,seatGrips,climbFeet,ladder,climbMotion,shelf,shelfStand,actor,book,walkPoint};
+  return {W,H,deskMonitors,deskForegroundOutlines,windowPatch,wallMonitors,fit,fitRoom,roomBounds,armchair,grips,seatGrips,climbFeet,ladder,climbMotion,shelf,shelfStand,actor,book,walkPoint};
 });

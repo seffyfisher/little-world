@@ -1,5 +1,15 @@
 # Static web validation — 2026-11-05
 
+## Eight-screen Mac office and visual settings — 2026-11-06
+
+- Native Mac has two desk monitors plus six rear-wall monitors in a 3×2 grid, replacing the window. Browser remains two monitors. Existing source/webcam assignments are retained; the six additions start empty.
+- Settings use the room picture as a monitor selector, with one source/camera editor for the selected screen and a per-screen Add RSS action. Selection persists with the other settings.
+- Verified the running Mac map, screen8 selection, preselected Add RSS form, actual BBC headlines on screen8 and restoration to its original empty state. Camera was off for visual checks. Verified final day and night room composition and opaque desk-monitor/lamp foreground; restored night.
+- Native normal wallpaper receives clicks only through small desktop-level monitor panels. Current RSS URL opens with NSWorkspace in the default browser; an empty or camera screen opens its settings. Direct native accessibility activation opened the current ynet article in Dia without Enter World. CUA could not physically coordinate-click the nonkey wallpaper window (`noWindowsAvailable`); the physical panel mouse event uses the same validated native target callback. Other desktop areas remain click-through. Panels suspend when the wallpaper is covered or interactive world mode is active; no cursor polling was added.
+-67 Node checks and3 web Python checks passed. Native67 Node +6 Python +6 compiled AppKit geometry/URL checks passed; signed Mac app/widget built successfully. Hotspot tests cover viewport transforms, negative display origins, clipping and invalid index/URL/geometry rejection.
+- Built-in generated assets and prompts are recorded in `docs/office-screens-prompts.md`. Only the window area of the edited plate is blended into the original room. No runtime generation service is used.
+
+
 ## Mac hardware camera selection — 2026-11-06
 
 - Native discovery excludes Continuity Camera and Desk View and prefers built-in hardware before a connected USB camera. Sets the app-specific preferred camera before creating WebKit and provides its local hardware names to the renderer.

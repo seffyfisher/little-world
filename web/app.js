@@ -3,12 +3,12 @@
   'use strict';
   const $ = selector => document.querySelector(selector);
   const $$ = selector => [...document.querySelectorAll(selector)];
-  const {KEY,DEFAULT,safeURL,validateConfig,createStore}=window.LittleWorldSettings;
+  const {KEY,MAX_SCREENS,DEFAULT,safeURL,validateConfig,createStore}=window.LittleWorldSettings;
   const settingsStore=createStore();
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let config=settingsStore.read();
   let feeds = {}, weather = null, weatherError = false, selectedRoom = config.room, selectedSource = null, headlineIndex = 0;
-  let drawerMode = '', settingsTab = config.editorTab, paused = config.paused, refreshing = false, refreshQueued = false, toastTimer, returnFocus;
+  let drawerMode = '', settingsTab = config.editorTab, settingsScreen = config.editorScreen, paused = config.paused, refreshing = false, refreshQueued = false, toastTimer, returnFocus;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const darkAppearance=matchMedia('(prefers-color-scheme: dark)');
   let systemDark=darkAppearance.matches;
@@ -17,6 +17,8 @@
   document.body.classList.toggle('compact-editor',compactEditor);
   const nativeManaged=!!window.webkit?.messageHandlers?.world;
   const browserApp=!nativeManaged&&!compactEditor;
+  const SCREEN_COUNT=nativeManaged?MAX_SCREENS:2,SCREEN_INDICES=Array.from({length:SCREEN_COUNT},(_,i)=>i);
+  const screenLabel=index=>`מסך ${index+1}`;
   document.body.classList.toggle('browser-app',browserApp);
   document.body.classList.toggle('world-immersive',browserApp);
   const portraitQuery=matchMedia('(max-width: 767px) and (orientation: portrait)');
@@ -44,7 +46,7 @@
   }
   function save() {
     config = validateConfig(config);
-    updateEnergy();camera.setModes(config.screenModes);
+    updateEnergy();camera.setModes(config.screenModes.slice(0,SCREEN_COUNT));
     const saved=settingsStore.write(config);
     if(!saved)toast('השינויים פעילים, אבל לא הצלחנו לשמור אותם לפעם הבאה.');
     native('save', {value: JSON.stringify(config)});
@@ -69,7 +71,7 @@
   function sourceKind(source) { return source.kind === 'evrit-books' ? 'ספרים חדשים בעברית · עדכון יומי' : source.kind === 'feed' ? 'עדכוני RSS / Atom' : 'אתר חי · זיהוי תוכן אוטומטי'; }
   function sourcePlace(source) {
     if (source.room === 'library') return '▥ הספרייה · מדפי ספרים';
-    const screens = config.officeScreens.flatMap((id, i) => config.screenModes[i]!=='webcam'&&id === source.id ? [String(i + 1)] : []);
+    const screens = config.officeScreens.slice(0,SCREEN_COUNT).flatMap((id, i) => config.screenModes[i]!=='webcam'&&id === source.id ? [String(i + 1)] : []);
     return screens.length ? `▤ המשרד · מסך ${screens.join(' ו־')}` : '▤ המשרד · מקור זמין';
   }
   function sceneState() {
@@ -78,10 +80,10 @@
       name: config.name, paused, active:isActive(), lowPower, reducedMotion: reducedMotion.matches,interaction,energy,framePhoto:config.framePhoto||'',
       mode: document.body.classList.contains('night') ? 'night' : document.body.classList.contains('dusk') ? 'dusk' : 'day',
       room: selectedRoom, weather: weather?.current || null,camera:camera.snapshot(),
-      screens: [0,1].map(index => {
+      screens: SCREEN_INDICES.map(index => {
         if(config.screenModes[index]==='webcam')return {mode:'webcam',name:'מצלמה',status:camera.snapshot().status==='live'?'מצלמה חיה':'מצלמה',headline:camera.snapshot().label};
         const source = screenSource(index), data = source && feeds[source.id], items = data?.items || [];
-        return {name: source?.name || `מסך ${index + 1}`, status: source ? status(source) : 'בחירת מקור',
+        return {url:safeURL(items[headlineIndex % Math.max(1,items.length)]?.url)||safeURL(source?.url),name: source?.name || `מסך ${index + 1}`, status: source ? status(source) : 'בחירת מקור',
           headline: items[headlineIndex % Math.max(1,items.length)]?.title || (data?.error ? 'המקור לא זמין. לחצו כדי לנסות שוב.' : source ? 'אוספים את העדכונים האחרונים…' : 'בחרו אתר למסך הזה.'), updatedAt: data?.updatedAt || null};
       }),
       books: library?.kind === 'evrit-books' ? (feeds[library.id]?.items || []).filter(book => safeURL(book.cover)).slice(0,12) : []
@@ -389,16 +391,29 @@
     if($('#camera-start'))$('#camera-start').disabled=state.status==='live'||state.status==='requesting';
     if($('#camera-stop'))$('#camera-stop').disabled=!state.intent;
   }
+  function screenMap(){
+    const layout=window.LittleWorldLayout,{W,H}=layout,view={x:0,y:135,width:850,height:430};
+    const wall=layout.wallMonitors.slice(0,SCREEN_COUNT-2),base='<image href="assets/photographic-clay-room-v3.png" width="1672" height="941"/>';
+    const outlines=layout.deskForegroundOutlines.map(outline=>`<polygon points="${outline.map(p=>p.join(',')).join(' ')}"/>`).join('');
+    const p=layout.windowPatch,patch=wall.length?`<defs><filter id="settings-window-feather"><feGaussianBlur stdDeviation="8"/></filter><mask id="settings-window-patch" maskUnits="userSpaceOnUse" x="0" y="0" width="1672" height="941"><rect x="${p.x}" y="${p.y}" width="${p.width}" height="${p.height}" fill="white" filter="url(#settings-window-feather)"/></mask></defs><image href="assets/office-no-window-v1.png" width="1672" height="941" mask="url(#settings-window-patch)"/>`:'';
+    const rear=wall.map(b=>`<image href="assets/office-wall-monitor-v1.png" x="${b.left/100*W}" y="${b.top/100*H}" width="${b.width/100*W}" height="${b.height/100*H}"/>`).join('');
+    const boxes=[...layout.deskMonitors.map(m=>m.bounds),...wall.map(b=>({x:b.left/100*W,y:b.top/100*H,width:b.width/100*W,height:b.height/100*H}))];
+    const buttons=boxes.map((b,index)=>`<button class="office-map-screen ${index<2?'desk-screen':''}" data-map-screen="${index}" aria-label="הגדרות ${screenLabel(index)}" aria-pressed="${settingsScreen===index}" title="${screenLabel(index)} · ${escape(config.screenModes[index]==='webcam'?'מצלמה':screenSource(index)?.name||'ללא מקור')}" style="left:${(b.x-view.x)/view.width*100}%;top:${(b.y-view.y)/view.height*100}%;width:${b.width/view.width*100}%;height:${b.height/view.height*100}%"><span>${index+1}</span></button>`).join('');
+    return `<div class="office-screen-map" role="group" aria-label="בחירת מסך בתמונת המשרד"><svg class="office-map-background" viewBox="0 135 850 430" aria-hidden="true">${base}${patch}${rear}</svg>${buttons}<svg class="office-map-foreground" viewBox="0 135 850 430" aria-hidden="true"><defs><clipPath id="settings-desk-cases">${outlines}</clipPath></defs><g clip-path="url(#settings-desk-cases)">${base}</g></svg></div>`;
+  }
   function screenControls() {
     const sources=config.sources.filter(source=>source.room==='office');
-    const selected=config.screenModes.includes('webcam');
-    return `<div class="office-screen-settings"><h3>המסכים במשרד</h3><p class="note">בחרו מקור תוכן או מצלמה חיה לכל מסך.</p>${[0,1].map(index=>`<label class="field">מסך ${index+1} · ${index?'ימין':'שמאל'}<select data-screen-index="${index}"><option value="">ללא מקור תוכן</option><option value="__webcam__" ${config.screenModes[index]==='webcam'?'selected':''}>${nativeManaged?'מצלמת ה־Mac':'מצלמת המכשיר'}</option>${sources.map(source=>`<option value="${escape(source.id)}" ${config.screenModes[index]!=='webcam'&&config.officeScreens[index]===source.id?'selected':''}>${escape(source.name)}</option>`).join('')}</select></label>`).join('')}${selected?`<div class="camera-settings"><p id="camera-status" role="status">${escape(camera.snapshot().label)}</p><div class="form-row"><button class="secondary" id="camera-start">הפעלת המצלמה</button><button class="secondary" id="camera-stop">כיבוי המצלמה</button></div><p class="note">הווידאו נשאר במכשיר. ללא מיקרופון, הקלטה או העלאה לרשת. שני המסכים יכולים לשתף מצלמה אחת. אחרי רענון צריך להפעיל אותה שוב.</p></div>`:''}</div>`;
+    const index=settingsScreen=Math.max(0,Math.min(SCREEN_COUNT-1,settingsScreen||0)),selected=config.screenModes[index]==='webcam',source=screenSource(index);
+    return `<div class="office-screen-settings"><h3>המסכים במשרד</h3><p class="note">לחצו על מסך בתמונה כדי לבחור את התוכן שלו.</p>${screenMap()}<section class="screen-config" aria-label="${screenLabel(index)}"><h4>${screenLabel(index)}</h4><label class="field">מקור התוכן למסך ${index+1}<select data-screen-index="${index}"><option value="">ללא מקור תוכן</option><option value="__webcam__" ${selected?'selected':''}>${nativeManaged?'מצלמת ה־Mac':'מצלמת המכשיר'}</option>${sources.map(item=>`<option value="${escape(item.id)}" ${!selected&&config.officeScreens[index]===item.id?'selected':''}>${escape(item.name)}</option>`).join('')}</select></label><div class="screen-config-actions"><button class="secondary" id="screen-add-feed">הוספת RSS למסך ${index+1}</button>${source&&!selected?'<button class="secondary" id="screen-edit-feed">עריכת המקור</button>':''}</div>${selected?`<div class="camera-settings"><p id="camera-status" role="status">${escape(camera.snapshot().label)}</p><div class="form-row"><button class="secondary" id="camera-start">הפעלת המצלמה</button><button class="secondary" id="camera-stop">כיבוי המצלמה</button></div><p class="note">הווידאו נשאר במכשיר. ללא מיקרופון, הקלטה או העלאה לרשת. המסכים יכולים לשתף מצלמה אחת. אחרי רענון צריך להפעיל אותה שוב.</p></div>`:''}</section></div>`;
   }
   function renderSettings() {
     const controls=browserApp?`<div class="editor-world-controls" role="group" aria-label="פעולות בעולם"><button class="secondary" id="editor-pause">${paused?'המשך':'השהיה'}</button><button class="secondary" id="editor-interaction">${interaction?'יציאה מהעולם':'כניסה לעולם'}</button><button class="secondary" id="editor-read">קריאת ספר</button><button class="secondary" id="editor-office">המשרד</button><button class="secondary" id="editor-library">הספרייה</button><button class="secondary" id="editor-refresh">בדיקת עדכונים</button><button class="secondary" id="editor-fullscreen">מסך מלא</button></div>`:'';
     const tabs = controls+`<div class="drawer-tabs"><button data-tab="connections" class="${settingsTab === 'connections' ? 'active' : ''}">חיבורים</button><button data-tab="character" class="${settingsTab === 'character' ? 'active' : ''}">הדמות</button><button data-tab="world" class="${settingsTab === 'world' ? 'active' : ''}">העולם</button></div>`;
     if (settingsTab === 'connections') {
-      $('#drawer-content').innerHTML = tabs + `<p>הכניסו תוכן מתעדכן לחדרים: עדכוני RSS, תוכן מאתרים או מצלמה חיה במסכי המשרד.</p>${screenControls()}<div id="source-list">${config.sources.map(s => `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(s.name)}</h3><span class="status">${status(s)}</span></div><div class="source-url">${escape(s.url)}</div><div class="source-meta">${escape(sourcePlace(s))} · ${sourceKind(s)}</div><div class="source-actions"><button data-edit="${escape(s.id)}">עריכת החיבור</button><button data-view="${escape(s.id)}">פתיחת התוכן ↗</button><button class="danger" data-remove="${escape(s.id)}" aria-label="הסרה ${escape(s.name)}">הסרה</button></div></article>`).join('') || '<div class="empty">החדרים מחכים.<br>אפשר להוסיף כאן את האתר הראשון.</div>'}</div><button class="primary full" id="add-source">＋ הוספת אתר</button><p class="note">עד 20 חיבורים. השינויים נשמרים אוטומטית ${savedPlace}. ${staticData?'האתר בודק נתונים חדשים כל 5 דקות. המקורות מתעדכנים כשמתפרסמת גרסה חדשה של הנתונים.':'העדכונים והאתרים במשרד מתרעננים כל 5 דקות.'} מדפי הספרים החדשים בעברית מתעדכנים מדי יום בחצות, שעון ישראל. אתרים הדורשים התחברות או JavaScript זקוקים לחיבור ייעודי.</p><div class="divider"></div><label class="field">מזג האוויר מחוץ לחלון<select id="location"><option value="tel-aviv">תל אביב</option><option value="jerusalem">ירושלים</option><option value="london">לונדון</option><option value="new-york">ניו יורק</option></select><small>נתוני מזג האוויר מגיעים מ־Open-Meteo לפי העיר שבחרתם. המיקום שלכם לא נאסף.</small></label><p class="note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">נתוני מזג אוויר: Open-Meteo ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>`;
+      $('#drawer-content').innerHTML = tabs + `<p>הכניסו תוכן מתעדכן לחדרים: עדכוני RSS, תוכן מאתרים או מצלמה חיה במסכי המשרד.</p>${screenControls()}<div id="source-list">${config.sources.map(s => `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(s.name)}</h3><span class="status">${status(s)}</span></div><div class="source-url">${escape(s.url)}</div><div class="source-meta">${escape(sourcePlace(s))} · ${sourceKind(s)}</div><div class="source-actions"><button data-edit="${escape(s.id)}">עריכת החיבור</button><button data-view="${escape(s.id)}">פתיחת התוכן ↗</button><button class="danger" data-remove="${escape(s.id)}" aria-label="הסרה ${escape(s.name)}">הסרה</button></div></article>`).join('') || '<div class="empty">החדרים מחכים.<br>אפשר להוסיף כאן את האתר הראשון.</div>'}</div><button class="primary full" id="add-source">＋ הוספת אתר</button><p class="note">עד 20 חיבורים. השינויים נשמרים אוטומטית ${savedPlace}. ${staticData?'האתר בודק נתונים חדשים כל 5 דקות. המקורות מתעדכנים כשמתפרסמת גרסה חדשה של הנתונים.':'העדכונים והאתרים במשרד מתרעננים כל 5 דקות.'} מדפי הספרים החדשים בעברית מתעדכנים מדי יום בחצות, שעון ישראל. אתרים הדורשים התחברות או JavaScript זקוקים לחיבור ייעודי.</p><div class="divider"></div><label class="field">מזג האוויר<select id="location"><option value="tel-aviv">תל אביב</option><option value="jerusalem">ירושלים</option><option value="london">לונדון</option><option value="new-york">ניו יורק</option></select><small>נתוני מזג האוויר מגיעים מ־Open-Meteo לפי העיר שבחרתם. המיקום שלכם לא נאסף.</small></label><p class="note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">נתוני מזג אוויר: Open-Meteo ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>`;
+      $$('[data-map-screen]').forEach(button=>button.onclick=()=>{settingsScreen=Number(button.dataset.mapScreen);config.editorScreen=settingsScreen;save();renderSettings();});
+      $('#screen-add-feed').onclick=()=>editSource(null,settingsScreen);
+      if($('#screen-edit-feed'))$('#screen-edit-feed').onclick=()=>editSource(screenSource(settingsScreen).id,settingsScreen);
       $$('[data-screen-index]').forEach(select => select.onchange = () => {
         const index=Number(select.dataset.screenIndex),webcam=select.value==='__webcam__';
         config.screenModes[index]=webcam?'webcam':'source';
@@ -463,17 +478,17 @@
     if(nativeManaged){native('choosePhoto');return;}
     const input=document.createElement('input');input.type='file';input.accept='image/jpeg,image/png,image/webp';input.onchange=()=>importPhoto(input.files[0]);input.click();
   }
-  function editSource(id) {
+  function editSource(id, targetScreen = null) {
     const existing = config.sources.find(s => s.id === id);
     drawerMode = 'form';
     $('#drawer-title').textContent = existing ? 'עריכת החיבור' : 'משהו חדש בעולם';
-    $('#drawer-content').innerHTML = `<button class="secondary" id="back-settings">→ חזרה לחיבורים</button><p>${existing ? 'אפשר לשנות את החיבור או להעביר אותו לחדר אחר.' : 'בחרו אתר שאוהבים ותנו לו מקום בעולם.'}</p><form id="source-form"><label class="field">שם<input name="name" maxlength="45" required placeholder="הפינה האהובה עליי ברשת" value="${escape(existing?.name || '')}" dir="auto"></label><label class="field">סוג החיבור<select name="kind"><option value="feed">כותרות מתעדכנות · RSS או Atom</option><option value="website">אתר חי · זיהוי תוכן</option><option value="evrit-books">עברית · ספרים חדשים מדי יום</option></select></label><label class="field"><span id="url-label">כתובת עדכוני RSS או Atom</span><input name="url" type="url" required placeholder="https://example.com/feed.xml" value="${escape(existing?.url || '')}"><small id="url-help">הזינו כתובת ישירה של ערוץ העדכונים. הכותרות החדשות יופיעו בחדר.</small></label><label class="field">חדר<select name="room"><option value="office">המשרד · שני מסכים</option><option value="library">הספרייה · מדפי ספרים</option></select><small>בחרו מסך במשרד או מקמו את החיבור בספרייה.</small></label><label class="field" id="screen-field">מסך במשרד<select name="screen"><option value="">חיבור לחדר בלבד</option><option value="0">מסך 1 · שמאל</option><option value="1">מסך 2 · ימין</option></select></label><p class="form-error" id="form-error" role="alert" hidden></p><button class="primary full" type="submit">${existing ? 'שמירת החיבור' : 'הוספה לעולם שלי'} ↗</button></form>`;
-    $('#back-settings').onclick = () => openSettings();
+    $('#drawer-content').innerHTML = `<button class="secondary" id="back-settings">→ חזרה לחיבורים</button><p>${existing ? 'אפשר לשנות את החיבור או להעביר אותו לחדר אחר.' : 'בחרו אתר שאוהבים ותנו לו מקום בעולם.'}</p><form id="source-form"><label class="field">שם<input name="name" maxlength="45" required placeholder="הפינה האהובה עליי ברשת" value="${escape(existing?.name || '')}" dir="auto"></label><label class="field">סוג החיבור<select name="kind"><option value="feed">כותרות מתעדכנות · RSS או Atom</option><option value="website">אתר חי · זיהוי תוכן</option><option value="evrit-books">עברית · ספרים חדשים מדי יום</option></select></label><label class="field"><span id="url-label">כתובת עדכוני RSS או Atom</span><input name="url" type="url" required placeholder="https://example.com/feed.xml" value="${escape(existing?.url || '')}"><small id="url-help">הזינו כתובת ישירה של ערוץ העדכונים. הכותרות החדשות יופיעו בחדר.</small></label><label class="field">חדר<select name="room"><option value="office">המשרד · ${SCREEN_COUNT} מסכים</option><option value="library">הספרייה · מדפי ספרים</option></select><small>בחרו מסך במשרד או מקמו את החיבור בספרייה.</small></label><label class="field" id="screen-field">מסך במשרד<select name="screen"><option value="">חיבור לחדר בלבד</option>${SCREEN_INDICES.map(index=>`<option value="${index}">${screenLabel(index)}</option>`).join('')}</select></label><p class="form-error" id="form-error" role="alert" hidden></p><button class="primary full" type="submit">${existing ? 'שמירת החיבור' : 'הוספה לעולם שלי'} ↗</button></form>`;
+    $('#back-settings').onclick = () => openSettings('connections');
     if(staticData){const label=document.createElement('label');label.className='field';label.textContent='מקור מהקטלוג';const select=document.createElement('select');select.id='published-connection';select.innerHTML='<option value="">בחירת מקור מהקטלוג</option>'+staticData.sources.map(source=>`<option value="${escape(source.id)}">${escape(source.name)}</option>`).join('');label.append(select);$('#source-form').prepend(label);select.onchange=()=>{const source=staticData.sources.find(source=>source.id===select.value);if(!source)return;form.elements.name.value=source.name;form.elements.kind.value=source.kind;form.elements.url.value=source.url;form.elements.room.value=source.room;updatePlacement();updateKind();};}
     const form = $('#source-form');
     form.elements.kind.value = existing?.kind || 'feed';
-    form.elements.room.value = existing?.room || (selectedRoom === 'library' ? 'library' : 'office');
-    const currentScreen = existing ? config.officeScreens.findIndex((id,i)=>id===existing.id&&config.screenModes[i]!=='webcam') : config.officeScreens.findIndex((id,i)=>!id&&config.screenModes[i]!=='webcam');
+    form.elements.room.value = targetScreen!==null?'office':existing?.room || (selectedRoom === 'library' ? 'library' : 'office');
+    const currentScreen = targetScreen!==null?targetScreen:existing ? config.officeScreens.findIndex((id,i)=>id===existing.id&&config.screenModes[i]!=='webcam') : config.officeScreens.findIndex((id,i)=>!id&&config.screenModes[i]!=='webcam');
     form.elements.screen.value = currentScreen >= 0 ? String(currentScreen) : '';
     function updatePlacement() { $('#screen-field').hidden = form.elements.room.value !== 'office'; }
     form.elements.room.onchange = updatePlacement;
@@ -583,7 +598,7 @@
   });
   addEventListener('storage', event => {
     if (event.key === KEY && event.newValue) {
-      try { config = validateConfig(JSON.parse(event.newValue));camera.setModes(config.screenModes);updateEnergy();setPaused(config.paused,false);selectRoom(config.room);render();if(drawerMode==='settings')renderSettings();refreshAll(); }
+      try { config = validateConfig(JSON.parse(event.newValue));camera.setModes(config.screenModes.slice(0,SCREEN_COUNT));updateEnergy();setPaused(config.paused,false);selectRoom(config.room);render();if(drawerMode==='settings')renderSettings();refreshAll(); }
       catch { /* Ignore incomplete external edits. */ }
     }
   });
@@ -600,6 +615,9 @@
   window.worldApp = {
     setPaused,setHostState,isActive,getSceneState:sceneState,getClockState:()=>roomProps.clock(),
     getCharacterState:() => ({...routine.snapshot(),paused,reducedMotion:reducedMotion.matches,active:isActive(),lowPower}),
+    setScreenHotspots:(screens,viewport)=>native('screenTargets',{screens,viewport}),
+    openDesktopScreen:index=>native('openScreenTarget',{index}),
+    editScreen:index=>{settingsScreen=index;config.editorScreen=index;save();openSettings('connections');},
     readBook,expressMood,setCameraEnabled:value=>value?camera.enable():camera.disable(),
     selectBook,walkTo,importPhoto,setPhoto,choosePhoto,
     enterWorld:()=>setInteraction(true),leaveWorld:()=>setInteraction(false),
@@ -611,15 +629,15 @@
     },
     coverURL:url=>nativeManaged?`/api/cover?url=${encodeURIComponent(url)}`:safeURL(url)||'',
     openReadingBook() { const source=librarySource(), book=routine.snapshot().book; if(source&&book)openBook(source,book,false); },
-    openScreen(index) { if(config.screenModes[index]==='webcam'){if(camera.snapshot().status==='live')openSettings('connections');else enableCamera();return;} const source = screenSource(index); if (source) openRoom('office',source.id); else openSettings(); },
+    openScreen(index) { if(config.screenModes[index]==='webcam'){if(camera.snapshot().status==='live')openSettings('connections');else enableCamera();return;} const source = screenSource(index); if (source) openRoom('office',source.id); else editSource(null,index); },
     openLibrary:() => openRoom('library'),
     openBookAt(index) { const source=librarySource(), book=shelfBooks()[index]; if (book) openBook(source,book); },
     visitRoom:goTo,
     restoreNative(value) {
-    try { const previousRoom=selectedRoom;config = validateConfig(JSON.parse(value));camera.setModes(config.screenModes);updateEnergy();settingsStore.write(config);selectRoom(config.room);if(previousRoom!==config.room)routine.visit(config.room,true);render();setPaused(config.paused,false);if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
+    try { const previousRoom=selectedRoom;config = validateConfig(JSON.parse(value));settingsScreen=config.editorScreen;settingsTab=config.editorTab;camera.setModes(config.screenModes.slice(0,SCREEN_COUNT));updateEnergy();settingsStore.write(config);selectRoom(config.room);if(previousRoom!==config.room)routine.visit(config.room,true);render();setPaused(config.paused,false);if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
     catch { /* Keep the current usable setup. */ }
   }};
-  camera.setModes(config.screenModes);selectRoom(config.room);
+  camera.setModes(config.screenModes.slice(0,SCREEN_COUNT));selectRoom(config.room);
   if(config.room!=='home')routine.visit(config.room,true);
   render();tickClock();setPaused(config.paused,false);
   if(browserApp){

@@ -4,7 +4,7 @@ const {fit,fitRoom,roomBounds,W,H}=require('../web/scene-layout.js');
 function memory(){const values=new Map();return {getItem:key=>values.get(key)||null,setItem:(key,value)=>values.set(key,value)};}
 test('visitor settings, source assignments and embedded picture survive a new store instance',()=>{
  const storage=memory(),store=createStore({getStorage:()=>storage});
- const config={...structuredClone(DEFAULT),name:'My world',wander:false,ambience:'night',location:'london',officeScreens:['office-news-2','news'],framePhoto:'data:image/png;base64,AAAA',batteryPreview:'15',batteryReactions:false,paused:true,room:'office',editorTab:'character',emotionPreview:'happy'};
+ const config={...structuredClone(DEFAULT),name:'My world',wander:false,ambience:'night',location:'london',officeScreens:['office-news-2','news'],framePhoto:'data:image/png;base64,AAAA',batteryPreview:'15',batteryReactions:false,paused:true,room:'office',editorTab:'character',editorScreen:7,emotionPreview:'happy'};
  store.read();assert.equal(store.hasSaved,false);assert.equal(store.write(config),true);
  const restored=createStore({getStorage:()=>storage});assert.deepEqual(restored.read(),validateConfig(config));assert.equal(restored.hasSaved,true);
  assert.equal(restored.read().framePhoto,config.framePhoto);assert.equal(restored.read().paused,true);
@@ -19,7 +19,7 @@ test('existing saved worlds upgrade without losing their name, sources, photo or
 test('webcam monitor choices persist, while live media and capture intent do not',()=>{
  const storage=memory(),store=createStore({getStorage:()=>storage});
  store.write({...DEFAULT,screenModes:['webcam','source'],camera:{stream:'private live media',intent:true}});
- assert.deepEqual(store.read().screenModes,['webcam','source']);assert.equal(store.read().camera,undefined);
+ assert.deepEqual(store.read().screenModes,['webcam',...Array(7).fill('source')]);assert.equal(store.read().camera,undefined);
  assert(!storage.getItem(KEY).includes('private live media'));
 });
 test('malformed storage and blocked browser storage recover without claiming a successful save',()=>{
