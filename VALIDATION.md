@@ -1,5 +1,12 @@
 # Static web validation — 2026-11-05
 
+## Mac hardware camera selection — 2026-11-06
+
+- Native discovery excludes Continuity Camera and Desk View and prefers built-in hardware before a connected USB camera. Sets the app-specific preferred camera before creating WebKit and provides its local hardware names to the renderer.
+- The Mac renderer requests the exact local device when labels are available, rejects/stops any returned non-local stream before displaying it, and reports no local camera rather than substituting an iPhone. Normal browsers retain their existing camera selection.
+- Real native capture initially reproduced `OverconstrainedError`. Relaxing the hard15-fps ceiling while preserving exact camera selection allowed FaceTime HD Camera to capture. The Mac path now requests12fps as a negotiable target from the start.
+- Verified actual FaceTime HD Camera in the native editor and wallpaper handoff. Temporary error diagnostics were removed. Regression coverage includes iPhone-first enumeration, USB fallback, exact device constraints, stream rejection/stopping and no substitution when local capture fails.
+
 ## Hebrew interface, reading portrait and Mac synchronization — 2026-11-06
 
 -58 Node tests and3 Python tests passed. New portrait tests verify seated frames, long holds and zero pending timers when hidden, landscape, editing, paused, low power or Reduce Motion.

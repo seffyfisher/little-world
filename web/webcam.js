@@ -9,6 +9,7 @@
     function stopTracks(media){for(const track of media?.getTracks()||[])track.stop();}
     function release(){const old=stream;stream=null;stopTracks(old);}
     function failure(error){
+      if(error?.name==='LocalCameraNotFoundError')return 'לא נמצאה מצלמת Mac זמינה. חברו מצלמה למחשב ונסו שוב.';
       if(error?.name==='NotAllowedError'||error?.name==='SecurityError')return 'לא ניתנה הרשאה למצלמה. לחצו כדי לנסות שוב.';
       if(error?.name==='NotFoundError')return 'לא נמצאה מצלמה במכשיר הזה.';
       if(error?.name==='NotReadableError')return 'המצלמה בשימוש. סגרו אפליקציות מצלמה אחרות ונסו שוב.';
@@ -33,7 +34,7 @@
           if(stream!==media)return;
           intent=false;release();publish('error','המצלמה התנתקה. לחצו כדי להתחבר שוב.');
         },{once:true});
-        publish('live','מצלמה חיה · וידאו בלבד');return media;
+        publish('live',`מצלמה חיה · ${media.getVideoTracks()[0]?.label||'וידאו בלבד'}`);return media;
       }).catch(error=>{if(token===generation){intent=false;publish('error',failure(error));}return null;}).finally(()=>{
         if(pending===task)pending=null;
         if(active&&intent&&selected&&!stream)enable();
