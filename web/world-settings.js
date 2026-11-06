@@ -5,9 +5,8 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(energy,emotions){
   'use strict';
   const KEY = 'little-world-poc-v1';
-  const SHIRTS = ['#d8ab7d', '#88ab94', '#879eb5', '#c58d8c'];
   const SECOND_SCREEN_SOURCE = {id: 'office-news-2', name: 'BBC News', url: 'https://feeds.bbci.co.uk/news/rss.xml', kind: 'feed', room: 'office'};
-  const DEFAULT = {schemaVersion: 2, officeScreens: ['news', 'office-news-2'], name: 'Seffy', shirt: SHIRTS[0], wander: true, ambience: 'auto', location: 'tel-aviv', sources: [
+  const DEFAULT = {schemaVersion: 2, officeScreens: ['news', 'office-news-2'], name: 'Seffy', wander: true, ambience: 'auto', location: 'tel-aviv', sources: [
     {id: 'news', name: 'Hacker News', url: 'https://news.ycombinator.com/rss', kind: 'feed', room: 'office'},
     {...SECOND_SCREEN_SOURCE},
     {id: 'books', name: 'עברית · ספרים חדשים', url: 'https://www.e-vrit.co.il/', kind: 'evrit-books', room: 'library'}
@@ -33,7 +32,7 @@
       : office[i]?.id || null);
     return {
       schemaVersion: 2, officeScreens,screenModes:[0,1].map(i=>raw.screenModes?.[i]==='webcam'?'webcam':'source'),
-      name: String(raw.name || 'You').slice(0, 30), shirt: SHIRTS.includes(raw.shirt) ? raw.shirt : SHIRTS[0],
+      name: String(raw.name || 'You').slice(0, 30),
       wander: raw.wander !== false, ambience: ['auto','day','dusk','night'].includes(raw.ambience) ? raw.ambience : 'auto',
       location: ['tel-aviv','jerusalem','london','new-york'].includes(raw.location) ? raw.location : 'tel-aviv',
       framePhoto: energy.photo(raw.framePhoto),
@@ -61,5 +60,5 @@
     }
     return {read,write,get hasSaved(){return hasSaved;}};
   }
-  return {KEY,SHIRTS,DEFAULT,safeURL,validateConfig,createStore};
+  return {KEY,DEFAULT,safeURL,validateConfig,createStore};
 });

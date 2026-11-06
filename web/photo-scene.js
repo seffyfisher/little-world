@@ -22,7 +22,7 @@ surface.innerHTML=`
   <img class="photo-plant photo-plant-left" alt="" draggable="false">
   <img class="photo-plant photo-plant-right" alt="" draggable="false">
   <img class="photo-library-steps" alt="Library steps for a high shelf" draggable="false" hidden>
-  <button class="photo-avatar" aria-label="Your character"><span class="photo-avatar-flip"><img class="photo-person" alt="" draggable="false"><img class="photo-seat-blend" alt="" draggable="false" hidden><img class="photo-shirt-tint" alt="" draggable="false"><img class="photo-carried-cover" alt="" draggable="false"><img class="photo-hand photo-hand-left" alt="" draggable="false"><img class="photo-hand photo-hand-right" alt="" draggable="false"></span></button>
+  <button class="photo-avatar" aria-label="Your character"><span class="photo-avatar-flip"><img class="photo-person" alt="" draggable="false"><img class="photo-seat-blend" alt="" draggable="false" hidden><img class="photo-carried-cover" alt="" draggable="false"><img class="photo-hand photo-hand-left" alt="" draggable="false"><img class="photo-hand photo-hand-right" alt="" draggable="false"></span></button>
   <button class="photo-monitor photo-monitor-one"><span class="photo-monitor-status"></span><strong dir="auto"></strong><span class="photo-headline" dir="auto"></span></button>
   <button class="photo-monitor photo-monitor-two"><span class="photo-monitor-status"></span><strong dir="auto"></strong><span class="photo-headline" dir="auto"></span></button>
   <button class="photo-library-label" aria-label="Open the library">ספרים חדשים · עברית <span>DAILY</span></button>
@@ -44,7 +44,7 @@ surface.addEventListener('click',event=>{
 });
 const plate=surface.querySelector('.photo-room'),actor=surface.querySelector('.photo-avatar');
 const nightPlate=surface.querySelector('.photo-room-night');nightPlate.onload=()=>surface.classList.add('night-ready');
-const person=surface.querySelector('.photo-person'),shirt=surface.querySelector('.photo-shirt-tint');
+const person=surface.querySelector('.photo-person');
 const seatBlend=surface.querySelector('.photo-seat-blend');let seatFade=null,seatToken=0;
 const flip=surface.querySelector('.photo-avatar-flip'),heldCover=surface.querySelector('.photo-carried-cover');
 const hands=[...surface.querySelectorAll('.photo-hand')];
@@ -134,18 +134,6 @@ monitors.forEach((button,index)=>button.onclick=()=>{
 surface.querySelector('.photo-library-label').onclick=()=>api.openLibrary();
 actor.onclick=()=>{if(api.getCharacterState().book)api.openReadingBook();else api.readBook();};
 const assetURL=path=>path+'?v=ladder-pinning-11';
-// Pose-specific fabric regions keep the recolour away from faces, bare arms and book pages.
-const fabric=[
-  '40,61 60,61 60,67 40,67','40,45 58,45 60,57 40,57',
-  '42,46 58,46 59,61 40,61','40,47 55,47 58,62 40,62',
-  '42,70 57,70 62,78 39,78','42,59 57,60 62,73 42,73',
-  '42,59 57,60 68,64 67,70 48,69','32,72 50,74 62,78 60,85 33,82',
-  '42,49 58,49 59,60 41,60','40,68 59,68 59,73 40,73',
-  '42,54 58,54 59,60 41,60','45,58 58,58 59,64 44,64',
-  '42,69 58,69 59,73 41,73','42,58 55,58 56,62 41,62',
-  '42,57 57,57 59,72 40,72','42,55 57,55 59,65 40,65'
-];
-const polygon=points=>'polygon('+points.split(' ').map(point=>point.split(',').join('% ')+'%').join(',')+')';
 function source(image,path){const url=assetURL(path);if(image.getAttribute('src')!==url)image.setAttribute('src',url);}
 function personFrame(path,c){
   const url=assetURL(path),old=person.getAttribute('src');
@@ -187,13 +175,6 @@ function drawCharacter(c){
   if(c.pose==='emotion')path=`character-emotion-${c.emotionFrame}.png`;
   if(c.pose==='climb')path=`character-climb-${c.climbFrame}.png`;
   personFrame(A+path,c);
-  const rose=state.shirt==='#c58d8c';shirt.hidden=rose;
-  if(!rose){
-    source(shirt,A+path);style(shirt,'filter',`hue-rotate(${{'#d8ab7d':35,'#88ab94':135,'#879eb5':195}[state.shirt]||0}deg)`);
-    const mask=c.pose==='emotion'?fabric[c.emotionFrame]:c.pose==='read'?'40,50 56,50 62,54 60,57 40,57':c.pose==='seat'
-      ?c.seatFrame===2?'40,48 58,48 60,53 40,53':'40,44 57,44 60,49 40,49':null;
-    style(shirt,'clipPath',mask?polygon(mask):'');
-  }
   const a=layout.actor(c),scale=width/W;
   const lampReach=Math.max(0,1-Math.hypot((c.x-58.5)/11,(c.y-73)/10));
   style(actor,'filter',state.mode==='night'?`brightness(${.10+lampReach*.40}) sepia(.24) saturate(.7)`:'');

@@ -3,7 +3,7 @@
   'use strict';
   const $ = selector => document.querySelector(selector);
   const $$ = selector => [...document.querySelectorAll(selector)];
-  const {KEY,SHIRTS,DEFAULT,safeURL,validateConfig,createStore}=window.LittleWorldSettings;
+  const {KEY,DEFAULT,safeURL,validateConfig,createStore}=window.LittleWorldSettings;
   const settingsStore=createStore();
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let config=settingsStore.read();
@@ -73,7 +73,7 @@
   function sceneState() {
     const library = librarySource();
     return {
-      name: config.name, shirt: config.shirt, paused, active:isActive(), lowPower, reducedMotion: reducedMotion.matches,interaction,energy,framePhoto:config.framePhoto||'',
+      name: config.name, paused, active:isActive(), lowPower, reducedMotion: reducedMotion.matches,interaction,energy,framePhoto:config.framePhoto||'',
       mode: document.body.classList.contains('night') ? 'night' : document.body.classList.contains('dusk') ? 'dusk' : 'day',
       room: selectedRoom, weather: weather?.current || null,camera:camera.snapshot(),
       screens: [0,1].map(index => {
@@ -110,12 +110,8 @@
     }catch{toast('This image could not be opened. Try JPG or PNG.');}finally{URL.revokeObjectURL(url);}
   }
   function render() {
-    const guideShirt=$('#portrait-shirt');
-    guideShirt.hidden=config.shirt==='#c58d8c';
-    guideShirt.style.filter=`hue-rotate(${{'#d8ab7d':35,'#88ab94':135,'#879eb5':195}[config.shirt]||0}deg)`;
     $('#scene-name').textContent = `${config.name.toUpperCase()}’S PLACE`;
     $('#character-name').textContent = config.name;
-    document.documentElement.style.setProperty('--shirt', config.shirt);
     for (const room of ['office', 'library']) {
       const sources = config.sources.filter(s => s.room === room);
       const first = room === 'library' ? librarySource() : screenSource(0) || screenSource(1) || sources[0];
@@ -423,10 +419,9 @@
         delete feeds[b.dataset.remove]; save(); renderSettings(); toast('Connection removed.');
       });
     } else if(settingsTab==='character') {
-      $('#drawer-content').innerHTML = tabs + `<p>A small stand-in for you. Give your character a name, pick a favorite color, and let them settle in.</p><label class="field">Your character’s name<input id="name" maxlength="30" value="${escape(config.name)}" autocomplete="off" dir="auto"></label><label class="field">T-shirt color</label><div class="swatches">${SHIRTS.map((color, i) => `<button class="swatch ${config.shirt === color ? 'active' : ''}" style="--swatch:${color}" data-color="${color}" aria-label="${['Ochre','Sage','Blue','Rose'][i]} T-shirt" aria-pressed="${config.shirt === color}"></button>`).join('')}</div><label class="toggle-row"><input id="wander" type="checkbox" ${config.wander ? 'checked' : ''}> Wander, read, and have little moments</label><p class="note">You can always choose a room yourself. Animation also respects your device’s Reduce Motion preference.</p><div class="divider"></div><h3>A little time for yourself</h3><button class="primary full" id="read-a-book">Pick a book and read</button><div class="form-row"><button class="secondary" id="visit-office">Visit the office</button><button class="secondary" id="visit-library">Visit the library</button></div><div class="divider"></div><h3>A whole range of feelings</h3><label class="field">Try a little moment<select id="emotion-preview"><option value="next">Surprise me</option>${Object.entries(window.LittleWorldEmotions.moods).map(([id,mood])=>`<option value="${id}">${mood.label}</option>`).join('')}</select></label><button class="secondary full" id="try-emotion">Show this mood</button><p class="note">Occasional moments happen naturally between activities. Books are returned first. Pause, Reduce Motion, and desktop visibility still apply.</p><div class="divider"></div><p class="note">Clay edition · Your handmade character. More ways to make this little world yours can come next.</p>`;
+      $('#drawer-content').innerHTML = tabs + `<p>A small stand-in for you. Give your character a name and let them settle in.</p><label class="field">Your character’s name<input id="name" maxlength="30" value="${escape(config.name)}" autocomplete="off" dir="auto"></label><label class="toggle-row"><input id="wander" type="checkbox" ${config.wander ? 'checked' : ''}> Wander, read, and have little moments</label><p class="note">You can always choose a room yourself. Animation also respects your device’s Reduce Motion preference.</p><div class="divider"></div><h3>A little time for yourself</h3><button class="primary full" id="read-a-book">Pick a book and read</button><div class="form-row"><button class="secondary" id="visit-office">Visit the office</button><button class="secondary" id="visit-library">Visit the library</button></div><div class="divider"></div><h3>A whole range of feelings</h3><label class="field">Try a little moment<select id="emotion-preview"><option value="next">Surprise me</option>${Object.entries(window.LittleWorldEmotions.moods).map(([id,mood])=>`<option value="${id}">${mood.label}</option>`).join('')}</select></label><button class="secondary full" id="try-emotion">Show this mood</button><p class="note">Occasional moments happen naturally between activities. Books are returned first. Pause, Reduce Motion, and desktop visibility still apply.</p><div class="divider"></div><p class="note">Clay edition · Your handmade character. More ways to make this little world yours can come next.</p>`;
       $('#name').oninput = event => { config.name = event.target.value.trim() || 'You'; save(); };
       $('#wander').onchange = event => { config.wander = event.target.checked; save();wakeMotion(); };
-      $$('[data-color]').forEach(b => b.onclick = () => { config.shirt = b.dataset.color; save(); renderSettings(); });
       $('#emotion-preview').value=config.emotionPreview;
       $('#emotion-preview').onchange=event=>{config.emotionPreview=event.target.value;save();};
       $('#try-emotion').onclick = () => { const mood=$('#emotion-preview').value;config.emotionPreview=mood;save();closeDrawer();expressMood(mood); };

@@ -4,14 +4,15 @@ const {fit,fitRoom,roomBounds,W,H}=require('../web/scene-layout.js');
 function memory(){const values=new Map();return {getItem:key=>values.get(key)||null,setItem:(key,value)=>values.set(key,value)};}
 test('visitor settings, source assignments and embedded picture survive a new store instance',()=>{
  const storage=memory(),store=createStore({getStorage:()=>storage});
- const config={...structuredClone(DEFAULT),name:'My world',shirt:'#88ab94',wander:false,ambience:'night',location:'london',officeScreens:['office-news-2','news'],framePhoto:'data:image/png;base64,AAAA',batteryPreview:'15',batteryReactions:false,paused:true,room:'office',editorTab:'character',emotionPreview:'happy'};
+ const config={...structuredClone(DEFAULT),name:'My world',wander:false,ambience:'night',location:'london',officeScreens:['office-news-2','news'],framePhoto:'data:image/png;base64,AAAA',batteryPreview:'15',batteryReactions:false,paused:true,room:'office',editorTab:'character',emotionPreview:'happy'};
  store.read();assert.equal(store.hasSaved,false);assert.equal(store.write(config),true);
  const restored=createStore({getStorage:()=>storage});assert.deepEqual(restored.read(),validateConfig(config));assert.equal(restored.hasSaved,true);
  assert.equal(restored.read().framePhoto,config.framePhoto);assert.equal(restored.read().paused,true);
 });
 test('existing saved worlds upgrade without losing their name, sources, photo or appearance',()=>{
- const storage=memory(),old={...structuredClone(DEFAULT),name:'Existing visitor',ambience:'dusk',framePhoto:'data:image/jpeg;base64,AAAA'};
+ const storage=memory(),old={...structuredClone(DEFAULT),name:'Existing visitor',shirt:'#88ab94',ambience:'dusk',framePhoto:'data:image/jpeg;base64,AAAA'};
  storage.setItem(KEY,JSON.stringify(old));const config=createStore({getStorage:()=>storage}).read();
+ assert.equal(config.shirt,undefined,'retired shirt recoloring is ignored in existing saved worlds');
  assert.equal(config.name,old.name);assert.deepEqual(config.sources,old.sources);assert.equal(config.framePhoto,old.framePhoto);assert.equal(config.ambience,'dusk');
  assert.equal(config.paused,false);assert.equal(config.editorTab,'world');assert.equal(config.room,'home');
 });

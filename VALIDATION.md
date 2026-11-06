@@ -1,5 +1,11 @@
 # Static web validation — 2026-11-05
 
+## Original shirt artwork — 2026-11-06
+
+- Removed the duplicated, clipped hue-rotated shirt image from all character poses and the portrait rotation guide. Original sprite artwork and the sitting/climbing crossfade remain intact.
+- Removed color swatches, tint masks and recoloring settings. Legacy saved shirt values are ignored during settings validation without resetting other visitor preferences; the existing migration test covers this.
+-56 Node tests and3 Python tests passed, plus JS syntax/whitespace checks. Preview browser confirmed no tint layers, the original shirt in landscape and portrait, and Character settings without the color picker. No console warnings/errors were recorded.
+
 ## Notch-safe fill adjustment — 2026-11-06
 
 - Kept the enlarged landscape cover framing, but removed its zero-inset override. The scene now uses the existing four device safe-area insets in landscape as well, reserving space around the notch and home indicator instead of drawing the world there.

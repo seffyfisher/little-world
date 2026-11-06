@@ -48,13 +48,9 @@
 .photo-avatar{position:absolute;left:0;top:0;aspect-ratio:1;padding:0;border:0;background:none;pointer-events:auto;cursor:pointer;z-index:3;contain:layout paint style}
 .photo-avatar::after{content:'';position:absolute;left:32%;right:30%;bottom:3%;height:4%;background:#42301f40;border-radius:50%;filter:blur(3px);z-index:-1}
 .photo-avatar-flip{position:absolute;inset:0;display:block}
-.photo-person,.photo-seat-blend,.photo-shirt-tint,.photo-hand{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;user-select:none}
-.photo-shirt-tint{clip-path:polygon(39% 40%,54% 39%,61% 43%,64% 48%,59% 50%,59% 61%,38% 62%,37% 50%,34% 49%,35% 44%)}
-.photo-avatar[data-pose=carry] .photo-shirt-tint,.photo-avatar[data-pose=hold] .photo-shirt-tint{clip-path:polygon(39% 39%,54% 39%,60% 44%,44% 44%,42% 49%,34% 49%,35% 43%)}
-.photo-avatar[data-pose=read] .photo-shirt-tint{clip-path:polygon(38% 42%,54% 41%,60% 46%,43% 47%,38% 50%,33% 49%,34% 45%)}
+.photo-person,.photo-seat-blend,.photo-hand{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;user-select:none}
 .photo-carried-cover{position:absolute;object-fit:fill;border-radius:2px;box-shadow:1px 1px 2px #402a1b44;filter:saturate(.8) brightness(.93);pointer-events:none}
 .photo-hand{z-index:4}.photo-carried-cover{z-index:3}
-.photo-avatar[data-pose=transfer] .photo-shirt-tint{clip-path:polygon(30% 39%,49% 39%,51% 50%,34% 57%,29% 61%)}
 .photo-monitor{position:absolute;top:37.7%;width:8.2%;height:9%;overflow:hidden;padding:.45cqw .48cqw;border:0;background:#173e37;color:#e7e2b5;border-radius:2px 3px 2px 3px;pointer-events:auto;text-align:left;box-shadow:inset 1px 1px 4px #091f1cd9;display:flex;flex-direction:column;gap:.18cqw;z-index:4;cursor:pointer}
 .photo-monitor-one{left:22.8%;transform:rotate(.25deg)}.photo-monitor-two{left:34.3%;width:7.85%;transform:rotate(.1deg);background:#24473f}
 .photo-monitor-status{font-size:.29cqw;letter-spacing:.05cqw;color:#8fbd9e;font-weight:800}
@@ -82,9 +78,8 @@
 .photo-window-weather[data-rain=true],.photo-steam i{animation:none}.photo-steam i{opacity:.25}
 .runtime-suspended *,.runtime-suspended *::before{animation-play-state:paused!important;transition:none!important}
 
-.photo-seat-blend{z-index:1;pointer-events:none}.photo-shirt-tint{z-index:2}
-.photo-avatar[data-pose=seat] .photo-shirt-tint{clip-path:polygon(38% 41%,54% 41%,59% 46%,41% 47%,35% 50%,33% 46%)}
-.photo-avatar[data-pose=emotion] .photo-shirt-tint{clip-path:polygon(36% 39%,55% 39%,61% 48%,58% 61%,37% 61%,32% 49%)}
+
+.photo-seat-blend{z-index:1;pointer-events:none}
 
 /* A photographed low-light plate: most surfaces disappear, only practical lights remain. */
 .photo-room-night{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;user-select:none}
@@ -178,7 +173,6 @@
  .world-immersive .portrait-guide{position:fixed;inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;color:#67523a;overflow:hidden;pointer-events:none}
  .portrait-character{position:relative;width:min(78vw,310px);width:min(78vw,310px,58svh);aspect-ratio:1;flex-shrink:0}
  .portrait-character>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
- .portrait-character .portrait-shirt{clip-path:polygon(35% 40%,58% 40%,61% 44%,57% 51%,57% 66%,30% 66%,30% 53%,35% 46%)}
  .portrait-rotate{position:absolute;right:-7%;top:4%;width:33%;height:33%;filter:drop-shadow(0 2px 1px #9c765d21)}
  .portrait-guide p{margin:0 20px;max-width:85%;text-align:center;font:650 clamp(16px,4.5vw,20px)/1.4 ui-rounded,system-ui,sans-serif;letter-spacing:-.02em}
  .night .portrait-guide{color:#bdb09b;--rotate-phone-fill:#25262b}
