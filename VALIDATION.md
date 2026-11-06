@@ -1,5 +1,10 @@
 # Static web validation — 2026-11-05
 
+## Full landscape restored — 2026-11-06
+
+- Landscape scene ignores all notch/home-indicator safe-area insets, as requested. Cover framing fills the full viewport; controls retain their safe-area placement. Original shirt artwork remains in place.
+- The existing seven settings/layout checks and whitespace checks passed. Physical notched-phone validation remains unverified.
+
 ## Original shirt artwork — 2026-11-06
 
 - Removed the duplicated, clipped hue-rotated shirt image from all character poses and the portrait rotation guide. Original sprite artwork and the sitting/climbing crossfade remain intact.
