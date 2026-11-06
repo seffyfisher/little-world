@@ -1,5 +1,10 @@
 # Static web validation — 2026-11-05
 
+## Notch-safe fill adjustment — 2026-11-06
+
+- Kept the enlarged landscape cover framing, but removed its zero-inset override. The scene now uses the existing four device safe-area insets in landscape as well, reserving space around the notch and home indicator instead of drawing the world there.
+- Existing seven settings/layout tests and CSS whitespace checks passed. Physical notched-phone validation remains unverified.
+
 ## Edge-to-edge landscape correction — 2026-11-06
 
 - Reproduced the remaining letterboxing with a geometry regression: the contain framing failed the requirement to cover both viewport dimensions at844×390.
