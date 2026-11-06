@@ -68,10 +68,10 @@ function resize(){
   // The editor's wide stage crops only the empty studio backdrop above/below the model.
   // Keep the entire miniature visible in wallpaper mode and narrow layouts.
   const fillEditor=!document.body.classList.contains('browser-app')&&!document.body.classList.contains('wallpaper-mode')&&bounds.width/bounds.height>1.7;
-  const fit=layout.fit(bounds.width,bounds.height);
+  const fit=document.body.classList.contains('world-immersive')?layout.fitRoom(bounds.width,bounds.height):layout.fit(bounds.width,bounds.height);
   width=fillEditor?bounds.width:fit.width;height=width*H/W;
   surface.style.width=`${width}px`;surface.style.height=`${height}px`;
-  surface.style.left=`${(bounds.width-width)/2}px`;surface.style.top=`${(bounds.height-height)/2}px`;
+  surface.style.left=`${fillEditor?(bounds.width-width)/2:fit.left}px`;surface.style.top=`${fillEditor?(bounds.height-height)/2:fit.top}px`;
   drawCharacter(api.getCharacterState());
 }
 new ResizeObserver(resize).observe(host);

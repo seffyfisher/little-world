@@ -1,6 +1,6 @@
 const {test}=require('node:test');const assert=require('node:assert/strict');
 const {createStore,validateConfig,DEFAULT,KEY}=require('../web/world-settings.js');
-const {fit,W,H}=require('../web/scene-layout.js');
+const {fit,fitRoom,roomBounds,W,H}=require('../web/scene-layout.js');
 function memory(){const values=new Map();return {getItem:key=>values.get(key)||null,setItem:(key,value)=>values.set(key,value)};}
 test('visitor settings, source assignments and embedded picture survive a new store instance',()=>{
  const storage=memory(),store=createStore({getStorage:()=>storage});
@@ -31,4 +31,15 @@ test('the entire world stays inside phone landscape, portrait and desktop viewpo
   assert(box.left>=0&&box.top>=0);assert(Math.abs(box.width/box.height-W/H)<.0001);
   assert(Math.abs(box.left*2+box.width-width)<.001);assert(Math.abs(box.top*2+box.height-height)<.001);
  }
+});
+
+test('immersive framing maximizes the miniature inside notch-safe bounds without cropping it',()=>{
+ for(const [width,height] of [[844,390],[667,375],[750,369],[1440,900],[2560,1080]]){
+  const box=fitRoom(width,height),scale=box.width/W;
+  const left=box.left+roomBounds.left*scale,top=box.top+roomBounds.top*scale;
+  const right=left+roomBounds.width*scale,bottom=top+roomBounds.height*scale;
+  assert(left>=-.001&&top>=-.001);assert(right<=width+.001&&bottom<=height+.001);
+  assert(Math.abs(right-left-width)<.001||Math.abs(bottom-top-height)<.001,'one safe viewport dimension must be filled');
+ }
+ assert(fitRoom(844,390).width>fit(844,390).width*1.2,'wide phones should show a meaningfully larger miniature');
 });

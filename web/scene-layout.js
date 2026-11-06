@@ -5,6 +5,12 @@
     return {width:W*scale,height:H*scale,left:(width-W*scale)/2,top:(height-H*scale)/2};
   }
   const armchair={x:59.5,standingFeet:75,seatedFeet:70.5};
+  // Fit the miniature, excluding only its empty photographed studio backdrop.
+  const roomBounds={left:8,top:128,width:1648,height:704};
+  function fitRoom(width,height){
+    const scale=Math.max(0,Math.min(width/roomBounds.width,height/roomBounds.height));
+    return {width:W*scale,height:H*scale,left:(width-roomBounds.width*scale)/2-roomBounds.left*scale,top:(height-roomBounds.height*scale)/2-roomBounds.top*scale};
+  }
   // Measured centres of the book prop in the four generated transfer poses.
   const seatGrips=[[.57,.49],[.59,.53],[.58,.59]];
   const grips=[[.790,.346],[.735,.439],[.632,.522],[.544,.575]];
@@ -43,5 +49,5 @@
     const gx=c.direction===-1?1-g[0]:g[0];
     return {x:a.x+gx*a.size-b.width/2,y:a.y+g[1]*a.size-b.height/2,width:b.width,height:b.height};
   }
-  return {W,H,fit,armchair,grips,seatGrips,climbFeet,ladder,climbMotion,shelf,shelfStand,actor,book,walkPoint};
+  return {W,H,fit,fitRoom,roomBounds,armchair,grips,seatGrips,climbFeet,ladder,climbMotion,shelf,shelfStand,actor,book,walkPoint};
 });
