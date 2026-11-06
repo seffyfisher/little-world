@@ -10,9 +10,10 @@ The published site is HTML, CSS, JavaScript, PNGs and JSON. **No app server, dat
 
 ## Use it
 
-- **Enter world**: click a particular book to read it or the floor to choose a destination. **Leave world / Esc** returns to browsing the page.
-- **Focus view** fills the page with the room. **Full screen** is available in supporting browsers. Esc or **Back to page** restores the page.
-- **Make it yours** edits appearance, screen assignments, published connections, lighting and battery previews. Add a wall picture by choosing or dropping a JPG/PNG/WebP.
+- The site opens directly into the interactive world on desktop and landscape phones, with one small **Open full editor** button. Tap a particular book to read it or the floor to choose a destination. The entire room fits the available viewport, including wide phone landscapes.
+- Portrait phones show the clay character pointing to a rotate-phone illustration. Turning the phone sideways automatically reveals the world. The hidden room's animation is suspended while the portrait prompt is showing.
+- **Open full editor** provides pause/resume, Enter/Leave world, room navigation, reading and full screen, plus appearance, screen assignments, published connections, lighting and battery previews. Add a wall picture by choosing or dropping a JPG/PNG/WebP. Esc closes the editor or leaves interactive mode; the world-only presentation remains.
+- Changes save automatically in localStorage: name, shirt, wandering, lighting, city, sources and monitor assignments, picture, battery preferences, pause state, room choice, mood selection and the last editor tab. Existing saved worlds keep the same storage key. If storage is blocked/full, the site reports that changes could not be saved. Enter World mode always starts enabled, and the editor always starts closed.
 - Automatic light follows system appearance. Hidden tabs suspend movement and scheduled JSON checks. Reduce Motion is respected.
 - Actual battery reactions use the browser's optional Battery Status API. Unsupported/denied access is labeled unavailable; explicit previews still work.
 

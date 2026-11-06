@@ -62,14 +62,14 @@ function showPhoto(){
   resize();drawCharacter(api.getCharacterState());
 }
 plate.addEventListener('load',showPhoto);
-if(plate.complete&&plate.naturalWidth)showPhoto();
 plate.addEventListener('error',()=>{host.hidden=true;document.body.classList.remove('photo-clay');});
 function resize(){
   const bounds=host.getBoundingClientRect();
   // The editor's wide stage crops only the empty studio backdrop above/below the model.
   // Keep the entire miniature visible in wallpaper mode and narrow layouts.
-  const fillEditor=!document.body.classList.contains('wallpaper-mode')&&bounds.width/bounds.height>1.7;
-  width=fillEditor?bounds.width:Math.min(bounds.width,bounds.height*W/H);height=width*H/W;
+  const fillEditor=!document.body.classList.contains('browser-app')&&!document.body.classList.contains('wallpaper-mode')&&bounds.width/bounds.height>1.7;
+  const fit=layout.fit(bounds.width,bounds.height);
+  width=fillEditor?bounds.width:fit.width;height=width*H/W;
   surface.style.width=`${width}px`;surface.style.height=`${height}px`;
   surface.style.left=`${(bounds.width-width)/2}px`;surface.style.top=`${(bounds.height-height)/2}px`;
   drawCharacter(api.getCharacterState());
@@ -210,5 +210,7 @@ window.addEventListener('world:ambient',event=>{ambientFrame=event.detail;drawPl
 window.addEventListener('world:chair',event=>source(officeChair,A+`office-chair-${event.detail.frame}.png`));
 window.addEventListener('world:clock',event=>drawClock(event.detail));
 update(state);
+// A cached image can already be complete: initialize it only after sprite helpers exist.
+if(plate.complete&&plate.naturalWidth)showPhoto();
 
 })();

@@ -1,5 +1,12 @@
 # Static web validation — 2026-11-05
 
+## Mobile-first immersive entry — 2026-11-06
+
+-45 Node tests and3 Python tests passed. New regressions cover durable preference round trips, existing saved-world compatibility, malformed/blocked/full storage and complete-image containment across eight phone/desktop dimensions.
+- Real-browser viewport checks:844×390 and667×375 landscape display the entire scene;1440×900 desktop starts interactive with the toolbars hidden. Only the44px editor launcher is shown outside the scene. The390×844 portrait view shows the character and rotate-phone illustration; rotating restores the fitted world automatically. The room runtime is inactive during the portrait prompt and resumes in landscape. This is browser viewport verification, not physical iPhone/Safari hardware validation.
+- Verified changes and reloaded: character name, Rose shirt, wandering off, selected mood, Dusk lighting,15% battery preview, disabled battery reactions, reversed monitor assignments, London weather, paused playback, Office destination and an embedded test photo were restored. Portrait editor bounds fit the viewport without horizontal overflow. Test preferences were left confined to the local preview origin.
+- Fixed a warm-image-cache startup exception: the synchronous cached-room initialization now runs after sprite helper constants exist. Repeated warm reloads and orientation changes restored the photo and interactive scene without a new initialization error.
+
 -41 Node checks and3 Python checks passed. Includes reading/book size, stable seating, moods, ladder ascent/descent/disappearance, visibility suspension, battery fallback, JSON refresh de-duplication, failed publication recovery and preserving actual source identity.
 - Built a17MB runtime-only copy. Served it with Python's ordinary static file server, without the macOS app or API adapters. Source request log shows zero `/api/` calls; data comes from `data/world.json`.
 - Browser inspected at1280×720: all12 real e-vrit cover images loaded, two RSS snapshots rendered, real digital clock/weather rendered, no horizontal overflow. Focus view and Enter/Leave world were exercised. Deep night follows system appearance. Browser battery reported an actual percentage and charging state.

@@ -131,3 +131,47 @@
  .browser-app.world-focus .stage-top{left:10px;right:10px;flex-wrap:wrap}.browser-app.world-focus .scene-label{display:none}
  .browser-app.world-focus .stage-bottom{left:10px;right:10px;bottom:10px}
 }
+
+/* Default landing: only the whole world and one accessible editor button. */
+.world-immersive{margin:0;overflow:hidden;background:#ead4b3}
+.world-immersive.night{background:#070a10}
+.world-immersive .topbar,.world-immersive .intro,.world-immersive .room-cards,.world-immersive footer,
+.browser-app.world-immersive .stage-top,.browser-app.world-immersive .stage-bottom,.browser-app.world-immersive .world-interaction-bar{display:none}
+.world-immersive .world-stage{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;padding:0;border:0;border-radius:0;box-shadow:none;background:#ead4b3}
+.world-immersive #world{display:none}
+.browser-app.world-immersive .clay-world{inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.world-immersive .photo-surface{touch-action:manipulation}
+.world-editor-launcher{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(env(safe-area-inset-right,0px) + 12px);z-index:8;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #ae92735c;border-radius:50%;background:#efe1cbe8;color:#594c3d;box-shadow:0 2px 8px #30231b1a;cursor:pointer;touch-action:manipulation}
+.world-editor-launcher:active{transform:scale(.95)}
+.portrait-guide{display:none}
+.night .world-editor-launcher{background:#24262ee8;color:#ded3bd;border-color:#5c5a5d}
+.editor-world-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:20px}
+.editor-world-controls button{min-height:44px;padding:10px;white-space:normal}
+.world-immersive .drawer{box-sizing:border-box;top:max(8px,env(safe-area-inset-top,0px));right:max(8px,env(safe-area-inset-right,0px));bottom:max(8px,env(safe-area-inset-bottom,0px));width:min(470px,calc(100vw - max(8px,env(safe-area-inset-left,0px)) - max(8px,env(safe-area-inset-right,0px))));padding:22px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.world-immersive .drawer-head{top:-22px;gap:12px;padding-bottom:18px}
+.world-immersive #close-drawer{min-width:44px;min-height:44px;flex-shrink:0}
+.world-immersive .drawer input,.world-immersive .drawer select{font-size:16px;min-height:44px;max-width:100%}
+.world-immersive .drawer-tabs button,.world-immersive .source-actions button{min-height:44px}
+.world-immersive .drawer-tabs{display:flex;gap:4px}
+.world-immersive .drawer-tabs button{flex:1;min-width:0;padding-inline:8px}
+.world-immersive .source-url{overflow-wrap:anywhere}
+@media(max-width:480px){
+ .world-immersive .drawer{padding:18px;border-radius:20px}
+ .world-immersive .drawer-head{top:-18px}.world-immersive .drawer h2{font-size:27px}
+}
+@media(orientation:landscape) and (max-height:500px){
+ .world-editor-launcher{top:calc(env(safe-area-inset-top,0px) + 8px);right:calc(env(safe-area-inset-right,0px) + 8px)}
+ .world-immersive .drawer-head{position:relative;top:0;padding-top:0}
+ .editor-world-controls{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:14px}
+}
+@media(max-width:767px) and (orientation:portrait){
+ .world-immersive .world-stage{visibility:hidden;pointer-events:none}
+ .world-immersive .portrait-guide{position:fixed;inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;color:#67523a;overflow:hidden;pointer-events:none}
+ .portrait-character{position:relative;width:min(78vw,310px);width:min(78vw,310px,58svh);aspect-ratio:1;flex-shrink:0}
+ .portrait-character>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+ .portrait-character .portrait-shirt{clip-path:polygon(35% 40%,58% 40%,61% 44%,57% 51%,57% 66%,30% 66%,30% 53%,35% 46%)}
+ .portrait-rotate{position:absolute;right:-7%;top:4%;width:33%;height:33%;filter:drop-shadow(0 2px 1px #9c765d21)}
+ .portrait-guide p{margin:0 20px;max-width:85%;text-align:center;font:650 clamp(16px,4.5vw,20px)/1.4 ui-rounded,system-ui,sans-serif;letter-spacing:-.02em}
+ .night .portrait-guide{color:#bdb09b;--rotate-phone-fill:#25262b}
+ .night .portrait-character{filter:brightness(.75)}
+}

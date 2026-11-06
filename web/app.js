@@ -3,50 +3,12 @@
   'use strict';
   const $ = selector => document.querySelector(selector);
   const $$ = selector => [...document.querySelectorAll(selector)];
-  const KEY = 'little-world-poc-v1';
-  const SHIRTS = ['#d8ab7d', '#88ab94', '#879eb5', '#c58d8c'];
-  const SECOND_SCREEN_SOURCE = {id: 'office-news-2', name: 'BBC News', url: 'https://feeds.bbci.co.uk/news/rss.xml', kind: 'feed', room: 'office'};
-  const DEFAULT = {schemaVersion: 2, officeScreens: ['news', 'office-news-2'], name: 'Seffy', shirt: SHIRTS[0], wander: true, ambience: 'auto', location: 'tel-aviv', sources: [
-    {id: 'news', name: 'Hacker News', url: 'https://news.ycombinator.com/rss', kind: 'feed', room: 'office'},
-    {...SECOND_SCREEN_SOURCE},
-    {id: 'books', name: 'עברית · ספרים חדשים', url: 'https://www.e-vrit.co.il/', kind: 'evrit-books', room: 'library'}
-  ]};
+  const {KEY,SHIRTS,DEFAULT,safeURL,validateConfig,createStore}=window.LittleWorldSettings;
+  const settingsStore=createStore();
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  function safeURL(raw) {
-    try { const u = new URL(raw); return ['http:', 'https:'].includes(u.protocol) && !u.username && !u.password ? u.href : null; }
-    catch { return null; }
-  }
-  function validateConfig(raw) {
-    if (!raw || !Array.isArray(raw.sources)) return structuredClone(DEFAULT);
-    const sources = raw.sources.filter(s => s && safeURL(s.url) && ['office','library'].includes(s.room) && ['feed','website','link','evrit-books'].includes(s.kind))
-      .slice(0, 20).map((s, index) => {
-        const newBooks = s.kind === 'evrit-books' || (raw.schemaVersion !== 2 && s.room === 'library' && ['www.e-vrit.co.il','e-vrit.co.il'].includes(new URL(s.url).hostname) && new URL(s.url).pathname === '/');
-        return {id: String(s.id || index).replace(/[^a-z0-9-]/gi,'').slice(0, 60) || String(index),
-          name: newBooks && ['e-vrit','e-vrit new books'].includes(s.name) ? 'עברית · ספרים חדשים' : String(s.name || 'Website').slice(0, 45),
-          url: newBooks ? 'https://www.e-vrit.co.il/' : safeURL(s.url), kind: newBooks ? 'evrit-books' : s.kind === 'link' ? 'website' : s.kind, room: s.room};
-      });
-    // Upgrade existing worlds once, keeping their original connections and settings.
-    if (raw.schemaVersion !== 2 && sources.filter(s => s.room === 'office').length < 2 && sources.length < 20 && !sources.some(s => s.id === SECOND_SCREEN_SOURCE.id)) sources.push({...SECOND_SCREEN_SOURCE});
-    const office = sources.filter(s => s.room === 'office');
-    const officeScreens = [0,1].map(i => Array.isArray(raw.officeScreens)
-      ? office.some(s => s.id === raw.officeScreens[i]) ? raw.officeScreens[i] : null
-      : office[i]?.id || null);
-    return {
-      schemaVersion: 2, officeScreens,
-      name: String(raw.name || 'You').slice(0, 30), shirt: SHIRTS.includes(raw.shirt) ? raw.shirt : SHIRTS[0],
-      wander: raw.wander !== false, ambience: ['auto','day','dusk','night'].includes(raw.ambience) ? raw.ambience : 'auto',
-      location: ['tel-aviv','jerusalem','london','new-york'].includes(raw.location) ? raw.location : 'tel-aviv',
-      framePhoto: window.LittleWorldEnergy.photo(raw.framePhoto),
-      batteryPreview: window.LittleWorldEnergy.previews.has(raw.batteryPreview)?raw.batteryPreview:'actual',
-      batteryReactions: raw.batteryReactions!==false,
-      sources
-    };
-  }
-  let config;
-  try { config = validateConfig(JSON.parse(localStorage.getItem(KEY)) || DEFAULT); }
-  catch { config = structuredClone(DEFAULT); }
-  let feeds = {}, weather = null, weatherError = false, selectedRoom = 'home', selectedSource = null, headlineIndex = 0;
-  let drawerMode = '', settingsTab = 'connections', paused = false, refreshing = false, refreshQueued = false, toastTimer, returnFocus;
+  let config=settingsStore.read();
+  let feeds = {}, weather = null, weatherError = false, selectedRoom = config.room, selectedSource = null, headlineIndex = 0;
+  let drawerMode = '', settingsTab = config.editorTab, paused = config.paused, refreshing = false, refreshQueued = false, toastTimer, returnFocus;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const darkAppearance=matchMedia('(prefers-color-scheme: dark)');
   let systemDark=darkAppearance.matches;
@@ -56,17 +18,20 @@
   const nativeManaged=!!window.webkit?.messageHandlers?.world;
   const browserApp=!nativeManaged&&!compactEditor;
   document.body.classList.toggle('browser-app',browserApp);
+  const portraitQuery=matchMedia('(max-width: 767px) and (orientation: portrait)');
+  let portraitMobile=browserApp&&portraitQuery.matches;
+  document.body.classList.toggle('portrait-mobile',portraitMobile);
   const savedPlace=nativeManaged?'on this Mac':'in this browser';
   let hostActive=!nativeManaged,lowPower=false;
-  let interaction=false,power={level:null,charging:true,hasBattery:false,...(!nativeManaged?{available:false}:{})},energy=window.LittleWorldEnergy.state(power),pendingEnergyMood=null,pendingRead=false;
+  let interaction=false,power={level:null,charging:true,hasBattery:false,...(!nativeManaged?{available:false}:{})},energy=window.LittleWorldEnergy.state(power,config.batteryPreview),pendingEnergyMood=null,pendingRead=false;
   const runtime=window.LittleWorldRuntime.create();
   const staticData=browserApp?window.LittleWorldStatic.create({load:()=>getJSON('data/world.json')}):null;
   let publishedConfigLoaded=false;
-  let hasSavedConfig=false;try{hasSavedConfig=!!localStorage.getItem(KEY);}catch{}
+  const needsPublishedDefaults=!settingsStore.hasSaved,initialConnections=JSON.stringify([config.sources,config.officeScreens]);
   const roomProps=window.LittleWorldRoomProps;
   const chairMotion=roomProps.createChair({runtime,emit:frame=>window.dispatchEvent(new CustomEvent('world:chair',{detail:{frame}}))});
   const requests=new Set(),feedChecked=new Map();let weatherChecked=-Infinity,weatherCheckedLocation='';
-  function isActive(){return nativeManaged?hostActive:!document.hidden;}
+  function isActive(){return nativeManaged?hostActive:!document.hidden&&(!portraitMobile||!!drawerMode);}
 
   document.body.classList.toggle('wallpaper-mode', wallpaperMode);
   $$('#world path,#world rect,#world circle,#world ellipse,#world image,#world defs').forEach(element => element.setAttribute('aria-hidden', 'true'));
@@ -77,10 +42,10 @@
   function save() {
     config = validateConfig(config);
     updateEnergy();
-    try { localStorage.setItem(KEY, JSON.stringify(config)); }
-    catch { toast('Storage is unavailable. This setup will last until you close the window.'); }
+    const saved=settingsStore.write(config);
+    if(!saved)toast('Your changes are active, but this browser could not save them for next time.');
     native('save', {value: JSON.stringify(config)});
-    render();
+    render();return saved;
   }
   function toast(message) {
     $('#toast').textContent = message;
@@ -130,7 +95,7 @@
   }
   function setPhoto(value){
     const photo=window.LittleWorldEnergy.photo(value);if(!photo)return;
-    config.framePhoto=photo;save();if(drawerMode==='settings'&&settingsTab==='world')renderSettings();toast(`Your picture is in the wall frame. Saved ${savedPlace}.`);
+    config.framePhoto=photo;const saved=save();if(drawerMode==='settings'&&settingsTab==='world')renderSettings();if(saved)toast(`Your picture is in the wall frame. Saved ${savedPlace}.`);
   }
   async function importPhoto(file){
     if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>20000000){toast('Choose a JPG, PNG or WebP image up to20MB.');return;}
@@ -143,6 +108,9 @@
     }catch{toast('This image could not be opened. Try JPG or PNG.');}finally{URL.revokeObjectURL(url);}
   }
   function render() {
+    const guideShirt=$('#portrait-shirt');
+    guideShirt.hidden=config.shirt==='#c58d8c';
+    guideShirt.style.filter=`hue-rotate(${{'#d8ab7d':35,'#88ab94':135,'#879eb5':195}[config.shirt]||0}deg)`;
     $('#scene-name').textContent = `${config.name.toUpperCase()}’S PLACE`;
     $('#character-name').textContent = config.name;
     document.documentElement.style.setProperty('--shirt', config.shirt);
@@ -277,7 +245,7 @@
         await staticData.refresh(force);
         if(!publishedConfigLoaded){
           publishedConfigLoaded=true;
-          if(!hasSavedConfig){config=validateConfig({...config,sources:staticData.sources,officeScreens:staticData.sources.filter(source=>source.room==='office').slice(0,2).map(source=>source.id)});render();}
+          if(needsPublishedDefaults&&JSON.stringify([config.sources,config.officeScreens])===initialConnections){config=validateConfig({...config,sources:staticData.sources,officeScreens:staticData.sources.filter(source=>source.room==='office').slice(0,2).map(source=>source.id)});if(settingsStore.hasSaved)settingsStore.write(config);render();}
         }
       }catch(error){
         refreshing=false;$('#refresh').textContent='↻ Retry published data';
@@ -301,7 +269,7 @@
     $$('.room-marker').forEach(g => g.classList.toggle('selected', g.dataset.room === room));
   }
   function goTo(room) {
-    selectRoom(room);
+    config.room=['home','office','library'].includes(room)?room:'home';save();selectRoom(config.room);
     routine.visit(room,reducedMotion.matches);
     renderCharacter();wakeMotion();
   }
@@ -341,7 +309,7 @@
     window.dispatchEvent(new CustomEvent('world:character',{detail:{...s,paused,reducedMotion:reducedMotion.matches,active:isActive(),lowPower}}));
   }
   function motionStep(){
-    if(!isActive()||paused||reducedMotion.matches||compactEditor)return;
+    if(!isActive()||paused||reducedMotion.matches||compactEditor||portraitMobile)return;
     const now=performance.now(),dt=lastMotion?(now-lastMotion)/1000:0;lastMotion=now;
     routine.tick(dt,{books:shelfBooks(),wander:config.wander&&!drawerMode&&!interaction});renderCharacter();
     if(routine.snapshot().phase==='idle'&&(!config.wander||drawerMode||interaction))return;
@@ -349,15 +317,15 @@
   }
   function wakeMotion(){
     lastMotion=performance.now();runtime.remove('motion');
-    if(isActive()&&!paused&&!reducedMotion.matches&&!compactEditor)runtime.set('motion',motionStep,0);
+    if(isActive()&&!paused&&!reducedMotion.matches&&!compactEditor&&!portraitMobile)runtime.set('motion',motionStep,0);
   }
   function activityChanged(){
     const active=isActive();
     document.body.dataset.runtimeActive=String(active);document.body.dataset.lowPower=String(lowPower);
     document.body.classList.toggle('runtime-suspended',!active);
     runtime.setActive(active);
-    if(active&&!paused&&!compactEditor&&pendingEnergyMood){const mood=pendingEnergyMood;pendingEnergyMood=null;routine.express(mood,reducedMotion.matches);}
-    chairMotion.setActivity({active,paused,lowPower,reducedMotion:reducedMotion.matches});
+    if(active&&!paused&&!compactEditor&&!portraitMobile&&pendingEnergyMood){const mood=pendingEnergyMood;pendingEnergyMood=null;routine.express(mood,reducedMotion.matches);}
+    chairMotion.setActivity({active:active&&!portraitMobile,paused,lowPower,reducedMotion:reducedMotion.matches});
     if(active){tickClock();runtime.set('clock',tickClock,roomProps.clock().delay);}
     if(!active){
       for(const request of requests)request.abort();
@@ -378,8 +346,9 @@
     $('#wallpaper').textContent=value?'← Back to page':'↗ Focus view';
     $('#wallpaper').setAttribute('aria-pressed',String(value));
   }
-  function setPaused(value) {
-    paused = value;
+  function setPaused(value,persist=true) {
+    paused = !!value;config.paused=paused;
+    if(persist)save();
     document.body.classList.toggle('paused', value);
     $('#pause').textContent = value ? '▷' : 'Ⅱ';
     $('#pause').setAttribute('aria-label', value ? 'Resume animation' : 'Pause animation');
@@ -397,15 +366,16 @@
     $('#drawer').hidden = false; $('#backdrop').hidden = false;
     document.body.style.overflow = 'hidden';
     $('#close-drawer').focus();
+    activityChanged();
   }
   function closeDrawer() {
     $('#drawer').hidden = true; $('#backdrop').hidden = true;
     document.body.style.overflow = '';
     drawerMode = '';
-    returnFocus?.focus();wakeMotion();
+    returnFocus?.focus();activityChanged();
   }
-  function openSettings(tab = 'connections') {
-    settingsTab = tab;
+  function openSettings(tab = config.editorTab) {
+    settingsTab = tab;if(config.editorTab!==tab){config.editorTab=tab;save();}
     openDrawer('settings', 'Make it yours.', 'A WORLD THAT FEELS LIKE YOU');
     renderSettings();
   }
@@ -414,7 +384,8 @@
     return `<div class="office-screen-settings"><h3>Office screens</h3><p class="note">Give each monitor its own live website or feed. Click a monitor in the room to read that source.</p>${[0,1].map(index => `<label class="field">Screen ${index + 1} · ${index ? 'right' : 'left'} monitor<select data-screen-index="${index}"><option value="">No source assigned</option>${sources.map(source => `<option value="${escape(source.id)}" ${config.officeScreens[index] === source.id ? 'selected' : ''}>${escape(source.name)}</option>`).join('')}</select></label>`).join('')}</div>`;
   }
   function renderSettings() {
-    const tabs = `<div class="drawer-tabs"><button data-tab="connections" class="${settingsTab === 'connections' ? 'active' : ''}">Connections</button><button data-tab="character" class="${settingsTab === 'character' ? 'active' : ''}">Character</button><button data-tab="world" class="${settingsTab === 'world' ? 'active' : ''}">World</button></div>`;
+    const controls=browserApp?`<div class="editor-world-controls" role="group" aria-label="World actions"><button class="secondary" id="editor-pause">${paused?'Resume':'Pause'}</button><button class="secondary" id="editor-interaction">${interaction?'Leave world':'Enter world'}</button><button class="secondary" id="editor-read">Read a book</button><button class="secondary" id="editor-office">Office</button><button class="secondary" id="editor-library">Library</button><button class="secondary" id="editor-refresh">Check updates</button>${document.fullscreenEnabled?'<button class="secondary" id="editor-fullscreen">Full screen</button>':''}</div>`:'';
+    const tabs = controls+`<div class="drawer-tabs"><button data-tab="connections" class="${settingsTab === 'connections' ? 'active' : ''}">Connections</button><button data-tab="character" class="${settingsTab === 'character' ? 'active' : ''}">Character</button><button data-tab="world" class="${settingsTab === 'world' ? 'active' : ''}">World</button></div>`;
     if (settingsTab === 'connections') {
       $('#drawer-content').innerHTML = tabs + `<p>Bring live content into your rooms. Connect an RSS feed or paste a website: we discover its feed or read its current page content.</p>${screenControls()}<div id="source-list">${config.sources.map(s => `<article class="source-item"><div class="source-item-head"><h3 dir="auto">${escape(s.name)}</h3><span class="status">${status(s)}</span></div><div class="source-url">${escape(s.url)}</div><div class="source-meta">${escape(sourcePlace(s))} · ${sourceKind(s)}</div><div class="source-actions"><button data-edit="${escape(s.id)}">Edit connection</button><button data-view="${escape(s.id)}">Open object ↗</button><button class="danger" data-remove="${escape(s.id)}" aria-label="Remove ${escape(s.name)}">Remove</button></div></article>`).join('') || '<div class="empty">Your rooms are waiting.<br>Add your first website below.</div>'}</div><button class="primary full" id="add-source">＋ Add a website</button><p class="note">Up to 20 connections. Changes save automatically ${savedPlace}. ${staticData?'Published JSON is checked every5 minutes; upstream data refreshes when the site is republished.':'Office feeds and websites refresh every5 minutes.'} The e-vrit new-books shelves refresh daily at midnight in Israel. Websites expose public page headings or discovered feeds. Sign-in and JavaScript-only sites need a dedicated adapter.</p><div class="divider"></div><label class="field">Weather outside your window<select id="location"><option value="tel-aviv">Tel Aviv</option><option value="jerusalem">Jerusalem</option><option value="london">London</option><option value="new-york">New York</option></select><small>Illustrated weather comes from Open-Meteo. This is a chosen city; your location is not detected.</small></label><p class="note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather data by Open-Meteo ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>`;
       $$('[data-screen-index]').forEach(select => select.onchange = () => {
@@ -442,7 +413,9 @@
       $('#name').oninput = event => { config.name = event.target.value.trim() || 'You'; save(); };
       $('#wander').onchange = event => { config.wander = event.target.checked; save();wakeMotion(); };
       $$('[data-color]').forEach(b => b.onclick = () => { config.shirt = b.dataset.color; save(); renderSettings(); });
-      $('#try-emotion').onclick = () => { const mood=$('#emotion-preview').value;closeDrawer();expressMood(mood); };
+      $('#emotion-preview').value=config.emotionPreview;
+      $('#emotion-preview').onchange=event=>{config.emotionPreview=event.target.value;save();};
+      $('#try-emotion').onclick = () => { const mood=$('#emotion-preview').value;config.emotionPreview=mood;save();closeDrawer();expressMood(mood); };
       $('#read-a-book').onclick = () => { closeDrawer(); readBook(); };
       $('#visit-office').onclick = () => { closeDrawer(); goTo('office'); };
       $('#visit-library').onclick = () => { closeDrawer(); goTo('library'); };
@@ -460,7 +433,16 @@
       if($('#clear-wall-photo'))$('#clear-wall-photo').onclick=()=>{config.framePhoto='';save();renderSettings();};
     }
     if(staticData&&settingsTab==='connections'){const note=document.createElement('p');note.className='note';note.textContent='This site reads published JSON snapshots. Publish a new connection in data/sources.json to make its content available here. Refresh checks for a newer snapshot.';$('#drawer-content').prepend(note);}
-    $$('[data-tab]').forEach(b => b.onclick = () => { settingsTab = b.dataset.tab; renderSettings(); });
+    if(browserApp){
+      $('#editor-pause').onclick=()=>{setPaused(!paused);renderSettings();};
+      $('#editor-interaction').onclick=()=>{setInteraction(!interaction);closeDrawer();};
+      $('#editor-read').onclick=()=>{closeDrawer();readBook();};
+      $('#editor-office').onclick=()=>{closeDrawer();goTo('office');};
+      $('#editor-library').onclick=()=>{closeDrawer();goTo('library');};
+      $('#editor-refresh').onclick=()=>refreshAll(true);
+      if($('#editor-fullscreen'))$('#editor-fullscreen').onclick=()=>{closeDrawer();$('#web-fullscreen').click();};
+    }
+    $$('[data-tab]').forEach(b => b.onclick = () => { settingsTab = b.dataset.tab;config.editorTab=settingsTab;save(); renderSettings(); });
   }
   function choosePhoto(){
     if(nativeManaged){native('choosePhoto');return;}
@@ -549,6 +531,7 @@
   }
 
   $('#manage').onclick = () => openSettings();
+  $('#world-editor-launcher').onclick=()=>openSettings();
   $('#close-drawer').onclick = () => compactEditor?native('closeEditor'):closeDrawer();
   $('#backdrop').onclick = closeDrawer;
   $('#office-card').onclick = () => openRoom('office');
@@ -573,7 +556,7 @@
     else setFocusView(!document.body.classList.contains('world-focus'));
   };
   document.addEventListener('keydown', event => {
-    if(event.key==='Escape'&&!drawerMode){if(interaction)setInteraction(false);else if(browserApp)setFocusView(false);return;}
+    if(event.key==='Escape'&&!drawerMode){if(interaction)setInteraction(false);return;}
     if (!drawerMode) return;
     if (event.key === 'Escape') { if(compactEditor){native('closeEditor');return;}closeDrawer(); }
     if (event.key === 'Tab') {
@@ -585,7 +568,7 @@
   });
   addEventListener('storage', event => {
     if (event.key === KEY && event.newValue) {
-      try { config = validateConfig(JSON.parse(event.newValue)); render(); refreshAll(); }
+      try { config = validateConfig(JSON.parse(event.newValue));updateEnergy();setPaused(config.paused,false);selectRoom(config.room);render();if(drawerMode==='settings')renderSettings();refreshAll(); }
       catch { /* Ignore incomplete external edits. */ }
     }
   });
@@ -618,18 +601,20 @@
     openBookAt(index) { const source=librarySource(), book=shelfBooks()[index]; if (book) openBook(source,book); },
     visitRoom:goTo,
     restoreNative(value) {
-    try { config = validateConfig(JSON.parse(value));updateEnergy();localStorage.setItem(KEY,JSON.stringify(config));render();activityChanged();if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
+    try { config = validateConfig(JSON.parse(value));updateEnergy();settingsStore.write(config);render();activityChanged();if(compactEditor)openSettings(settingsTab||'world');refreshAll(); }
     catch { /* Keep the current usable setup. */ }
   }};
-  render();tickClock();
+  selectRoom(config.room);
+  if(config.room!=='home')routine.visit(config.room,true);
+  render();tickClock();setPaused(config.paused,false);
   if(browserApp){
     $('#enter-world').hidden=false;$('#enter-world').onclick=()=>setInteraction(!interaction);
     $('#web-enter-focused').hidden=false;$('#web-enter-focused').onclick=()=>setInteraction(!interaction);
     $('#web-read').hidden=false;$('#web-read').onclick=()=>readBook();
-    setFocusView(false);
+    setFocusView(true);setInteraction(true);
     const full=$('#web-fullscreen');full.hidden=!document.fullscreenEnabled;
     full.onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else{setFocusView(true);await document.documentElement.requestFullscreen();}}catch{toast('Full screen is unavailable here. Focus view is still available.');}};
-    document.addEventListener('fullscreenchange',()=>{full.textContent=document.fullscreenElement?'Exit full screen':'Full screen';if(!document.fullscreenElement)setFocusView(false);});
+    document.addEventListener('fullscreenchange',()=>{full.textContent=document.fullscreenElement?'Exit full screen':'Full screen';});
     window.LittleWorldBrowser.observeBattery(navigator,value=>{power=value;updateEnergy();activityChanged();});
   }
   if(compactEditor)openSettings('world');
@@ -638,10 +623,11 @@
   runtime.set('headlines',()=>{if(!paused){headlineIndex++;render();}return 12000;},12000);
   let ambientFrame=0;
   runtime.set('ambient',()=>{
-    if(!paused&&!reducedMotion.matches&&!lowPower)window.dispatchEvent(new CustomEvent('world:ambient',{detail:++ambientFrame}));
+    if(!paused&&!reducedMotion.matches&&!lowPower&&!portraitMobile)window.dispatchEvent(new CustomEvent('world:ambient',{detail:++ambientFrame}));
     return lowPower?30000:3000;
   },3000);
   reducedMotion.addEventListener('change',activityChanged);
+  portraitQuery.addEventListener('change',()=>{portraitMobile=browserApp&&portraitQuery.matches;document.body.classList.toggle('portrait-mobile',portraitMobile);activityChanged();});
   darkAppearance.addEventListener('change',event=>{if(!nativeManaged){systemDark=event.matches;activityChanged();}});
   document.addEventListener('visibilitychange',activityChanged);
   activityChanged();
