@@ -219,7 +219,7 @@
     if(!isActive())throw new DOMException('Scene is not visible','AbortError');
     const controller=new AbortController();requests.add(controller);
     try {
-      const response=await fetch(url,{signal:AbortSignal.any([controller.signal,AbortSignal.timeout(45000)])});
+      const response=await fetch(url,{cache:'no-cache',signal:AbortSignal.any([controller.signal,AbortSignal.timeout(45000)])});
       const data=await response.json();
       if(!response.ok)throw new Error(data.error||'לא הצלחנו להתחבר.');
       return data;
