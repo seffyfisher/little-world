@@ -54,6 +54,54 @@
     {
       "id": "Others",
       "label": "עוד מקורות"
+    },
+    {
+      "id": "Feeder",
+      "label": "Feeder · כל ההמלצות"
+    },
+    {
+      "id": "Feeder Popular",
+      "label": "Feeder · 100 הפופולריים"
+    },
+    {
+      "id": "News",
+      "label": "חדשות מהעולם"
+    },
+    {
+      "id": "Business & Finance",
+      "label": "כלכלה ועסקים"
+    },
+    {
+      "id": "Sports",
+      "label": "ספורט"
+    },
+    {
+      "id": "Gaming",
+      "label": "משחקים וגיימינג"
+    },
+    {
+      "id": "Comics",
+      "label": "קומיקס"
+    },
+    {
+      "id": "Food",
+      "label": "אוכל ומתכונים"
+    },
+    {
+      "id": "Culture",
+      "label": "תרבות, קולנוע ומוזיקה"
+    },
+    {
+      "id": "Podcasts",
+      "label": "פודקאסטים"
+    },
+    {
+      "id": "YouTube",
+      "label": "ערוצי YouTube"
+    },
+    {
+      "id": "Reddit",
+      "label": "קהילות Reddit"
     }
   ],
   "sources": [
@@ -181,10 +229,13 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Startup"
+        "Startup",
+        "Feeder",
+        "Feeder Popular"
       ],
       "aliases": [
-        "http://news.ycombinator.com/rss"
+        "http://news.ycombinator.com/rss",
+        "https://news.ycombinator.com/rss"
       ]
     },
     {
@@ -402,7 +453,9 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Tech News"
+        "Tech News",
+        "Feeder",
+        "Feeder Popular"
       ],
       "aliases": [
         "https://techcrunch.com/feed/"
@@ -480,10 +533,13 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Products & Ideas"
+        "Products & Ideas",
+        "Feeder",
+        "Feeder Popular"
       ],
       "aliases": [
-        "http://www.producthunt.com/feed"
+        "http://www.producthunt.com/feed",
+        "https://www.producthunt.com/feed"
       ]
     },
     {
@@ -728,7 +784,9 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Engineering blogs"
+        "Engineering blogs",
+        "Feeder",
+        "Feeder Popular"
       ],
       "aliases": [
         "https://blog.cloudflare.com/rss/"
@@ -1014,7 +1072,8 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Engineering blogs"
+        "Engineering blogs",
+        "Feeder"
       ],
       "aliases": [
         "https://blog.pragmaticengineer.com/rss/"
@@ -1235,7 +1294,9 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Machine Learning"
+        "Machine Learning",
+        "Feeder",
+        "Feeder Popular"
       ],
       "aliases": [
         "https://towardsdatascience.com/feed"
@@ -1300,10 +1361,13 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Machine Learning"
+        "Machine Learning",
+        "Feeder",
+        "Reddit"
       ],
       "aliases": [
-        "http://www.reddit.com/r/MachineLearning/.rss"
+        "http://www.reddit.com/r/MachineLearning/.rss",
+        "https://www.reddit.com/r/MachineLearning/.rss"
       ]
     },
     {
@@ -1417,7 +1481,9 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Design"
+        "Design",
+        "Feeder",
+        "Feeder Popular"
       ],
       "aliases": [
         "https://www.smashingmagazine.com/feed/"
@@ -1430,7 +1496,8 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Design"
+        "Design",
+        "Feeder"
       ],
       "aliases": [
         "https://uxdesign.cc/feed"
@@ -1887,11 +1954,2142 @@
       "kind": "feed",
       "room": "office",
       "categories": [
-        "Others"
+        "Others",
+        "Feeder",
+        "Feeder Popular"
       ],
       "aliases": [
         "http://feeds.harvardbusiness.org/harvardbusiness/"
       ]
+    },
+    {
+      "id": "catalog-rss-8453e2a872e7",
+      "name": "BBC News - Home",
+      "url": "https://feeds.bbci.co.uk/news/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.bbci.co.uk/news/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-c2bceeac6c2a",
+      "name": "xkcd.com",
+      "url": "https://xkcd.com/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://xkcd.com/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-cae5a9d5db9f",
+      "name": "Reuters",
+      "url": "https://news.google.com/rss/search?q=when:24h+site:reuters.com&ceid=US:en&hl=en-US&gl=US",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular",
+        "News"
+      ],
+      "aliases": [
+        "https://news.google.com/rss/search?q=when:24h+site:reuters.com&ceid=US:en&hl=en-US&gl=US"
+      ]
+    },
+    {
+      "id": "catalog-rss-8c3d9d5d77bb",
+      "name": "The Verge",
+      "url": "https://www.theverge.com/rss/index.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.theverge.com/rss/index.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-c01c14fc345f",
+      "name": "Wired",
+      "url": "https://www.wired.com/feed/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.wired.com/feed/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-1796df62c4a2",
+      "name": "BBC News - World",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.bbci.co.uk/news/world/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-2e0f8d1ec5f5",
+      "name": "Lifehacker",
+      "url": "https://lifehacker.com/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://lifehacker.com/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-9dfe110b0027",
+      "name": "NYT > Home Page",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-92f2d3dcd194",
+      "name": "Technology",
+      "url": "https://www.reddit.com/r/technology/.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.reddit.com/r/technology/.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-636032c91a0b",
+      "name": "The Hacker News",
+      "url": "https://feeds.feedburner.com/TheHackersNews",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.feedburner.com/TheHackersNews"
+      ]
+    },
+    {
+      "id": "catalog-rss-fa080031bb9f",
+      "name": "Al Jazeera English",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.aljazeera.com/xml/rss/all.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-7170fc473d11",
+      "name": "Ars Technica",
+      "url": "https://feeds.arstechnica.com/arstechnica/index",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.arstechnica.com/arstechnica/index"
+      ]
+    },
+    {
+      "id": "catalog-rss-d923f675aecd",
+      "name": "TechRadar",
+      "url": "https://www.techradar.com/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.techradar.com/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-99093819f868",
+      "name": "FOX News",
+      "url": "https://feeds.feedburner.com/foxnews/latest",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.feedburner.com/foxnews/latest"
+      ]
+    },
+    {
+      "id": "catalog-rss-ba62d210e259",
+      "name": "Bloomberg",
+      "url": "https://news.google.com/rss/search?q=when:24h+site:bloomberg.com&hl=en-US&gl=US&ceid=US:en",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://news.google.com/rss/search?q=when:24h+site:bloomberg.com&hl=en-US&gl=US&ceid=US:en"
+      ]
+    },
+    {
+      "id": "catalog-rss-9f2d692b80a4",
+      "name": "Krebs on Security",
+      "url": "https://krebsonsecurity.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://krebsonsecurity.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-5eece347713f",
+      "name": "News : NPR",
+      "url": "https://www.npr.org/rss/rss.php?id=1001",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.npr.org/rss/rss.php?id=1001"
+      ]
+    },
+    {
+      "id": "catalog-rss-c550f13a25b1",
+      "name": "Latest news and stories from BleepingComputer.com",
+      "url": "https://www.bleepingcomputer.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.bleepingcomputer.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-df7393f9e431",
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/international/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.theguardian.com/international/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-017a74fc55c6",
+      "name": "AWS Blog",
+      "url": "https://aws.amazon.com/blogs/aws/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://aws.amazon.com/blogs/aws/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-4bfc14877f67",
+      "name": "Hacker Noon",
+      "url": "https://hackernoon.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://hackernoon.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-2ccba97d94b1",
+      "name": "Engadget",
+      "url": "https://www.engadget.com/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.engadget.com/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-d64709a605cb",
+      "name": "The Guardian - World news",
+      "url": "https://www.theguardian.com/world/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.theguardian.com/world/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-29739557d269",
+      "name": "Entrepreneur",
+      "url": "https://www.entrepreneur.com/rss-feed/latest",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.entrepreneur.com/rss-feed/latest"
+      ]
+    },
+    {
+      "id": "catalog-rss-f7d3531bbeea",
+      "name": "Nature - Issue - nature.com science feeds",
+      "url": "http://feeds.nature.com/nature/rss/current",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.nature.com/nature/rss/current"
+      ]
+    },
+    {
+      "id": "catalog-rss-acfbeb042d35",
+      "name": "Mashable",
+      "url": "http://feeds.mashable.com/Mashable",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.mashable.com/Mashable"
+      ]
+    },
+    {
+      "id": "catalog-rss-573af941b686",
+      "name": "The Economist: The world this week",
+      "url": "http://www.economist.com/rss/the_world_this_week_rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://www.economist.com/rss/the_world_this_week_rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-1f58348dd370",
+      "name": "The Atlantic",
+      "url": "https://www.theatlantic.com/feed/all/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.theatlantic.com/feed/all/"
+      ]
+    },
+    {
+      "id": "catalog-rss-4aa317de1aa3",
+      "name": "Vox - All",
+      "url": "https://www.vox.com/rss/index.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.vox.com/rss/index.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-50579811ddcd",
+      "name": "阮一峰的网络日志",
+      "url": "https://feeds.feedburner.com/ruanyifeng",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.feedburner.com/ruanyifeng"
+      ]
+    },
+    {
+      "id": "catalog-rss-9324cffe90de",
+      "name": "MarketWatch.com",
+      "url": "https://feeds.marketwatch.com/marketwatch/topstories",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.marketwatch.com/marketwatch/topstories"
+      ]
+    },
+    {
+      "id": "catalog-rss-bea4293d5edd",
+      "name": "OpenAI News",
+      "url": "https://openai.com/news/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://openai.com/news/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-58b677d6049a",
+      "name": "HubSpot Marketing Blog",
+      "url": "https://blog.hubspot.com/marketing/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://blog.hubspot.com/marketing/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-341a14d81345",
+      "name": "Gizmodo",
+      "url": "https://gizmodo.com/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://gizmodo.com/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-af3adc41200f",
+      "name": "Scientific American Content: Global",
+      "url": "http://rss.sciam.com/ScientificAmerican-Global",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://rss.sciam.com/ScientificAmerican-Global"
+      ]
+    },
+    {
+      "id": "catalog-rss-d25c6c3a6b63",
+      "name": "NASA Breaking News",
+      "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.nasa.gov/rss/dyn/breaking_news.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-2040ad3df20c",
+      "name": "WSJ.com: Markets",
+      "url": "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular",
+        "Business & Finance"
+      ],
+      "aliases": [
+        "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"
+      ]
+    },
+    {
+      "id": "catalog-rss-0470140555b2",
+      "name": "NYT > Business Day",
+      "url": "http://www.nytimes.com/services/xml/rss/nyt/Business.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://www.nytimes.com/services/xml/rss/nyt/Business.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-50b43a5fb3f8",
+      "name": "Digital Trends",
+      "url": "https://www.digitaltrends.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.digitaltrends.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-77469d9c4003",
+      "name": "top scoring links : worldnews",
+      "url": "https://www.reddit.com/r/worldnews/top/.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.reddit.com/r/worldnews/top/.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-2b24c39e0d5c",
+      "name": "Science: Current Issue",
+      "url": "http://science.sciencemag.org/rss/current.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://science.sciencemag.org/rss/current.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-bbbfa707e98d",
+      "name": "9to5Mac",
+      "url": "https://9to5mac.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://9to5mac.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-25c31057212a",
+      "name": "Le Monde.fr - Actualités et Infos en France et dans le monde",
+      "url": "https://www.lemonde.fr/rss/une.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.lemonde.fr/rss/une.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-ff10ee113f12",
+      "name": "Fast Company",
+      "url": "https://www.fastcompany.com/latest/rss?truncated=true",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.fastcompany.com/latest/rss?truncated=true"
+      ]
+    },
+    {
+      "id": "catalog-rss-fd8649157d54",
+      "name": "Martin Fowler",
+      "url": "https://martinfowler.com/feed.atom",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://martinfowler.com/feed.atom"
+      ]
+    },
+    {
+      "id": "catalog-rss-14703a5ab3b5",
+      "name": "Recent Announcements",
+      "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://aws.amazon.com/about-aws/whats-new/recent/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-04e400914d00",
+      "name": "Slashdot",
+      "url": "http://rss.slashdot.org/Slashdot/slashdot",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://rss.slashdot.org/Slashdot/slashdot"
+      ]
+    },
+    {
+      "id": "catalog-rss-ceeb90dfad7a",
+      "name": "Saturday Morning Breakfast Cereal",
+      "url": "https://www.smbc-comics.com/comic/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.smbc-comics.com/comic/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-7cba684b2f9c",
+      "name": "Latest Science News -- ScienceDaily",
+      "url": "https://www.sciencedaily.com/rss/all.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.sciencedaily.com/rss/all.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-a8190bc3457d",
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/uk/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.theguardian.com/uk/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-cc66bea09924",
+      "name": "Pew Research Center",
+      "url": "http://www.pewresearch.org/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://www.pewresearch.org/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-18748cf1f4b0",
+      "name": "Business Insider",
+      "url": "https://www.businessinsider.com/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.businessinsider.com/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-b5e99905f8a6",
+      "name": "MacRumors: Mac News and Rumors - All Stories",
+      "url": "http://feeds.macrumors.com/MacRumors-All",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.macrumors.com/MacRumors-All"
+      ]
+    },
+    {
+      "id": "catalog-rss-2f0cab24c94f",
+      "name": "PC Gamer",
+      "url": "https://www.pcgamer.com/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.pcgamer.com/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-c64f1fbf1177",
+      "name": "TED",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCAuUUnT6oDeKwE6v1NGQxug",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCAuUUnT6oDeKwE6v1NGQxug"
+      ]
+    },
+    {
+      "id": "catalog-rss-fa671da9d90d",
+      "name": "The New Yorker: Everything",
+      "url": "http://www.newyorker.com/services/rss/feeds/everything.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://www.newyorker.com/services/rss/feeds/everything.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-8fb86334c28d",
+      "name": "BBC News - Technology",
+      "url": "http://feeds.bbci.co.uk/news/technology/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.bbci.co.uk/news/technology/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-81b0f7abff97",
+      "name": "Dark Reading",
+      "url": "https://www.darkreading.com/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.darkreading.com/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-0862550dc38b",
+      "name": "Order of the Stick",
+      "url": "https://www.giantitp.com/comics/oots.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.giantitp.com/comics/oots.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-5fc672e422a3",
+      "name": ".NET Blog",
+      "url": "https://devblogs.microsoft.com/dotnet/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://devblogs.microsoft.com/dotnet/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-839efcc65d9d",
+      "name": "Recent Bulletins from Bell",
+      "url": "https://feeds2.feedburner.com/RecentBulletinsFromBellHelicopter",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds2.feedburner.com/RecentBulletinsFromBellHelicopter"
+      ]
+    },
+    {
+      "id": "catalog-rss-03e7a97b758d",
+      "name": "Microsoft Azure Blog",
+      "url": "https://azure.microsoft.com/en-us/blog/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://azure.microsoft.com/en-us/blog/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-1cd4f5182391",
+      "name": "Business",
+      "url": "https://www.economist.com/business/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.economist.com/business/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-94537534d0ee",
+      "name": "BBC News - Business",
+      "url": "http://feeds.bbci.co.uk/news/business/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.bbci.co.uk/news/business/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-04a135552494",
+      "name": "NPR - News",
+      "url": "https://feeds.npr.org/1001/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.npr.org/1001/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-b4b54e9c240f",
+      "name": "Fortinet Firmware Updates",
+      "url": "https://pub.kb.fortinet.com/rss/firmware.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://pub.kb.fortinet.com/rss/firmware.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-d592eddffea9",
+      "name": "Nature",
+      "url": "https://www.nature.com/nature.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.nature.com/nature.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-4a1c4418e8b1",
+      "name": "The Keyword",
+      "url": "https://www.blog.google/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.blog.google/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-8a8180b42f01",
+      "name": "Fortune",
+      "url": "http://fortune.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://fortune.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-74a7d8675f99",
+      "name": "Kubernetes",
+      "url": "https://kubernetes.io/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://kubernetes.io/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-78f77fae2e1f",
+      "name": "NYT > World",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-cf5561787886",
+      "name": "AWS Security Blog",
+      "url": "https://aws.amazon.com/blogs/security/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://aws.amazon.com/blogs/security/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-640a148b3968",
+      "name": "Schneier on Security",
+      "url": "https://www.schneier.com/blog/atom.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.schneier.com/blog/atom.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-beab471c53b4",
+      "name": "CISA Analysis Reports",
+      "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.cisa.gov/cybersecurity-advisories/all.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-f8ffafed74a7",
+      "name": "WSJ.com: World News",
+      "url": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://feeds.content.dowjones.io/public/rss/RSSWorldNews"
+      ]
+    },
+    {
+      "id": "catalog-rss-127ccd1f6fe9",
+      "name": "少数派",
+      "url": "https://sspai.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://sspai.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-5caba1ceeb91",
+      "name": "CSS-Tricks",
+      "url": "https://css-tricks.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://css-tricks.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-3733c65b9abe",
+      "name": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/atom/everything/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://simonwillison.net/atom/everything/"
+      ]
+    },
+    {
+      "id": "catalog-rss-06d786d8d38f",
+      "name": "Social Media Today - Latest News",
+      "url": "https://www.socialmediatoday.com/feeds/news/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.socialmediatoday.com/feeds/news/"
+      ]
+    },
+    {
+      "id": "catalog-rss-a25f73735963",
+      "name": "Top News & Analysis",
+      "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.cnbc.com/id/100003114/device/rss/rss.html"
+      ]
+    },
+    {
+      "id": "catalog-rss-45ae6ed82ad1",
+      "name": "Coding Horror",
+      "url": "http://feeds.feedburner.com/codinghorror",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.feedburner.com/codinghorror"
+      ]
+    },
+    {
+      "id": "catalog-rss-8bc0466da15a",
+      "name": "www.espn.com - TOP",
+      "url": "http://www.espn.com/espn/rss/news",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://www.espn.com/espn/rss/news"
+      ]
+    },
+    {
+      "id": "catalog-rss-5dea443ab3ff",
+      "name": "MSRC Security Update Guide",
+      "url": "https://api.msrc.microsoft.com/update-guide/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://api.msrc.microsoft.com/update-guide/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-089291008837",
+      "name": "POLITICO - TOP Stories",
+      "url": "https://www.politico.com/rss/politicopicks.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.politico.com/rss/politicopicks.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-c16e82f00990",
+      "name": "International homepage",
+      "url": "https://www.ft.com/?format=rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.ft.com/?format=rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-5af5d7a656af",
+      "name": "Polygon - All",
+      "url": "https://www.polygon.com/rss/index.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.polygon.com/rss/index.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-539b02942d56",
+      "name": "News and press releases",
+      "url": "https://www.ema.europa.eu/en/news.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.ema.europa.eu/en/news.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-f30752e6d1fd",
+      "name": "GeekWire",
+      "url": "https://www.geekwire.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.geekwire.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-b8331e7276e5",
+      "name": "World News",
+      "url": "https://www.reddit.com/r/worldnews/.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.reddit.com/r/worldnews/.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-e708c1d33bdf",
+      "name": "Sky News - World News",
+      "url": "http://feeds.skynews.com/feeds/rss/world.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.skynews.com/feeds/rss/world.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-a20e3bd50cf5",
+      "name": "Nature Communications - current - nature.com science feeds",
+      "url": "http://feeds.nature.com/ncomms/rss/current",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.nature.com/ncomms/rss/current"
+      ]
+    },
+    {
+      "id": "catalog-rss-855322f25cbf",
+      "name": "McKinsey Insights & Publications",
+      "url": "https://www.mckinsey.com/Insights/rss.aspx",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "https://www.mckinsey.com/Insights/rss.aspx"
+      ]
+    },
+    {
+      "id": "catalog-rss-8efdea9a1d24",
+      "name": "ProPublica: Articles and Investigations",
+      "url": "http://feeds.propublica.org/propublica/main",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Feeder Popular"
+      ],
+      "aliases": [
+        "http://feeds.propublica.org/propublica/main"
+      ]
+    },
+    {
+      "id": "catalog-rss-b57e7a97bbc0",
+      "name": "CBC News",
+      "url": "https://www.cbc.ca/webfeed/rss/rss-topstories",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "News"
+      ],
+      "aliases": [
+        "https://www.cbc.ca/webfeed/rss/rss-topstories"
+      ]
+    },
+    {
+      "id": "catalog-rss-14dda539770f",
+      "name": "Deutsche Welle",
+      "url": "https://rss.dw.com/rdf/rss-en-all",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "News"
+      ],
+      "aliases": [
+        "https://rss.dw.com/rdf/rss-en-all"
+      ]
+    },
+    {
+      "id": "catalog-rss-b30e3231ec8a",
+      "name": "Times of India",
+      "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "News"
+      ],
+      "aliases": [
+        "https://timesofindia.indiatimes.com/rssfeedstopstories.cms"
+      ]
+    },
+    {
+      "id": "catalog-rss-ee5be543d70f",
+      "name": "South China Morning Post",
+      "url": "https://www.scmp.com/rss/91/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "News"
+      ],
+      "aliases": [
+        "https://www.scmp.com/rss/91/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-5e8324ab01c9",
+      "name": "Techmeme",
+      "url": "https://www.techmeme.com/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Tech News"
+      ],
+      "aliases": [
+        "https://www.techmeme.com/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-c12e60fb6ff4",
+      "name": "404 Media",
+      "url": "https://www.404media.co/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Tech News"
+      ],
+      "aliases": [
+        "https://www.404media.co/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-795a5369f7ce",
+      "name": "MIT Technology Review",
+      "url": "https://www.technologyreview.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Tech News"
+      ],
+      "aliases": [
+        "https://www.technologyreview.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-6eaf402c6927",
+      "name": "Daring Fireball",
+      "url": "https://daringfireball.net/feeds/main",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Tech News"
+      ],
+      "aliases": [
+        "https://daringfireball.net/feeds/main"
+      ]
+    },
+    {
+      "id": "catalog-rss-f73fd9169bbe",
+      "name": "The GitHub Blog",
+      "url": "https://github.blog/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://github.blog/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-aec49d72aa23",
+      "name": "Real Python",
+      "url": "https://realpython.com/atom.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://realpython.com/atom.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-6dc544294b7f",
+      "name": "DEV Community",
+      "url": "https://dev.to/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Engineering blogs"
+      ],
+      "aliases": [
+        "https://dev.to/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-9c92f29eb293",
+      "name": "Google DeepMind",
+      "url": "https://deepmind.google/blog/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://deepmind.google/blog/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-61d3148bc057",
+      "name": "Hugging Face Blog",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://huggingface.co/blog/feed.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-59f6b09081d6",
+      "name": "One Useful Thing",
+      "url": "https://www.oneusefulthing.org/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://www.oneusefulthing.org/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-0f90c142536d",
+      "name": "Import AI",
+      "url": "https://importai.substack.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Machine Learning"
+      ],
+      "aliases": [
+        "https://importai.substack.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-2ce4c7b680a2",
+      "name": "New Scientist",
+      "url": "https://www.newscientist.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Science"
+      ],
+      "aliases": [
+        "https://www.newscientist.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-f8262b7a9b3f",
+      "name": "Science News",
+      "url": "https://www.sciencenews.org/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Science"
+      ],
+      "aliases": [
+        "https://www.sciencenews.org/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-49e9cfe3fcd4",
+      "name": "Phys.org",
+      "url": "https://phys.org/rss-feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Science"
+      ],
+      "aliases": [
+        "https://phys.org/rss-feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-2a5815f29f4a",
+      "name": "Nautilus",
+      "url": "https://nautil.us/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Science"
+      ],
+      "aliases": [
+        "https://nautil.us/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-5f032371dadc",
+      "name": "The Economist: Finance and economics",
+      "url": "https://www.economist.com/finance-and-economics/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Business & Finance"
+      ],
+      "aliases": [
+        "https://www.economist.com/finance-and-economics/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-95db70fc2539",
+      "name": "Yahoo Finance: S&P 500",
+      "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=^GSPC&region=US&lang=en-US",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Business & Finance"
+      ],
+      "aliases": [
+        "https://feeds.finance.yahoo.com/rss/2.0/headline?s=^GSPC&region=US&lang=en-US"
+      ]
+    },
+    {
+      "id": "catalog-rss-7e086e556a64",
+      "name": "Seth's Blog",
+      "url": "https://seths.blog/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Business & Finance"
+      ],
+      "aliases": [
+        "https://seths.blog/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-4265059e11db",
+      "name": "BBC Sport",
+      "url": "https://feeds.bbci.co.uk/sport/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Sports"
+      ],
+      "aliases": [
+        "https://feeds.bbci.co.uk/sport/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-6eb7229ad92e",
+      "name": "The Guardian: Football",
+      "url": "https://www.theguardian.com/football/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Sports"
+      ],
+      "aliases": [
+        "https://www.theguardian.com/football/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-bf56bffb4b09",
+      "name": "The Athletic",
+      "url": "https://www.nytimes.com/athletic/rss/news/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Sports"
+      ],
+      "aliases": [
+        "https://www.nytimes.com/athletic/rss/news/"
+      ]
+    },
+    {
+      "id": "catalog-rss-9c933399db44",
+      "name": "Formula 1",
+      "url": "https://www.formula1.com/en/latest/all.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Sports"
+      ],
+      "aliases": [
+        "https://www.formula1.com/en/latest/all.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-b5437bdb21ee",
+      "name": "Yahoo Sports",
+      "url": "https://sports.yahoo.com/rss/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Sports"
+      ],
+      "aliases": [
+        "https://sports.yahoo.com/rss/"
+      ]
+    },
+    {
+      "id": "catalog-rss-74c177af41cc",
+      "name": "IGN",
+      "url": "https://www.ign.com/rss/articles/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Gaming"
+      ],
+      "aliases": [
+        "https://www.ign.com/rss/articles/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-4afce5eedc36",
+      "name": "Rock Paper Shotgun",
+      "url": "https://www.rockpapershotgun.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Gaming"
+      ],
+      "aliases": [
+        "https://www.rockpapershotgun.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-b8d733699e48",
+      "name": "Eurogamer",
+      "url": "https://www.eurogamer.net/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Gaming"
+      ],
+      "aliases": [
+        "https://www.eurogamer.net/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-ab3b87222f1d",
+      "name": "Nintendo Life",
+      "url": "https://www.nintendolife.com/feeds/latest",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Gaming"
+      ],
+      "aliases": [
+        "https://www.nintendolife.com/feeds/latest"
+      ]
+    },
+    {
+      "id": "catalog-rss-b7821720d59e",
+      "name": "Penny Arcade",
+      "url": "https://www.penny-arcade.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Comics"
+      ],
+      "aliases": [
+        "https://www.penny-arcade.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-1dd8c15a96b6",
+      "name": "Gunnerkrigg Court",
+      "url": "https://www.gunnerkrigg.com/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Comics"
+      ],
+      "aliases": [
+        "https://www.gunnerkrigg.com/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-4d7bc5636a9d",
+      "name": "Poorly Drawn Lines",
+      "url": "https://poorlydrawnlines.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Comics"
+      ],
+      "aliases": [
+        "https://poorlydrawnlines.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-25622e8ea332",
+      "name": "Existential Comics",
+      "url": "https://existentialcomics.com/rss.xml",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Comics"
+      ],
+      "aliases": [
+        "https://existentialcomics.com/rss.xml"
+      ]
+    },
+    {
+      "id": "catalog-rss-86c826c31419",
+      "name": "Design Milk",
+      "url": "https://design-milk.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Design"
+      ],
+      "aliases": [
+        "https://design-milk.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-cc205d65af3d",
+      "name": "Colossal",
+      "url": "https://www.thisiscolossal.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Design"
+      ],
+      "aliases": [
+        "https://www.thisiscolossal.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-6e54e21f6471",
+      "name": "It's Nice That",
+      "url": "https://feeds2.feedburner.com/itsnicethat/SlXC",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Design"
+      ],
+      "aliases": [
+        "https://feeds2.feedburner.com/itsnicethat/SlXC"
+      ]
+    },
+    {
+      "id": "catalog-rss-a7ed1da5a856",
+      "name": "Bon Appétit",
+      "url": "https://www.bonappetit.com/feed/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Food"
+      ],
+      "aliases": [
+        "https://www.bonappetit.com/feed/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-a0a6133bc770",
+      "name": "Smitten Kitchen",
+      "url": "https://smittenkitchen.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Food"
+      ],
+      "aliases": [
+        "https://smittenkitchen.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-768707e07cce",
+      "name": "Budget Bytes",
+      "url": "https://www.budgetbytes.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Food"
+      ],
+      "aliases": [
+        "https://www.budgetbytes.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-c6859a7eb026",
+      "name": "Minimalist Baker",
+      "url": "https://minimalistbaker.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Food"
+      ],
+      "aliases": [
+        "https://minimalistbaker.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-1e0b2d406f98",
+      "name": "Atlas Obscura",
+      "url": "https://www.atlasobscura.com/feeds/latest",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Culture"
+      ],
+      "aliases": [
+        "https://www.atlasobscura.com/feeds/latest"
+      ]
+    },
+    {
+      "id": "catalog-rss-d042c91a5c5f",
+      "name": "Open Culture",
+      "url": "https://www.openculture.com/feed",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Culture"
+      ],
+      "aliases": [
+        "https://www.openculture.com/feed"
+      ]
+    },
+    {
+      "id": "catalog-rss-ead8efaf36eb",
+      "name": "Variety",
+      "url": "https://variety.com/feed/",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Culture"
+      ],
+      "aliases": [
+        "https://variety.com/feed/"
+      ]
+    },
+    {
+      "id": "catalog-rss-aac3829fc492",
+      "name": "Pitchfork",
+      "url": "https://pitchfork.com/feed/feed-news/rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Culture"
+      ],
+      "aliases": [
+        "https://pitchfork.com/feed/feed-news/rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-8d8fe57ef5cc",
+      "name": "The Daily",
+      "url": "https://feeds.simplecast.com/54nAGcIl",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Podcasts"
+      ],
+      "aliases": [
+        "https://feeds.simplecast.com/54nAGcIl"
+      ]
+    },
+    {
+      "id": "catalog-rss-842527b9bd0f",
+      "name": "Radiolab",
+      "url": "https://feeds.simplecast.com/EmVW7VGp",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Podcasts"
+      ],
+      "aliases": [
+        "https://feeds.simplecast.com/EmVW7VGp"
+      ]
+    },
+    {
+      "id": "catalog-rss-8ef9c24e8b09",
+      "name": "99% Invisible",
+      "url": "https://feeds.simplecast.com/BqbsxVfO",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Podcasts"
+      ],
+      "aliases": [
+        "https://feeds.simplecast.com/BqbsxVfO"
+      ]
+    },
+    {
+      "id": "catalog-rss-c17926d15a05",
+      "name": "Freakonomics Radio",
+      "url": "https://feeds.simplecast.com/Y8lFbOT4",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Podcasts"
+      ],
+      "aliases": [
+        "https://feeds.simplecast.com/Y8lFbOT4"
+      ]
+    },
+    {
+      "id": "catalog-rss-3ff7b9d969eb",
+      "name": "Kurzgesagt",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCsXVk37bltHxD1rDPwtNM8Q",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "YouTube"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCsXVk37bltHxD1rDPwtNM8Q"
+      ]
+    },
+    {
+      "id": "catalog-rss-7e83af81bf74",
+      "name": "Veritasium",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCHnyfMqiRRG1u-2MsSQLbXA",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "YouTube"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCHnyfMqiRRG1u-2MsSQLbXA"
+      ]
+    },
+    {
+      "id": "catalog-rss-1d276ab834d0",
+      "name": "3Blue1Brown",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "YouTube"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw"
+      ]
+    },
+    {
+      "id": "catalog-rss-07bf6cf8eb49",
+      "name": "Marques Brownlee",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCBJycsmduvYEL83R_U4JriQ",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "YouTube"
+      ],
+      "aliases": [
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCBJycsmduvYEL83R_U4JriQ"
+      ]
+    },
+    {
+      "id": "catalog-rss-6785f5644e84",
+      "name": "r/space",
+      "url": "https://www.reddit.com/r/space/.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Reddit"
+      ],
+      "aliases": [
+        "https://www.reddit.com/r/space/.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-f295a55dae14",
+      "name": "r/books",
+      "url": "https://www.reddit.com/r/books/.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Reddit"
+      ],
+      "aliases": [
+        "https://www.reddit.com/r/books/.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-f0ec04e38f76",
+      "name": "r/programming",
+      "url": "https://www.reddit.com/r/programming/.rss",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "Reddit"
+      ],
+      "aliases": [
+        "https://www.reddit.com/r/programming/.rss"
+      ]
+    },
+    {
+      "id": "catalog-rss-72db8cd155a2",
+      "name": "AP News (via Google News)",
+      "url": "https://news.google.com/rss/search?q=when:24h+site:apnews.com&hl=en-US&gl=US&ceid=US:en",
+      "kind": "feed",
+      "room": "office",
+      "categories": [
+        "Feeder",
+        "News"
+      ],
+      "aliases": [
+        "https://news.google.com/rss/search?q=when:24h+site:apnews.com&hl=en-US&gl=US&ceid=US:en"
+      ]
     }
-  ]
+  ],
+  "origins": [
+    {
+      "url": "https://github.com/tuan3w/awesome-tech-rss",
+      "commit": "cb81203ac637392b4dc3d829ad20b9bb189d7f51",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "feeder-popular",
+      "url": "https://feeder.co/knowledge-base/rss-content/popular-rss-feeds/",
+      "retrievedAt": "2026-11-07T02:24:11.748365+00:00"
+    }
+  ],
+  "additionalEntries": 163
 }

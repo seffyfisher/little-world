@@ -2,10 +2,18 @@ const {test}=require('node:test');const assert=require('node:assert/strict');
 const RSS=require('../web/rss-catalog.js');const {DEFAULT,validateConfig,createStore}=require('../web/world-settings.js');
 const raw=require('../web/data/rss-catalog.json'),catalog=RSS.normalize(raw);
 test('all imported feed URLs are available, with Hebrew categories and no executable URLs',()=>{
-  assert.equal(raw.upstreamEntries,143);assert.equal(catalog.sources.length,141);assert.equal(catalog.categories.length,12);
-  assert.equal(new Set(catalog.sources.map(s=>s.id)).size,141);
+  assert.equal(raw.upstreamEntries,143);assert.equal(raw.additionalEntries,163);assert.equal(catalog.sources.length,292);assert.equal(catalog.categories.length,24);
+  assert.equal(new Set(catalog.sources.map(s=>s.id)).size,292);
   for(const source of catalog.sources){assert.match(source.url,/^https?:\/\//);assert(source.categories.length);}
   const bad=RSS.normalize({...raw,sources:[{id:'catalog-rss-000000000000',url:'javascript:alert(1)',categories:['Learning']}]});assert.equal(bad.sources.length,0);
+});
+test('Feeder topics and feeds are searchable and assignable alongside the original catalog',()=>{
+  for(const name of ['BBC Sport','IGN','Smitten Kitchen','Radiolab','Kurzgesagt','r/books','Yahoo Finance: S&P 500']){
+    const groups=RSS.groups(catalog,name),entry=groups.flatMap(group=>group.sources).find(source=>source.name===name);
+    assert(entry,`Missing ${name}`);assert(entry.categories.includes('Feeder'));
+    assert.equal(RSS.assign(validateConfig(structuredClone(DEFAULT)),catalog,7,entry.id).source.url,entry.url);
+  }
+  assert(RSS.groups(catalog,'ספורט').some(group=>group.sources.some(source=>source.name==='BBC Sport')));
 });
 test('search matches feed names, URLs and Hebrew or original category labels',()=>{
   const ids=q=>RSS.groups(catalog,q).flatMap(g=>g.sources.map(s=>s.id));

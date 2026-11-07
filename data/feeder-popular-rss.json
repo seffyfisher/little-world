@@ -1,0 +1,894 @@
+{
+  "origin": {
+    "id": "feeder-popular",
+    "url": "https://feeder.co/knowledge-base/rss-content/popular-rss-feeds/",
+    "retrievedAt": "2026-11-07T02:24:11.748365+00:00"
+  },
+  "categories": [
+    {
+      "id": "Feeder",
+      "label": "Feeder · כל ההמלצות"
+    },
+    {
+      "id": "Feeder Popular",
+      "label": "Feeder · 100 הפופולריים"
+    },
+    {
+      "id": "News",
+      "label": "חדשות מהעולם"
+    },
+    {
+      "id": "Tech News",
+      "label": "חדשות טכנולוגיה"
+    },
+    {
+      "id": "Engineering blogs",
+      "label": "פיתוח והנדסה"
+    },
+    {
+      "id": "Machine Learning",
+      "label": "בינה מלאכותית"
+    },
+    {
+      "id": "Science",
+      "label": "מדע"
+    },
+    {
+      "id": "Business & Finance",
+      "label": "כלכלה ועסקים"
+    },
+    {
+      "id": "Sports",
+      "label": "ספורט"
+    },
+    {
+      "id": "Gaming",
+      "label": "משחקים וגיימינג"
+    },
+    {
+      "id": "Comics",
+      "label": "קומיקס"
+    },
+    {
+      "id": "Design",
+      "label": "עיצוב וחוויית משתמש"
+    },
+    {
+      "id": "Food",
+      "label": "אוכל ומתכונים"
+    },
+    {
+      "id": "Culture",
+      "label": "תרבות, קולנוע ומוזיקה"
+    },
+    {
+      "id": "Podcasts",
+      "label": "פודקאסטים"
+    },
+    {
+      "id": "YouTube",
+      "label": "ערוצי YouTube"
+    },
+    {
+      "id": "Reddit",
+      "label": "קהילות Reddit"
+    }
+  ],
+  "entries": [
+    {
+      "name": "TechCrunch",
+      "url": "https://techcrunch.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "BBC News - Home",
+      "url": "https://feeds.bbci.co.uk/news/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "xkcd.com",
+      "url": "https://xkcd.com/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Reuters",
+      "url": "https://news.google.com/rss/search?q=when:24h+site:reuters.com&ceid=US:en&hl=en-US&gl=US",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The Verge",
+      "url": "https://www.theverge.com/rss/index.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Wired",
+      "url": "https://www.wired.com/feed/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "BBC News - World",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Lifehacker",
+      "url": "https://lifehacker.com/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Hacker News",
+      "url": "https://news.ycombinator.com/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "NYT > Home Page",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Technology",
+      "url": "https://www.reddit.com/r/technology/.rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The Hacker News",
+      "url": "https://feeds.feedburner.com/TheHackersNews",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Al Jazeera English",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Ars Technica",
+      "url": "https://feeds.arstechnica.com/arstechnica/index",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "TechRadar",
+      "url": "https://www.techradar.com/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "FOX News",
+      "url": "https://feeds.feedburner.com/foxnews/latest",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Bloomberg",
+      "url": "https://news.google.com/rss/search?q=when:24h+site:bloomberg.com&hl=en-US&gl=US&ceid=US:en",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Krebs on Security",
+      "url": "https://krebsonsecurity.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "News : NPR",
+      "url": "https://www.npr.org/rss/rss.php?id=1001",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Latest news and stories from BleepingComputer.com",
+      "url": "https://www.bleepingcomputer.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/international/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "AWS Blog",
+      "url": "https://aws.amazon.com/blogs/aws/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Hacker Noon",
+      "url": "https://hackernoon.com/feed",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Engadget",
+      "url": "https://www.engadget.com/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The Guardian - World news",
+      "url": "https://www.theguardian.com/world/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Entrepreneur",
+      "url": "https://www.entrepreneur.com/rss-feed/latest",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Nature - Issue - nature.com science feeds",
+      "url": "http://feeds.nature.com/nature/rss/current",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Mashable",
+      "url": "http://feeds.mashable.com/Mashable",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The Economist: The world this week",
+      "url": "http://www.economist.com/rss/the_world_this_week_rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The Atlantic",
+      "url": "https://www.theatlantic.com/feed/all/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Vox - All",
+      "url": "https://www.vox.com/rss/index.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "阮一峰的网络日志",
+      "url": "https://feeds.feedburner.com/ruanyifeng",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "MarketWatch.com",
+      "url": "https://feeds.marketwatch.com/marketwatch/topstories",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "OpenAI News",
+      "url": "https://openai.com/news/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "HubSpot Marketing Blog",
+      "url": "https://blog.hubspot.com/marketing/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Gizmodo",
+      "url": "https://gizmodo.com/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Scientific American Content: Global",
+      "url": "http://rss.sciam.com/ScientificAmerican-Global",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "NASA Breaking News",
+      "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "WSJ.com: Markets",
+      "url": "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Smashing Magazine",
+      "url": "https://www.smashingmagazine.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "NYT > Business Day",
+      "url": "http://www.nytimes.com/services/xml/rss/nyt/Business.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Digital Trends",
+      "url": "https://www.digitaltrends.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "top scoring links : worldnews",
+      "url": "https://www.reddit.com/r/worldnews/top/.rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Science: Current Issue",
+      "url": "http://science.sciencemag.org/rss/current.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "9to5Mac",
+      "url": "https://9to5mac.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Le Monde.fr - Actualités et Infos en France et dans le monde",
+      "url": "https://www.lemonde.fr/rss/une.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Fast Company",
+      "url": "https://www.fastcompany.com/latest/rss?truncated=true",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Martin Fowler",
+      "url": "https://martinfowler.com/feed.atom",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Recent Announcements",
+      "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Slashdot",
+      "url": "http://rss.slashdot.org/Slashdot/slashdot",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Saturday Morning Breakfast Cereal",
+      "url": "https://www.smbc-comics.com/comic/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Latest Science News -- ScienceDaily",
+      "url": "https://www.sciencedaily.com/rss/all.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/uk/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Pew Research Center",
+      "url": "http://www.pewresearch.org/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Business Insider",
+      "url": "https://www.businessinsider.com/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "MacRumors: Mac News and Rumors - All Stories",
+      "url": "http://feeds.macrumors.com/MacRumors-All",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "PC Gamer",
+      "url": "https://www.pcgamer.com/rss/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "TED",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCAuUUnT6oDeKwE6v1NGQxug",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The New Yorker: Everything",
+      "url": "http://www.newyorker.com/services/rss/feeds/everything.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "BBC News - Technology",
+      "url": "http://feeds.bbci.co.uk/news/technology/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Dark Reading",
+      "url": "https://www.darkreading.com/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Order of the Stick",
+      "url": "https://www.giantitp.com/comics/oots.rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": ".NET Blog",
+      "url": "https://devblogs.microsoft.com/dotnet/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "HBR.org",
+      "url": "http://feeds.harvardbusiness.org/harvardbusiness/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Recent Bulletins from Bell",
+      "url": "https://feeds2.feedburner.com/RecentBulletinsFromBellHelicopter",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Microsoft Azure Blog",
+      "url": "https://azure.microsoft.com/en-us/blog/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Business",
+      "url": "https://www.economist.com/business/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "BBC News - Business",
+      "url": "http://feeds.bbci.co.uk/news/business/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "NPR - News",
+      "url": "https://feeds.npr.org/1001/rss.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Fortinet Firmware Updates",
+      "url": "https://pub.kb.fortinet.com/rss/firmware.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Nature",
+      "url": "https://www.nature.com/nature.rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "The Keyword",
+      "url": "https://www.blog.google/rss/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Fortune",
+      "url": "http://fortune.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Kubernetes",
+      "url": "https://kubernetes.io/feed.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "NYT > World",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "AWS Security Blog",
+      "url": "https://aws.amazon.com/blogs/security/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Schneier on Security",
+      "url": "https://www.schneier.com/blog/atom.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "CISA Analysis Reports",
+      "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "WSJ.com: World News",
+      "url": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "CloudFlare",
+      "url": "https://blog.cloudflare.com/rss/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "少数派",
+      "url": "https://sspai.com/feed",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "CSS-Tricks",
+      "url": "https://css-tricks.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/atom/everything/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Social Media Today - Latest News",
+      "url": "https://www.socialmediatoday.com/feeds/news/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Top News & Analysis",
+      "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Coding Horror",
+      "url": "http://feeds.feedburner.com/codinghorror",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "www.espn.com - TOP",
+      "url": "http://www.espn.com/espn/rss/news",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "MSRC Security Update Guide",
+      "url": "https://api.msrc.microsoft.com/update-guide/rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "POLITICO - TOP Stories",
+      "url": "https://www.politico.com/rss/politicopicks.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "International homepage",
+      "url": "https://www.ft.com/?format=rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Polygon - All",
+      "url": "https://www.polygon.com/rss/index.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "News and press releases",
+      "url": "https://www.ema.europa.eu/en/news.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Towards Data Science - Medium",
+      "url": "https://towardsdatascience.com/feed",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "GeekWire",
+      "url": "https://www.geekwire.com/feed/",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "World News",
+      "url": "https://www.reddit.com/r/worldnews/.rss",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Sky News - World News",
+      "url": "http://feeds.skynews.com/feeds/rss/world.xml",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Nature Communications - current - nature.com science feeds",
+      "url": "http://feeds.nature.com/ncomms/rss/current",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "Product Hunt — The best new products, every day",
+      "url": "https://www.producthunt.com/feed",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "McKinsey Insights & Publications",
+      "url": "https://www.mckinsey.com/Insights/rss.aspx",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "ProPublica: Articles and Investigations",
+      "url": "http://feeds.propublica.org/propublica/main",
+      "category": "Feeder Popular"
+    },
+    {
+      "name": "CBC News",
+      "url": "https://www.cbc.ca/webfeed/rss/rss-topstories",
+      "category": "News"
+    },
+    {
+      "name": "Deutsche Welle",
+      "url": "https://rss.dw.com/rdf/rss-en-all",
+      "category": "News"
+    },
+    {
+      "name": "Times of India",
+      "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+      "category": "News"
+    },
+    {
+      "name": "South China Morning Post",
+      "url": "https://www.scmp.com/rss/91/feed/",
+      "category": "News"
+    },
+    {
+      "name": "Techmeme",
+      "url": "https://www.techmeme.com/feed.xml",
+      "category": "Tech News"
+    },
+    {
+      "name": "404 Media",
+      "url": "https://www.404media.co/rss/",
+      "category": "Tech News"
+    },
+    {
+      "name": "MIT Technology Review",
+      "url": "https://www.technologyreview.com/feed/",
+      "category": "Tech News"
+    },
+    {
+      "name": "Daring Fireball",
+      "url": "https://daringfireball.net/feeds/main",
+      "category": "Tech News"
+    },
+    {
+      "name": "The GitHub Blog",
+      "url": "https://github.blog/feed/",
+      "category": "Engineering blogs"
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "url": "https://blog.pragmaticengineer.com/rss/",
+      "category": "Engineering blogs"
+    },
+    {
+      "name": "Real Python",
+      "url": "https://realpython.com/atom.xml",
+      "category": "Engineering blogs"
+    },
+    {
+      "name": "DEV Community",
+      "url": "https://dev.to/feed",
+      "category": "Engineering blogs"
+    },
+    {
+      "name": "Google DeepMind",
+      "url": "https://deepmind.google/blog/rss.xml",
+      "category": "Machine Learning"
+    },
+    {
+      "name": "Hugging Face Blog",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "category": "Machine Learning"
+    },
+    {
+      "name": "One Useful Thing",
+      "url": "https://www.oneusefulthing.org/feed",
+      "category": "Machine Learning"
+    },
+    {
+      "name": "Import AI",
+      "url": "https://importai.substack.com/feed",
+      "category": "Machine Learning"
+    },
+    {
+      "name": "New Scientist",
+      "url": "https://www.newscientist.com/feed/",
+      "category": "Science"
+    },
+    {
+      "name": "Science News",
+      "url": "https://www.sciencenews.org/feed",
+      "category": "Science"
+    },
+    {
+      "name": "Phys.org",
+      "url": "https://phys.org/rss-feed/",
+      "category": "Science"
+    },
+    {
+      "name": "Nautilus",
+      "url": "https://nautil.us/feed",
+      "category": "Science"
+    },
+    {
+      "name": "The Wall Street Journal: Markets",
+      "url": "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain",
+      "category": "Business & Finance"
+    },
+    {
+      "name": "The Economist: Finance and economics",
+      "url": "https://www.economist.com/finance-and-economics/rss.xml",
+      "category": "Business & Finance"
+    },
+    {
+      "name": "Yahoo Finance: S&P 500",
+      "url": "https://feeds.finance.yahoo.com/rss/2.0/headline?s=^GSPC&region=US&lang=en-US",
+      "category": "Business & Finance"
+    },
+    {
+      "name": "Seth's Blog",
+      "url": "https://seths.blog/feed/",
+      "category": "Business & Finance"
+    },
+    {
+      "name": "BBC Sport",
+      "url": "https://feeds.bbci.co.uk/sport/rss.xml",
+      "category": "Sports"
+    },
+    {
+      "name": "The Guardian: Football",
+      "url": "https://www.theguardian.com/football/rss",
+      "category": "Sports"
+    },
+    {
+      "name": "The Athletic",
+      "url": "https://www.nytimes.com/athletic/rss/news/",
+      "category": "Sports"
+    },
+    {
+      "name": "Formula 1",
+      "url": "https://www.formula1.com/en/latest/all.xml",
+      "category": "Sports"
+    },
+    {
+      "name": "Yahoo Sports",
+      "url": "https://sports.yahoo.com/rss/",
+      "category": "Sports"
+    },
+    {
+      "name": "IGN",
+      "url": "https://www.ign.com/rss/articles/feed",
+      "category": "Gaming"
+    },
+    {
+      "name": "Rock Paper Shotgun",
+      "url": "https://www.rockpapershotgun.com/feed",
+      "category": "Gaming"
+    },
+    {
+      "name": "Eurogamer",
+      "url": "https://www.eurogamer.net/feed",
+      "category": "Gaming"
+    },
+    {
+      "name": "Nintendo Life",
+      "url": "https://www.nintendolife.com/feeds/latest",
+      "category": "Gaming"
+    },
+    {
+      "name": "Penny Arcade",
+      "url": "https://www.penny-arcade.com/feed",
+      "category": "Comics"
+    },
+    {
+      "name": "Gunnerkrigg Court",
+      "url": "https://www.gunnerkrigg.com/rss.xml",
+      "category": "Comics"
+    },
+    {
+      "name": "Poorly Drawn Lines",
+      "url": "https://poorlydrawnlines.com/feed/",
+      "category": "Comics"
+    },
+    {
+      "name": "Existential Comics",
+      "url": "https://existentialcomics.com/rss.xml",
+      "category": "Comics"
+    },
+    {
+      "name": "Design Milk",
+      "url": "https://design-milk.com/feed/",
+      "category": "Design"
+    },
+    {
+      "name": "Colossal",
+      "url": "https://www.thisiscolossal.com/feed/",
+      "category": "Design"
+    },
+    {
+      "name": "It's Nice That",
+      "url": "https://feeds2.feedburner.com/itsnicethat/SlXC",
+      "category": "Design"
+    },
+    {
+      "name": "UX Collective",
+      "url": "https://uxdesign.cc/feed",
+      "category": "Design"
+    },
+    {
+      "name": "Bon Appétit",
+      "url": "https://www.bonappetit.com/feed/rss",
+      "category": "Food"
+    },
+    {
+      "name": "Smitten Kitchen",
+      "url": "https://smittenkitchen.com/feed/",
+      "category": "Food"
+    },
+    {
+      "name": "Budget Bytes",
+      "url": "https://www.budgetbytes.com/feed/",
+      "category": "Food"
+    },
+    {
+      "name": "Minimalist Baker",
+      "url": "https://minimalistbaker.com/feed/",
+      "category": "Food"
+    },
+    {
+      "name": "Atlas Obscura",
+      "url": "https://www.atlasobscura.com/feeds/latest",
+      "category": "Culture"
+    },
+    {
+      "name": "Open Culture",
+      "url": "https://www.openculture.com/feed",
+      "category": "Culture"
+    },
+    {
+      "name": "Variety",
+      "url": "https://variety.com/feed/",
+      "category": "Culture"
+    },
+    {
+      "name": "Pitchfork",
+      "url": "https://pitchfork.com/feed/feed-news/rss",
+      "category": "Culture"
+    },
+    {
+      "name": "The Daily",
+      "url": "https://feeds.simplecast.com/54nAGcIl",
+      "category": "Podcasts"
+    },
+    {
+      "name": "Radiolab",
+      "url": "https://feeds.simplecast.com/EmVW7VGp",
+      "category": "Podcasts"
+    },
+    {
+      "name": "99% Invisible",
+      "url": "https://feeds.simplecast.com/BqbsxVfO",
+      "category": "Podcasts"
+    },
+    {
+      "name": "Freakonomics Radio",
+      "url": "https://feeds.simplecast.com/Y8lFbOT4",
+      "category": "Podcasts"
+    },
+    {
+      "name": "Kurzgesagt",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCsXVk37bltHxD1rDPwtNM8Q",
+      "category": "YouTube"
+    },
+    {
+      "name": "Veritasium",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCHnyfMqiRRG1u-2MsSQLbXA",
+      "category": "YouTube"
+    },
+    {
+      "name": "3Blue1Brown",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw",
+      "category": "YouTube"
+    },
+    {
+      "name": "Marques Brownlee",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCBJycsmduvYEL83R_U4JriQ",
+      "category": "YouTube"
+    },
+    {
+      "name": "r/space",
+      "url": "https://www.reddit.com/r/space/.rss",
+      "category": "Reddit"
+    },
+    {
+      "name": "r/books",
+      "url": "https://www.reddit.com/r/books/.rss",
+      "category": "Reddit"
+    },
+    {
+      "name": "r/programming",
+      "url": "https://www.reddit.com/r/programming/.rss",
+      "category": "Reddit"
+    },
+    {
+      "name": "r/MachineLearning",
+      "url": "https://www.reddit.com/r/MachineLearning/.rss",
+      "category": "Reddit"
+    },
+    {
+      "name": "Reuters (via Google News)",
+      "url": "https://news.google.com/rss/search?q=when:24h+site:reuters.com&ceid=US:en&hl=en-US&gl=US",
+      "category": "News"
+    },
+    {
+      "name": "AP News (via Google News)",
+      "url": "https://news.google.com/rss/search?q=when:24h+site:apnews.com&hl=en-US&gl=US&ceid=US:en",
+      "category": "News"
+    }
+  ]
+}
