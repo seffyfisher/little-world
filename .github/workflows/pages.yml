@@ -2,31 +2,25 @@ name: Refresh world and deploy Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: '17 * * * *'
 permissions:
   contents: read
-  pages: write
-  id-token: write
-concurrency:
-  group: github-pages
-  cancel-in-progress: false
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: |
             .static-cache
@@ -43,12 +37,39 @@ jobs:
         run: python3 scripts/refresh-art-catalog.py
       - name: Refresh public JSON
         run: python3 scripts/refresh-static-data.py
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
           path: web
-      - uses: actions/deploy-pages@v4
+          include-hidden-files: true
+
+  # Deploy runs in its own job so the uploaded artifact is fully registered
+  # before deploy-pages looks it up (same-job lookups intermittently found 0 artifacts).
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment-retry.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v6
+      - uses: actions/deploy-pages@v5
         id: deployment
+        continue-on-error: true
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Wait before retrying deploy
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+      - uses: actions/deploy-pages@v5
+        id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
         with:
           artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
